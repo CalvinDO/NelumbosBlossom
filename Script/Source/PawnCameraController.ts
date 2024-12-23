@@ -15,12 +15,10 @@ namespace Script {
         }
 
         public override start(): void {
-            console.log("pawncam start");
         }
 
         // Update function 
         public override update = (_event: Event): void => {
-            console.log("pawncam updates in overridden function");
         }
     }
 }

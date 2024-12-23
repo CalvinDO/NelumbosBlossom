@@ -115,7 +115,8 @@ var Script;
         viewport.initialize("Viewport", root, Script.PawnCameraController.instance.node.getComponent(ƒ.ComponentCamera), document.querySelector("canvas"));
     }
     function update(_event) {
-        // ƒ.Physics.simulate();  // if physics is included and used
+        Script.deltaTime = ƒ.Loop.timeFrameReal * 0.001;
+        ƒ.Physics.simulate(); // if physics is included and used
         viewport.draw();
         ƒ.AudioManager.default.update();
     }
@@ -132,13 +133,11 @@ var Script;
             super();
             // Update function 
             this.update = (_event) => {
-                console.log("pawncam updates in overridden function");
             };
             this.singleton = true;
             PawnCameraController.instance = this;
         }
         start() {
-            console.log("pawncam start");
         }
     }
     Script.PawnCameraController = PawnCameraController;
@@ -153,61 +152,80 @@ var Script;
         static { this.iSubclass = ƒ.Component.registerSubclass(PawnController); }
         constructor() {
             super();
+            this.acceleration = 0;
+            this.dragCoefficient = 0;
+            this.dragExponent = 0;
             // Update function 
             this.update = (_event) => {
-                console.log("Pawncontrl updates in overridden function");
+                if (!this.rb) {
+                    this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
+                }
+                this.decellerate();
                 this.handleMovementKeys();
             };
             this.singleton = true;
             PawnController.instance = this;
         }
         start() {
-            console.log("PawnController start");
+        }
+        decellerate() {
+            let velo = this.rb.getVelocity();
+            let poweredVelo = new ƒ.Vector3(Math.sign(velo.x) * Math.pow(Math.abs(velo.x), this.dragExponent), Math.sign(velo.y) * Math.pow(Math.abs(velo.y), this.dragExponent), Math.sign(velo.z) * Math.pow(Math.abs(velo.z), this.dragExponent));
+            let drag = poweredVelo.scale(-this.dragCoefficient * Script.deltaTime);
+            if (drag.magnitude > 0) {
+                this.rb.addVelocity(drag);
+            }
+            console.log(this.rb.getVelocity().magnitude);
         }
         handleMovementKeys() {
-            let playerForward = ƒ.Vector3.Z();
-            let playerLeft = ƒ.Vector3.X();
-            playerForward.transform(this.node.mtxWorld, false);
-            playerLeft.transform(this.node.mtxWorld, false);
+            let pawnForward = ƒ.Vector3.Z();
+            let pawnUp = ƒ.Vector3.Y();
+            let pawnLeft = ƒ.Vector3.X();
+            let inputVector = new ƒ.Vector3();
+            pawnForward.transform(this.node.mtxWorld, false);
+            pawnUp.transform(this.node.mtxWorld, false);
+            pawnLeft.transform(this.node.mtxWorld, false);
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
+                inputVector.add(pawnForward);
+                /*  pawnForward.scale(this.movementAcceleration);
+                 this.rb.addVelocity(pawnForward); */
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S])) {
+                inputVector.add(pawnForward.clone.scale(-1));
+                /* pawnForward.scale(-this.movementAcceleration);
+                this.rb.addVelocity(pawnForward); */
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A])) {
+                inputVector.add(pawnLeft);
+                /* pawnLeft.scale(this.movementAcceleration);
+                this.rb.addVelocity(pawnLeft); */
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D])) {
+                inputVector.add(pawnLeft.clone.scale(-1));
+                /* pawnLeft.scale(-this.movementAcceleration);
+                this.rb.addVelocity(pawnLeft); */
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
+                inputVector.add(pawnUp);
+                /*  pawnUp.scale(this.movementAcceleration);
+                 this.rb.addVelocity(pawnUp); */
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SHIFT_LEFT])) {
+                inputVector.add(pawnUp.clone.scale(-1));
+                /* pawnUp.scale(-this.movementAcceleration);
+                this.rb.addVelocity(pawnUp); */
+            }
+            if (inputVector.magnitude > 0) {
+                inputVector.normalize();
+                let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime);
+                this.rb.addVelocity(acceleration);
+            }
             /*
-                  playerForward.scale(deltaTime);
-                  playerLeft.scale(deltaTime);
-            
-                  if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
-                      playerForward.scale(movementAcceleration);
-                      avatarRb.addVelocity(playerForward);
+                  if (velo.magnitude >= 0) {
+                    velo.scale(1 - this.movementDragCoefficient);
+                    this.rb.setVelocity(velo);
                   }
-            
-                  if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S])) {
-                      playerForward.scale(-movementAcceleration);
-                      avatarRb.addVelocity(playerForward);
-                  }
-            
-                  if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A])) {
-                      playerLeft.scale(movementAcceleration);
-                      avatarRb.addVelocity(playerLeft);
-                  }
-            
-                  if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D])) {
-                      playerLeft.scale(-movementAcceleration);
-                      avatarRb.addVelocity(playerLeft);
-                  }
-            
-                  let velo: ƒ.Vector3 = avatarRb.getVelocity();
-                  let xZVelo: ƒ.Vector2 = new ƒ.Vector2(velo.x, velo.z);
-            
-                  if (xZVelo.magnitude >= 0) {
-                      xZVelo.scale(1 - movementDrag);
-                      let newVelo: ƒ.Vector3 = new ƒ.Vector3(xZVelo.x, velo.y, xZVelo.y);
-                      avatarRb.setVelocity(newVelo);
-                  }
-            
-                  if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
-                      if (isGrounded) {
-                          avatarRb.applyLinearImpulse(new ƒ.Vector3(0, jumpForce * deltaTime, 0));
-                      }
-                  }
-                      */
+                    */
         }
     }
     Script.PawnController = PawnController;

@@ -20,6 +20,7 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    let deltaTime: number;
 }
 declare namespace Script {
     class PawnCameraController extends CustomComponentUpdatedScript {
@@ -34,9 +35,14 @@ declare namespace Script {
     class PawnController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         static instance: PawnController;
+        acceleration: number;
+        dragCoefficient: number;
+        dragExponent: number;
+        private rb;
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private decellerate;
         private handleMovementKeys;
     }
 }

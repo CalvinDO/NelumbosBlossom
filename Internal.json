@@ -39,7 +39,10 @@
                   "Script.PawnController": {
                     "active": true,
                     "message": "CustomComponentUpdatedScript added to ",
-                    "useRenderEvent": false
+                    "useRenderEvent": false,
+                    "acceleration": 4,
+                    "dragCoefficient": 0.20000000000000004,
+                    "dragExponent": 1.300000000000003
                   }
                 }
               ],
@@ -47,7 +50,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[0, 0, 0]",
+                      "translation": "[0, 5.225207328796387, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -61,12 +64,12 @@
                 {
                   "ƒ.ComponentRigidbody": {
                     "initialization": "TO_PIVOT",
-                    "friction": 0.2,
-                    "restitution": 0.2,
+                    "friction": 0,
+                    "restitution": 0.02,
                     "mass": 1,
                     "dampTranslation": 0.1,
                     "dampRotation": 0.1,
-                    "effectGravity": 1,
+                    "effectGravity": 0,
                     "typeBody": "DYNAMIC",
                     "typeCollider": "CAPSULE",
                     "isTrigger": false,
@@ -150,7 +153,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0, 3.334786891937256, -2.512078046798706]",
+                            "translation": "[0, 2.839264154434204, -4.890320301055908]",
                             "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -221,6 +224,31 @@
                       "translation": "[0, -0.5, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[25.602371215820312, 1, 26.551578521728516]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentRigidbody": [
+                {
+                  "ƒ.ComponentRigidbody": {
+                    "initialization": "TO_PIVOT",
+                    "friction": 0.2,
+                    "restitution": 0.2,
+                    "mass": 1,
+                    "dampTranslation": 0.1,
+                    "dampRotation": 0.1,
+                    "effectGravity": 1,
+                    "typeBody": "STATIC",
+                    "typeCollider": "CUBE",
+                    "isTrigger": false,
+                    "id": 1,
+                    "pivot": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
                     },
                     "Component": {
                       "active": true
