@@ -155,6 +155,7 @@ var Script;
             this.acceleration = 0;
             this.dragCoefficient = 0;
             this.dragExponent = 0;
+            this.mouseTorqueFactor = 0;
             // Update function 
             this.update = (_event) => {
                 if (!this.rb) {
@@ -168,6 +169,28 @@ var Script;
             PawnController.instance = this;
         }
         start() {
+            window.addEventListener("mousemove", this.onMouseMove);
+        }
+        onMouseMove(_event) {
+            console.log(-_event.movementX);
+            PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor));
+            console.log(PawnController.instance.node.mtxWorld.rotation);
+            console.log(PawnController.instance.node.mtxLocal.rotation);
+            /*
+                  let XIncrement: number = _event.movementY * Main.rotationSpeed;
+                  let currentX: number = Main.cmpCamera.mtxPivot.rotation.x;
+                  let nextFrameX: number = XIncrement + currentX;
+            
+                  if (nextFrameX > Main.maxXRotation) {
+                      XIncrement = Main.maxXRotation - currentX;
+                  }
+            
+                  if (nextFrameX < -Main.maxXRotation) {
+                      XIncrement = -Main.maxXRotation - currentX;
+                  }
+            
+                  Main.cmpCamera.mtxPivot.rotateX(XIncrement);
+                  */
         }
         decelerate() {
             let velo = this.rb.getVelocity();

@@ -5,10 +5,11 @@ namespace Script {
   let viewport: ƒ.Viewport;
   let root: ƒ.Graph;
   let rootGraphId: string = "Graph|2024-12-23T15:59:29.558Z|27668";
+  
   window.addEventListener("load", start);
 
   export let deltaTime: number;
-
+  
   async function start(): Promise<void> {
 
     await ƒ.Project.loadResourcesFromHTML();
@@ -35,7 +36,7 @@ namespace Script {
   }
 
   function update(_event: Event): void {
-    
+
     deltaTime = ƒ.Loop.timeFrameReal * 0.001;
 
     ƒ.Physics.simulate();  // if physics is included and used

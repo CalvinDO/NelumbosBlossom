@@ -38,9 +38,11 @@ declare namespace Script {
         acceleration: number;
         dragCoefficient: number;
         dragExponent: number;
+        mouseTorqueFactor: number;
         private rb;
         constructor();
         start(): void;
+        onMouseMove(_event: MouseEvent): void;
         update: (_event: Event) => void;
         private decelerate;
         private handleMovementKeys;

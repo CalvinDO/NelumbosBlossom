@@ -10,6 +10,7 @@ namespace Script {
     public acceleration: number = 0;
     public dragCoefficient: number = 0;
     public dragExponent: number = 0;
+    public mouseTorqueFactor: number = 0;
 
     private rb: ƒ.ComponentRigidbody;
 
@@ -21,7 +22,29 @@ namespace Script {
     }
 
     public override start(): void {
+      window.addEventListener("mousemove", this.onMouseMove);
+    }
+    public onMouseMove(_event: MouseEvent) {
+      console.log(-_event.movementX)
+      PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor));
+      console.log(PawnController.instance.node.mtxWorld.rotation);
+      console.log(PawnController.instance.node.mtxLocal.rotation);
 
+      /*
+            let XIncrement: number = _event.movementY * Main.rotationSpeed;
+            let currentX: number = Main.cmpCamera.mtxPivot.rotation.x;
+            let nextFrameX: number = XIncrement + currentX;
+      
+            if (nextFrameX > Main.maxXRotation) {
+                XIncrement = Main.maxXRotation - currentX;
+            }
+      
+            if (nextFrameX < -Main.maxXRotation) {
+                XIncrement = -Main.maxXRotation - currentX;
+            }
+      
+            Main.cmpCamera.mtxPivot.rotateX(XIncrement);
+            */
     }
 
     // Update function 
@@ -43,7 +66,7 @@ namespace Script {
       let ms: number = velo.magnitudeSquared;
       let drag: number = ms * -this.dragCoefficient * deltaTime;
 
-      if (velo.magnitude > 0){
+      if (velo.magnitude > 0) {
         velo.normalize(drag);
       }
 
