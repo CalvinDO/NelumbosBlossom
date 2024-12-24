@@ -21,32 +21,32 @@ namespace Script {
     }
 
     public override start(): void {
-      
+
     }
 
     // Update function 
     public override update = (_event: Event): void => {
 
-      if (!this.rb){
+      if (!this.rb) {
         this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
       }
 
-      this.decellerate();
+      this.decelerate();
 
       this.handleMovementKeys();
     }
 
-    private decellerate() {
+    private decelerate() {
       let velo: ƒ.Vector3 = this.rb.getVelocity();
 
-      let poweredVelo: ƒ.Vector3 = new ƒ.Vector3(Math.sign(velo.x) * Math.pow(Math.abs(velo.x), this.dragExponent), Math.sign(velo.y) * Math.pow(Math.abs(velo.y), this.dragExponent), Math.sign(velo.z) * Math.pow(Math.abs(velo.z), this.dragExponent));
-      let drag: ƒ.Vector3 = poweredVelo.scale(-this.dragCoefficient * deltaTime);
+      let ms: number = velo.magnitudeSquared;
+      let drag: number = ms * -this.dragCoefficient * deltaTime;
 
-      if (drag.magnitude > 0) {
-        this.rb.addVelocity(drag);
-
+      if (velo.magnitude > 0){
+        velo.normalize(drag);
       }
-      console.log(this.rb.getVelocity().magnitude);
+
+      this.rb.addVelocity(velo);
     }
 
     private handleMovementKeys() {
@@ -103,15 +103,6 @@ namespace Script {
         let acceleration: ƒ.Vector3 = inputVector.clone.scale(this.acceleration * deltaTime);
         this.rb.addVelocity(acceleration);
       }
-
-
-
-      /*
-            if (velo.magnitude >= 0) {
-              velo.scale(1 - this.movementDragCoefficient);
-              this.rb.setVelocity(velo);
-            }
-              */
     }
   }
 }

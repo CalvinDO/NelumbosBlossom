@@ -160,7 +160,7 @@ var Script;
                 if (!this.rb) {
                     this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
                 }
-                this.decellerate();
+                this.decelerate();
                 this.handleMovementKeys();
             };
             this.singleton = true;
@@ -168,14 +168,14 @@ var Script;
         }
         start() {
         }
-        decellerate() {
+        decelerate() {
             let velo = this.rb.getVelocity();
-            let poweredVelo = new ƒ.Vector3(Math.sign(velo.x) * Math.pow(Math.abs(velo.x), this.dragExponent), Math.sign(velo.y) * Math.pow(Math.abs(velo.y), this.dragExponent), Math.sign(velo.z) * Math.pow(Math.abs(velo.z), this.dragExponent));
-            let drag = poweredVelo.scale(-this.dragCoefficient * Script.deltaTime);
-            if (drag.magnitude > 0) {
-                this.rb.addVelocity(drag);
+            let ms = velo.magnitudeSquared;
+            let drag = ms * -this.dragCoefficient * Script.deltaTime;
+            if (velo.magnitude > 0) {
+                velo.normalize(drag);
             }
-            console.log(this.rb.getVelocity().magnitude);
+            this.rb.addVelocity(velo);
         }
         handleMovementKeys() {
             let pawnForward = ƒ.Vector3.Z();
@@ -220,12 +220,6 @@ var Script;
                 let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime);
                 this.rb.addVelocity(acceleration);
             }
-            /*
-                  if (velo.magnitude >= 0) {
-                    velo.scale(1 - this.movementDragCoefficient);
-                    this.rb.setVelocity(velo);
-                  }
-                    */
         }
     }
     Script.PawnController = PawnController;

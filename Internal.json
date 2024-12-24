@@ -42,7 +42,7 @@
                     "useRenderEvent": false,
                     "acceleration": 4,
                     "dragCoefficient": 0.20000000000000004,
-                    "dragExponent": 1.300000000000003
+                    "dragExponent": 2.0000000000000027
                   }
                 }
               ],

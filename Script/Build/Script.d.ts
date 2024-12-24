@@ -42,7 +42,7 @@ declare namespace Script {
         constructor();
         start(): void;
         update: (_event: Event) => void;
-        private decellerate;
+        private decelerate;
         private handleMovementKeys;
     }
 }
