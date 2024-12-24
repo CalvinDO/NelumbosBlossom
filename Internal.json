@@ -69,7 +69,7 @@
                     "restitution": 0.02,
                     "mass": 1,
                     "dampTranslation": 1.5000000000000004,
-                    "dampRotation": -0.1,
+                    "dampRotation": 0,
                     "effectGravity": 0,
                     "typeBody": "DYNAMIC",
                     "typeCollider": "CAPSULE",

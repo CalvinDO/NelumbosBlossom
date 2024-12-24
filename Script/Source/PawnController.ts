@@ -27,6 +27,8 @@ namespace Script {
     public onMouseMove(_event: MouseEvent) {
       console.log(-_event.movementX)
       PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor));
+      ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0001;
+      
       console.log(PawnController.instance.node.mtxWorld.rotation);
       console.log(PawnController.instance.node.mtxLocal.rotation);
 
