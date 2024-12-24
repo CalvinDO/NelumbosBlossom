@@ -31,7 +31,8 @@ namespace Script {
         this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
       }
 
-      this.decelerate();
+      //TODO:
+      //Mouse move rotates Pawn
 
       this.handleMovementKeys();
     }
@@ -101,8 +102,10 @@ namespace Script {
 
         inputVector.normalize();
         let acceleration: ƒ.Vector3 = inputVector.clone.scale(this.acceleration * deltaTime);
-        this.rb.addVelocity(acceleration);
+        this.rb.applyForce(acceleration);
       }
+
+      console.log(this.rb.getVelocity().magnitude);
     }
   }
 }

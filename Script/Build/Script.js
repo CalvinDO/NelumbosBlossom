@@ -160,7 +160,8 @@ var Script;
                 if (!this.rb) {
                     this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
                 }
-                this.decelerate();
+                //TODO:
+                //Mouse move rotates Pawn
                 this.handleMovementKeys();
             };
             this.singleton = true;
@@ -218,8 +219,9 @@ var Script;
             if (inputVector.magnitude > 0) {
                 inputVector.normalize();
                 let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime);
-                this.rb.addVelocity(acceleration);
+                this.rb.applyForce(acceleration);
             }
+            console.log(this.rb.getVelocity().magnitude);
         }
     }
     Script.PawnController = PawnController;

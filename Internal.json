@@ -40,7 +40,7 @@
                     "active": true,
                     "message": "CustomComponentUpdatedScript added to ",
                     "useRenderEvent": false,
-                    "acceleration": 4,
+                    "acceleration": 300,
                     "dragCoefficient": 0.20000000000000004,
                     "dragExponent": 2.0000000000000027
                   }
@@ -67,7 +67,7 @@
                     "friction": 0,
                     "restitution": 0.02,
                     "mass": 1,
-                    "dampTranslation": 0.1,
+                    "dampTranslation": 1.5000000000000004,
                     "dampRotation": 0.1,
                     "effectGravity": 0,
                     "typeBody": "DYNAMIC",

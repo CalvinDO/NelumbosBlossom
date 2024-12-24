@@ -35,7 +35,7 @@ namespace Script {
   }
 
   function update(_event: Event): void {
-
+    
     deltaTime = ƒ.Loop.timeFrameReal * 0.001;
 
     ƒ.Physics.simulate();  // if physics is included and used
