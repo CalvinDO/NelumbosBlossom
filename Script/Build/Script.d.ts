@@ -35,6 +35,8 @@ declare namespace Script {
     class PawnCameraRotatorController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         static instance: PawnCameraRotatorController;
+        private mouseTorqueFactor;
+        private maxXRotation;
         constructor();
         start(): void;
         update: (_event: Event) => void;

@@ -153,6 +153,8 @@ var Script;
         static { this.iSubclass = ƒ.Component.registerSubclass(PawnCameraRotatorController); }
         constructor() {
             super();
+            this.mouseTorqueFactor = 0;
+            this.maxXRotation = 0;
             // Update function 
             this.update = (_event) => {
             };
@@ -163,23 +165,23 @@ var Script;
             window.addEventListener("mousemove", this.onMouseMove);
         }
         onMouseMove(_event) {
-            PawnCameraRotatorController.instance.node.mtxLocal.rotateY(-_event.movementX * Script.PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal);
+            let yRotation = PawnCameraRotatorController.instance.node.mtxWorld.rotation.y + -_event.movementX * PawnCameraRotatorController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
+            //PawnCameraRotatorController.instance.node.mtxLocal.rotateY(-_event.movementX * PawnCameraRotatorController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal);
             //PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal));
-            /*
-                  let XIncrement: number = _event.movementY * Main.rotationSpeed;
-                  let currentX: number = Main.cmpCamera.mtxPivot.rotation.x;
-                  let nextFrameX: number = XIncrement + currentX;
-            
-                  if (nextFrameX > Main.maxXRotation) {
-                      XIncrement = Main.maxXRotation - currentX;
-                  }
-            
-                  if (nextFrameX < -Main.maxXRotation) {
-                      XIncrement = -Main.maxXRotation - currentX;
-                  }
-            
-                  Main.cmpCamera.mtxPivot.rotateX(XIncrement);
-                  */
+            let xIncrement = _event.movementY * Script.PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
+            let currentX = PawnCameraRotatorController.instance.node.mtxWorld.rotation.x;
+            let nextFrameX = xIncrement + currentX;
+            if (nextFrameX > PawnCameraRotatorController.instance.maxXRotation) {
+                xIncrement = PawnCameraRotatorController.instance.maxXRotation - currentX;
+            }
+            if (nextFrameX < -PawnCameraRotatorController.instance.maxXRotation) {
+                xIncrement = -PawnCameraRotatorController.instance.maxXRotation - currentX;
+            }
+            //PawnCameraRotatorController.instance.node.mtxLocal.rotateZ(XIncrement);
+            let xRotation = PawnCameraRotatorController.instance.node.mtxWorld.rotation.x + xIncrement;
+            console.log(xRotation, yRotation);
+            PawnCameraRotatorController.instance.node.mtxLocal.rotation = new ƒ.Vector3(xRotation, yRotation, 0);
+            //PawnCameraRotatorController.instance.node.mtxLocal.rotation.z = 0;
         }
     }
     Script.PawnCameraRotatorController = PawnCameraRotatorController;
@@ -281,7 +283,9 @@ var Script;
             super();
             // Update function 
             this.update = (_event) => {
-                this.node.mtxLocal.lookAt(Script.PawnController.instance.rb.getVelocity(), ƒ.Vector3.Y());
+                if (Script.PawnController.instance.rb.getVelocity().magnitude > 0) {
+                    this.node.mtxLocal.lookAt(Script.PawnController.instance.rb.getVelocity(), ƒ.Vector3.Y());
+                }
             };
             this.singleton = true;
             PawnRotationalController.instance = this;

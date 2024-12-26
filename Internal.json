@@ -112,7 +112,9 @@
                         "Script.PawnCameraRotatorController": {
                           "active": true,
                           "message": "CustomComponentUpdatedScript added to ",
-                          "useRenderEvent": false
+                          "useRenderEvent": false,
+                          "mouseTorqueFactor": 0.009999999999999997,
+                          "maxXRotation": 89
                         }
                       }
                     ]

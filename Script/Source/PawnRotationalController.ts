@@ -20,7 +20,10 @@ namespace Script {
 
         // Update function 
         public override update = (_event: Event): void => {
-            this.node.mtxLocal.lookAt(PawnController.instance.rb.getVelocity(), ƒ.Vector3.Y());
+            
+            if (PawnController.instance.rb.getVelocity().magnitude > 0) {
+                this.node.mtxLocal.lookAt(PawnController.instance.rb.getVelocity(), ƒ.Vector3.Y());
+            }
         }
 
     }
