@@ -106,6 +106,7 @@ var Script;
         canvas.addEventListener("mouseup", function (_event) { if (_event.button == 1) {
             document.exitPointerLock();
         } });
+        ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0001;
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
@@ -148,6 +149,47 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class PawnCameraRotatorController extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(PawnCameraRotatorController); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+            };
+            this.singleton = true;
+            PawnCameraRotatorController.instance = this;
+        }
+        start() {
+            window.addEventListener("mousemove", this.onMouseMove);
+        }
+        onMouseMove(_event) {
+            PawnCameraRotatorController.instance.node.mtxLocal.rotateY(-_event.movementX * Script.PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal);
+            //PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal));
+            /*
+                  let XIncrement: number = _event.movementY * Main.rotationSpeed;
+                  let currentX: number = Main.cmpCamera.mtxPivot.rotation.x;
+                  let nextFrameX: number = XIncrement + currentX;
+            
+                  if (nextFrameX > Main.maxXRotation) {
+                      XIncrement = Main.maxXRotation - currentX;
+                  }
+            
+                  if (nextFrameX < -Main.maxXRotation) {
+                      XIncrement = -Main.maxXRotation - currentX;
+                  }
+            
+                  Main.cmpCamera.mtxPivot.rotateX(XIncrement);
+                  */
+        }
+    }
+    Script.PawnCameraRotatorController = PawnCameraRotatorController;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class PawnController extends Script.CustomComponentUpdatedScript {
         static { this.iSubclass = ƒ.Component.registerSubclass(PawnController); }
         constructor() {
@@ -169,29 +211,6 @@ var Script;
             PawnController.instance = this;
         }
         start() {
-            window.addEventListener("mousemove", this.onMouseMove);
-        }
-        onMouseMove(_event) {
-            console.log(-_event.movementX);
-            PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor));
-            ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0001;
-            console.log(PawnController.instance.node.mtxWorld.rotation);
-            console.log(PawnController.instance.node.mtxLocal.rotation);
-            /*
-                  let XIncrement: number = _event.movementY * Main.rotationSpeed;
-                  let currentX: number = Main.cmpCamera.mtxPivot.rotation.x;
-                  let nextFrameX: number = XIncrement + currentX;
-            
-                  if (nextFrameX > Main.maxXRotation) {
-                      XIncrement = Main.maxXRotation - currentX;
-                  }
-            
-                  if (nextFrameX < -Main.maxXRotation) {
-                      XIncrement = -Main.maxXRotation - currentX;
-                  }
-            
-                  Main.cmpCamera.mtxPivot.rotateX(XIncrement);
-                  */
         }
         decelerate() {
             let velo = this.rb.getVelocity();
@@ -207,9 +226,9 @@ var Script;
             let pawnUp = ƒ.Vector3.Y();
             let pawnLeft = ƒ.Vector3.X();
             let inputVector = new ƒ.Vector3();
-            pawnForward.transform(this.node.mtxWorld, false);
-            pawnUp.transform(this.node.mtxWorld, false);
-            pawnLeft.transform(this.node.mtxWorld, false);
+            pawnForward.transform(Script.PawnCameraRotatorController.instance.node.mtxWorld, false);
+            pawnUp.transform(Script.PawnCameraRotatorController.instance.node.mtxWorld, false);
+            pawnLeft.transform(Script.PawnCameraRotatorController.instance.node.mtxWorld, false);
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
                 inputVector.add(pawnForward);
                 /*  pawnForward.scale(this.movementAcceleration);
@@ -245,9 +264,31 @@ var Script;
                 let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime);
                 this.rb.applyForce(acceleration);
             }
-            console.log(this.rb.getVelocity().magnitude);
+            //console.log(this.rb.getVelocity().magnitude);
         }
     }
     Script.PawnController = PawnController;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class PawnRotationalController extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(PawnRotationalController); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+                this.node.mtxLocal.lookAt(Script.PawnController.instance.rb.getVelocity(), ƒ.Vector3.Y());
+            };
+            this.singleton = true;
+            PawnRotationalController.instance = this;
+        }
+        start() {
+        }
+    }
+    Script.PawnRotationalController = PawnRotationalController;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

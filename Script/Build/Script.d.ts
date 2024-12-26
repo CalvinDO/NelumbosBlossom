@@ -32,6 +32,17 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    class PawnCameraRotatorController extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: PawnCameraRotatorController;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+        onMouseMove(_event: MouseEvent): void;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
     class PawnController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         static instance: PawnController;
@@ -39,12 +50,20 @@ declare namespace Script {
         dragCoefficient: number;
         dragExponent: number;
         mouseTorqueFactor: number;
-        private rb;
+        rb: ƒ.ComponentRigidbody;
         constructor();
         start(): void;
-        onMouseMove(_event: MouseEvent): void;
         update: (_event: Event) => void;
         private decelerate;
         private handleMovementKeys;
+    }
+}
+declare namespace Script {
+    class PawnRotationalController extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: PawnRotationalController;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
     }
 }

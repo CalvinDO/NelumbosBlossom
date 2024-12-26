@@ -12,7 +12,7 @@ namespace Script {
     public dragExponent: number = 0;
     public mouseTorqueFactor: number = 0;
 
-    private rb: ƒ.ComponentRigidbody;
+    public rb: ƒ.ComponentRigidbody;
 
     constructor() {
       super();
@@ -22,31 +22,6 @@ namespace Script {
     }
 
     public override start(): void {
-      window.addEventListener("mousemove", this.onMouseMove);
-    }
-    public onMouseMove(_event: MouseEvent) {
-      console.log(-_event.movementX)
-      PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor));
-      ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0001;
-      
-      console.log(PawnController.instance.node.mtxWorld.rotation);
-      console.log(PawnController.instance.node.mtxLocal.rotation);
-
-      /*
-            let XIncrement: number = _event.movementY * Main.rotationSpeed;
-            let currentX: number = Main.cmpCamera.mtxPivot.rotation.x;
-            let nextFrameX: number = XIncrement + currentX;
-      
-            if (nextFrameX > Main.maxXRotation) {
-                XIncrement = Main.maxXRotation - currentX;
-            }
-      
-            if (nextFrameX < -Main.maxXRotation) {
-                XIncrement = -Main.maxXRotation - currentX;
-            }
-      
-            Main.cmpCamera.mtxPivot.rotateX(XIncrement);
-            */
     }
 
     // Update function 
@@ -83,9 +58,9 @@ namespace Script {
 
       let inputVector: ƒ.Vector3 = new ƒ.Vector3();
 
-      pawnForward.transform(this.node.mtxWorld, false);
-      pawnUp.transform(this.node.mtxWorld, false);
-      pawnLeft.transform(this.node.mtxWorld, false);
+      pawnForward.transform(PawnCameraRotatorController.instance.node.mtxWorld, false);
+      pawnUp.transform(PawnCameraRotatorController.instance.node.mtxWorld, false);
+      pawnLeft.transform(PawnCameraRotatorController.instance.node.mtxWorld, false);
 
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
         inputVector.add(pawnForward);
@@ -130,7 +105,9 @@ namespace Script {
         this.rb.applyForce(acceleration);
       }
 
-      console.log(this.rb.getVelocity().magnitude);
+      //console.log(this.rb.getVelocity().magnitude);
+
+
     }
   }
 }

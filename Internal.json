@@ -40,10 +40,10 @@
                     "active": true,
                     "message": "CustomComponentUpdatedScript added to ",
                     "useRenderEvent": false,
-                    "acceleration": 300,
-                    "dragCoefficient": 0.20000000000000004,
+                    "acceleration": 350,
+                    "dragCoefficient": 0,
                     "dragExponent": 2.0000000000000027,
-                    "mouseTorqueFactor": 0.01
+                    "mouseTorqueFactor": 0.01000000000000001
                   }
                 }
               ],
@@ -68,8 +68,8 @@
                     "friction": 0,
                     "restitution": 0.02,
                     "mass": 1,
-                    "dampTranslation": 1.5000000000000004,
-                    "dampRotation": 0,
+                    "dampTranslation": 0.5000000000000004,
+                    "dampRotation": 3,
                     "effectGravity": 0,
                     "typeBody": "DYNAMIC",
                     "typeCollider": "CAPSULE",
@@ -90,56 +90,13 @@
             "children": [
               {
                 "ƒ.Node": {
-                  "name": "OldManModel",
+                  "name": "CameraRotator",
                   "active": true,
                   "components": {
                     "ComponentTransform": [
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0, 0, 0]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[0.06323760002851486, 0.06323760002851486, 0.06323760002851486]"
-                          },
-                          "Component": {
-                            "active": true
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "children": [
-                    {
-                      "ƒ.GraphInstance": {
-                        "deserializeFromSource": true,
-                        "idSource": "GraphGLTF|2024-12-23T17:05:59.330Z|80359"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "ƒ.Node": {
-                  "name": "PawnCamera",
-                  "active": true,
-                  "components": {
-                    "ComponentCamera": [
-                      {
-                        "ƒ.ComponentCamera": {
-                          "backgroundColor": {
-                            "r": 0,
-                            "g": 0,
-                            "b": 0,
-                            "a": 1
-                          },
-                          "backgroundEnabled": true,
-                          "projection": "central",
-                          "fieldOfView": 90,
-                          "direction": "diagonal",
-                          "near": 1,
-                          "far": 2000,
-                          "aspect": 1.7770000000000001,
-                          "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
@@ -150,23 +107,9 @@
                         }
                       }
                     ],
-                    "ComponentTransform": [
+                    "PawnCameraRotatorController": [
                       {
-                        "ƒ.ComponentTransform": {
-                          "local": {
-                            "translation": "[0, 2.839264154434204, -4.890320301055908]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[1, 1, 1]"
-                          },
-                          "Component": {
-                            "active": true
-                          }
-                        }
-                      }
-                    ],
-                    "PawnCameraController": [
-                      {
-                        "Script.PawnCameraController": {
+                        "Script.PawnCameraRotatorController": {
                           "active": true,
                           "message": "CustomComponentUpdatedScript added to ",
                           "useRenderEvent": false
@@ -174,7 +117,130 @@
                       }
                     ]
                   },
-                  "children": []
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "PawnCamera",
+                        "active": true,
+                        "components": {
+                          "ComponentCamera": [
+                            {
+                              "ƒ.ComponentCamera": {
+                                "backgroundColor": {
+                                  "r": 0,
+                                  "g": 0,
+                                  "b": 0,
+                                  "a": 1
+                                },
+                                "backgroundEnabled": true,
+                                "projection": "central",
+                                "fieldOfView": 80,
+                                "direction": "diagonal",
+                                "near": 1,
+                                "far": 2000,
+                                "aspect": 1.7770000000000001,
+                                "pivot": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 2.2323691844940186, -4.890320301055908]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "PawnCameraController": [
+                            {
+                              "Script.PawnCameraController": {
+                                "active": true,
+                                "message": "CustomComponentUpdatedScript added to ",
+                                "useRenderEvent": false
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "PawnRotational",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "PawnRotationalController": [
+                      {
+                        "Script.PawnRotationalController": {
+                          "active": true,
+                          "message": "CustomComponentUpdatedScript added to ",
+                          "useRenderEvent": false
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "OldManModel",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[0.06323760002851486, 0.06323760002851486, 0.06323760002851486]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.GraphInstance": {
+                              "deserializeFromSource": true,
+                              "idSource": "GraphGLTF|2024-12-23T17:05:59.330Z|80359"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 }
               }
             ]
