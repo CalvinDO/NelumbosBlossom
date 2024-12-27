@@ -1,14 +1,5 @@
 declare namespace Script {
     import ƒ = FudgeCore;
-    class CustomComponentScript extends ƒ.ComponentScript {
-        static readonly iSubclass: number;
-        message: string;
-        constructor();
-        hndEvent: (_event: Event) => void;
-    }
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
     class CustomComponentUpdatedScript extends ƒ.ComponentScript {
         static readonly iSubclass: number;
         message: string;
@@ -16,6 +7,22 @@ declare namespace Script {
         constructor();
         update: (_event: Event) => void;
         start(): void;
+        hndEvent: (_event: Event) => void;
+    }
+}
+declare namespace Script {
+    class AnimatorTest extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        constructor();
+        update: (_event: Event) => void;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class CustomComponentScript extends ƒ.ComponentScript {
+        static readonly iSubclass: number;
+        message: string;
+        constructor();
         hndEvent: (_event: Event) => void;
     }
 }

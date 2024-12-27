@@ -600,5 +600,40 @@
       "url": "Assets\\gltf\\statuette_old_man.gltf",
       "iPrimitive": 0
     }
+  },
+  "GraphGLTF|2024-12-27T14:05:58.607Z|43978": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-12-27T14:05:58.607Z|43978",
+      "type": "GraphGLTF",
+      "url": "Assets\\gltf\\OwnExports\\test.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-27T14:05:58.607Z|37376": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-27T14:05:58.607Z|37376",
+      "name": "Cube.001Action",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\test.glb"
+    }
+  },
+  "MaterialGLTF|2024-12-27T14:05:58.611Z|33325": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-12-27T14:05:58.611Z|33325",
+      "name": "skin",
+      "type": "MaterialGLTF",
+      "url": "Assets\\gltf\\OwnExports\\test.glb"
+    }
+  },
+  "MeshGLTF|2024-12-27T14:05:58.611Z|19325": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-12-27T14:05:58.611Z|19325",
+      "name": "Cube.001",
+      "type": "MeshGLTF",
+      "url": "Assets\\gltf\\OwnExports\\test.glb",
+      "iPrimitive": 0
+    }
   }
 }
