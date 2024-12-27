@@ -731,10 +731,115 @@
               }
             ]
           }
+        },
+        {
+          "ƒ.Node": {
+            "name": "TunaMova",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[-402.7101745605469, -3.107339859008789, -397.7259521484375]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "GraphGLTF|2024-12-27T20:36:46.583Z|64847"
+                }
+              }
+            ]
+          }
         }
       ],
       "idResource": "Graph|2024-12-23T15:59:29.558Z|27668",
       "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-12-27T20:36:46.583Z|64847": {
+    "ƒ.GraphGLTF": {
+      "name": "Tuna",
+      "active": true,
+      "components": {
+        "ComponentAnimator": [
+          {
+            "ƒ.ComponentAnimator": {
+              "Component": {
+                "active": true
+              },
+              "idAnimation": "AnimationGLTF|2024-12-27T20:36:46.583Z|75944",
+              "playmode": "loop",
+              "quantization": "continous",
+              "scale": 1,
+              "scaleWithGameTime": true,
+              "animateInEditor": false
+            }
+          }
+        ]
+      },
+      "idResource": "GraphGLTF|2024-12-27T20:36:46.583Z|64847",
+      "type": "GraphGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-27T20:36:46.583Z|75944": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-27T20:36:46.583Z|75944",
+      "name": "Armature.001|Scene",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-27T20:36:46.613Z|73511": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-27T20:36:46.613Z|73511",
+      "name": "Armature.001|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-27T20:36:46.635Z|90782": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-27T20:36:46.635Z|90782",
+      "name": "Armature|Scene",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-27T20:36:46.652Z|23961": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-27T20:36:46.652Z|23961",
+      "name": "Armature|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "MaterialGLTF|2024-12-27T20:36:46.665Z|68638": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-12-27T20:36:46.665Z|68638",
+      "name": "Tuna_M.001",
+      "type": "MaterialGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "MeshGLTF|2024-12-27T20:36:46.665Z|05686": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-12-27T20:36:46.665Z|05686",
+      "name": "Tuna.001",
+      "type": "MeshGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb",
+      "iPrimitive": 0
     }
   }
 }

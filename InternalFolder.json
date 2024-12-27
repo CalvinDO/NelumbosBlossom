@@ -19,6 +19,27 @@
       },
       {
         "idResource": "Material|2024-12-27T17:29:57.538Z|96197"
+      },
+      {
+        "idResource": "GraphGLTF|2024-12-27T20:36:46.583Z|64847"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-27T20:36:46.583Z|75944"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-27T20:36:46.613Z|73511"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-27T20:36:46.635Z|90782"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-27T20:36:46.652Z|23961"
+      },
+      {
+        "idResource": "MaterialGLTF|2024-12-27T20:36:46.665Z|68638"
+      },
+      {
+        "idResource": "MeshGLTF|2024-12-27T20:36:46.665Z|05686"
       }
     ]
   }

@@ -101,7 +101,7 @@ namespace Script {
       if (inputVector.magnitude > 0) {
 
         inputVector.normalize();
-        let acceleration: ƒ.Vector3 = inputVector.clone.scale(this.acceleration * deltaTime * 10);
+        let acceleration: ƒ.Vector3 = inputVector.clone.scale(this.acceleration * deltaTime/* * 10*/);
         this.rb.applyForce(acceleration);
       }
 
