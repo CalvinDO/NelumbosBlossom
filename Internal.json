@@ -72,13 +72,13 @@
                     "dampRotation": 3,
                     "effectGravity": 0,
                     "typeBody": "DYNAMIC",
-                    "typeCollider": "CAPSULE",
+                    "typeCollider": "SPHERE",
                     "isTrigger": false,
                     "id": 0,
                     "pivot": {
                       "translation": "[0, 0.9999999999999999, 0]",
                       "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
+                      "scaling": "[2, 2, 2]"
                     },
                     "Component": {
                       "active": true

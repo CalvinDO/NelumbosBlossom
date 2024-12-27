@@ -47,7 +47,6 @@ namespace Script {
 
             //PawnCameraRotatorController.instance.node.mtxLocal.rotateZ(XIncrement);
             let xRotation: number = PawnCameraRotatorController.instance.node.mtxWorld.rotation.x + xIncrement;
-            console.log(xRotation, yRotation);
             PawnCameraRotatorController.instance.node.mtxLocal.rotation = new ƒ.Vector3(xRotation, yRotation, 0);
 
             //PawnCameraRotatorController.instance.node.mtxLocal.rotation.z = 0;
