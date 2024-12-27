@@ -3,6 +3,43 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class CustomComponentScript extends ƒ.ComponentScript {
+        // Register the script as component for use in the editor via drag&drop
+        static { this.iSubclass = ƒ.Component.registerSubclass(CustomComponentScript); }
+        constructor() {
+            super();
+            // Properties may be mutated by users in the editor via the automatically created user interface
+            this.message = "CustomComponentScript added to ";
+            // Activate the functions of this component as response to events
+            this.hndEvent = (_event) => {
+                switch (_event.type) {
+                    case "componentAdd" /* ƒ.EVENT.COMPONENT_ADD */:
+                        ƒ.Debug.log(this.message, this.node);
+                        break;
+                    case "componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */:
+                        this.removeEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
+                        this.removeEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
+                        break;
+                    case "nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */:
+                        // if deserialized the node is now fully reconstructed and access to all its components and children is possible
+                        break;
+                }
+            };
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            // Listen to this component being added to or removed from a node
+            this.addEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
+            this.addEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.hndEvent);
+        }
+    }
+    Script.CustomComponentScript = CustomComponentScript;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class CustomComponentUpdatedScript extends ƒ.ComponentScript {
         // Register the script as component for use in the editor via drag&drop
         static { this.iSubclass = ƒ.Component.registerSubclass(CustomComponentUpdatedScript); }
@@ -58,54 +95,19 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
-    class AnimatorTest extends Script.CustomComponentUpdatedScript {
-        static { this.iSubclass = ƒ.Component.registerSubclass(AnimatorTest); }
+    class FishController extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(FishController); }
         constructor() {
             super();
+            // Update function 
             this.update = (_event) => {
-                console.log(this.node.getComponent(ƒ.ComponentAnimator).time);
-                console.log(this.node.mtxWorld.translation);
+                this.node.mtxLocal.translateZ(0.1 * ƒ.Loop.timeFrameReal * 0.001);
             };
         }
-    }
-    Script.AnimatorTest = AnimatorTest;
-})(Script || (Script = {}));
-var Script;
-(function (Script) {
-    var ƒ = FudgeCore;
-    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
-    class CustomComponentScript extends ƒ.ComponentScript {
-        // Register the script as component for use in the editor via drag&drop
-        static { this.iSubclass = ƒ.Component.registerSubclass(CustomComponentScript); }
-        constructor() {
-            super();
-            // Properties may be mutated by users in the editor via the automatically created user interface
-            this.message = "CustomComponentScript added to ";
-            // Activate the functions of this component as response to events
-            this.hndEvent = (_event) => {
-                switch (_event.type) {
-                    case "componentAdd" /* ƒ.EVENT.COMPONENT_ADD */:
-                        ƒ.Debug.log(this.message, this.node);
-                        break;
-                    case "componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */:
-                        this.removeEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
-                        this.removeEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
-                        break;
-                    case "nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */:
-                        // if deserialized the node is now fully reconstructed and access to all its components and children is possible
-                        break;
-                }
-            };
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
-                return;
-            // Listen to this component being added to or removed from a node
-            this.addEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
-            this.addEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.hndEvent);
+        start() {
         }
     }
-    Script.CustomComponentScript = CustomComponentScript;
+    Script.FishController = FishController;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -125,6 +127,7 @@ var Script;
             document.exitPointerLock();
         } });
         ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0001;
+        ƒ.Physics.settings.sleepingVelocityThreshold = 0.0001;
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
@@ -280,13 +283,36 @@ var Script;
             }
             if (inputVector.magnitude > 0) {
                 inputVector.normalize();
-                let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime);
+                let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime * 10);
                 this.rb.applyForce(acceleration);
             }
             //console.log(this.rb.getVelocity().magnitude);
         }
     }
     Script.PawnController = PawnController;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class PawnPointLightController extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(PawnPointLightController); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+                this.node.mtxLocal.translation = new ƒ.Vector3(Script.PawnController.instance.node.mtxWorld.translation.x, -0.5, Script.PawnController.instance.node.mtxWorld.translation.z);
+                console.log(this.node.mtxLocal.translation);
+            };
+            this.singleton = true;
+            PawnPointLightController.instance = this;
+        }
+        start() {
+        }
+    }
+    Script.PawnPointLightController = PawnPointLightController;
 })(Script || (Script = {}));
 ///<reference path = "CustomComponentUpdatedScript.ts"/>
 var Script;

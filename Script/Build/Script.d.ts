@@ -1,5 +1,14 @@
 declare namespace Script {
     import ƒ = FudgeCore;
+    class CustomComponentScript extends ƒ.ComponentScript {
+        static readonly iSubclass: number;
+        message: string;
+        constructor();
+        hndEvent: (_event: Event) => void;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
     class CustomComponentUpdatedScript extends ƒ.ComponentScript {
         static readonly iSubclass: number;
         message: string;
@@ -11,19 +20,11 @@ declare namespace Script {
     }
 }
 declare namespace Script {
-    class AnimatorTest extends CustomComponentUpdatedScript {
+    class FishController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         constructor();
+        start(): void;
         update: (_event: Event) => void;
-    }
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
-    class CustomComponentScript extends ƒ.ComponentScript {
-        static readonly iSubclass: number;
-        message: string;
-        constructor();
-        hndEvent: (_event: Event) => void;
     }
 }
 declare namespace Script {
@@ -65,6 +66,15 @@ declare namespace Script {
         update: (_event: Event) => void;
         private decelerate;
         private handleMovementKeys;
+    }
+}
+declare namespace Script {
+    class PawnPointLightController extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: PawnPointLightController;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
     }
 }
 declare namespace Script {

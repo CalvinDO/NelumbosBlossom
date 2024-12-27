@@ -12,19 +12,13 @@
         "idResource": "Material|2024-12-23T16:07:19.428Z|36675"
       },
       {
-        "idResource": "GraphGLTF|2024-12-23T17:05:59.330Z|80359"
-      },
-      {
-        "idResource": "MaterialGLTF|2024-12-23T17:05:59.330Z|65663"
-      },
-      {
-        "idResource": "MeshGLTF|2024-12-23T17:05:59.330Z|97731"
-      },
-      {
         "idResource": "MaterialGLTF|2024-12-27T14:23:54.375Z|09058"
       },
       {
         "idResource": "MeshGLTF|2024-12-27T14:23:54.375Z|56680"
+      },
+      {
+        "idResource": "Material|2024-12-27T17:29:57.538Z|96197"
       }
     ]
   }
