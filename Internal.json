@@ -23,6 +23,23 @@
       "alphaClip": 0.01
     }
   },
+  "MeshGLTF|2024-12-27T14:23:54.375Z|56680": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-12-27T14:23:54.375Z|56680",
+      "name": "Mesh_Dolphin_0",
+      "type": "MeshGLTF",
+      "url": "Assets\\gltf\\low_poly_dolphin\\scene.gltf",
+      "iPrimitive": 0
+    }
+  },
+  "MaterialGLTF|2024-12-27T14:23:54.375Z|09058": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-12-27T14:23:54.375Z|09058",
+      "name": "Dolphin",
+      "type": "MaterialGLTF",
+      "url": "Assets\\gltf\\low_poly_dolphin\\scene.gltf"
+    }
+  },
   "Graph|2024-12-23T15:59:29.558Z|27668": {
     "ƒ.Graph": {
       "name": "RootScene",
@@ -76,7 +93,7 @@
                     "isTrigger": false,
                     "id": 0,
                     "pivot": {
-                      "translation": "[0, 0.9999999999999999, 0]",
+                      "translation": "[0, 0, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[2, 2, 2]"
                     },
@@ -156,8 +173,8 @@
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[0, 2.2323691844940186, -4.890320301055908]",
-                                  "rotation": "[0, 0, 0]",
+                                  "translation": "[0, 1.0675852298736572, -4.890320301055908]",
+                                  "rotation": "[12.640732573814189, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
                                 "Component": {
@@ -214,7 +231,7 @@
                   "children": [
                     {
                       "ƒ.Node": {
-                        "name": "OldManModel",
+                        "name": "DolphinModel",
                         "active": true,
                         "components": {
                           "ComponentTransform": [
@@ -222,24 +239,50 @@
                               "ƒ.ComponentTransform": {
                                 "local": {
                                   "translation": "[0, 0, 0]",
-                                  "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.06323760002851486, 0.06323760002851486, 0.06323760002851486]"
+                                  "rotation": "[0, 180, 0]",
+                                  "scaling": "[0.01, 0.01, 0.01]"
                                 },
                                 "Component": {
                                   "active": true
                                 }
                               }
                             }
+                          ],
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshGLTF|2024-12-27T14:23:54.375Z|56680",
+                                "pivot": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[1, 1, 1, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "MaterialGLTF|2024-12-27T14:23:54.375Z|09058"
+                              }
+                            }
                           ]
                         },
-                        "children": [
-                          {
-                            "ƒ.GraphInstance": {
-                              "deserializeFromSource": true,
-                              "idSource": "GraphGLTF|2024-12-23T17:05:59.330Z|80359"
-                            }
-                          }
-                        ]
+                        "children": []
                       }
                     }
                   ]
@@ -345,7 +388,7 @@
                     "light": {
                       "ƒ.LightDirectional": {
                         "color": "[1, 1, 1, 1]",
-                        "intensity": 1
+                        "intensity": 0.7599999999999999
                       }
                     },
                     "Component": {
@@ -444,7 +487,7 @@
                     "light": {
                       "ƒ.LightAmbient": {
                         "color": "[1, 1, 1, 1]",
-                        "intensity": 0.16000000000000003
+                        "intensity": 0.24000000000000007
                       }
                     },
                     "Component": {
