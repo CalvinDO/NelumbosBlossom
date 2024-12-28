@@ -283,7 +283,7 @@ var Script;
             }
             if (inputVector.magnitude > 0) {
                 inputVector.normalize();
-                let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime /* * 10*/);
+                let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime);
                 this.rb.applyForce(acceleration);
             }
             //console.log(this.rb.getVelocity().magnitude);

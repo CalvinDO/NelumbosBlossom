@@ -57,12 +57,438 @@
       "alphaClip": 0.01
     }
   },
+  "ParticleSystem|2024-12-28T09:00:49.480Z|47825": {
+    "ƒ.ParticleSystem": {
+      "idResource": "ParticleSystem|2024-12-28T09:00:49.480Z|47825",
+      "name": "ParticleSystem",
+      "data": {}
+    }
+  },
   "Graph|2024-12-23T15:59:29.558Z|27668": {
     "ƒ.Graph": {
       "name": "RootScene",
       "active": true,
       "components": {},
       "children": [
+        {
+          "ƒ.Node": {
+            "name": "PawnPointLight",
+            "active": true,
+            "components": {
+              "ComponentLight": [
+                {
+                  "ƒ.ComponentLight": {
+                    "pivot": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "light": {
+                      "ƒ.LightPoint": {
+                        "color": "[1, 1, 1, 1]",
+                        "intensity": 4.599999999999998
+                      }
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[-800, -0.5384147763252258, -800]",
+                      "rotation": "[90.00016262777179, 0, 0]",
+                      "scaling": "[469.61676025390625, 469.61676025579794, 469.61676025579794]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "PawnPointLightController": [
+                {
+                  "Script.PawnPointLightController": {
+                    "active": true,
+                    "message": "CustomComponentUpdatedScript added to ",
+                    "useRenderEvent": false
+                  }
+                }
+              ]
+            },
+            "children": []
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "PawnStartPosition",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[-800, -10, -800]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Pawn",
+                  "active": true,
+                  "components": {
+                    "PawnController": [
+                      {
+                        "Script.PawnController": {
+                          "active": true,
+                          "message": "CustomComponentUpdatedScript added to ",
+                          "useRenderEvent": false,
+                          "acceleration": 350,
+                          "dragCoefficient": 0,
+                          "dragExponent": 2.0000000000000027,
+                          "mouseTorqueFactor": 0.01000000000000001
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentRigidbody": [
+                      {
+                        "ƒ.ComponentRigidbody": {
+                          "initialization": "TO_PIVOT",
+                          "friction": 0,
+                          "restitution": 0.02,
+                          "mass": 1,
+                          "dampTranslation": 0.5000000000000004,
+                          "dampRotation": 3,
+                          "effectGravity": 0,
+                          "typeBody": "DYNAMIC",
+                          "typeCollider": "SPHERE",
+                          "isTrigger": false,
+                          "id": 0,
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[2, 2, 2]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "CameraRotator",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "PawnCameraRotatorController": [
+                            {
+                              "Script.PawnCameraRotatorController": {
+                                "active": true,
+                                "message": "CustomComponentUpdatedScript added to ",
+                                "useRenderEvent": false,
+                                "mouseTorqueFactor": 0.009999999999999997,
+                                "maxXRotation": 89
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.Node": {
+                              "name": "PawnCamera",
+                              "active": true,
+                              "components": {
+                                "ComponentCamera": [
+                                  {
+                                    "ƒ.ComponentCamera": {
+                                      "backgroundColor": {
+                                        "r": 0,
+                                        "g": 0,
+                                        "b": 0,
+                                        "a": 1
+                                      },
+                                      "backgroundEnabled": true,
+                                      "projection": "central",
+                                      "fieldOfView": 80,
+                                      "direction": "diagonal",
+                                      "near": 1,
+                                      "far": 3500,
+                                      "aspect": 1.7770000000000001,
+                                      "pivot": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[0, 1.0675852298736572, -4.890320301055908]",
+                                        "rotation": "[12.640732573814189, 0, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "PawnCameraController": [
+                                  {
+                                    "Script.PawnCameraController": {
+                                      "active": true,
+                                      "message": "CustomComponentUpdatedScript added to ",
+                                      "useRenderEvent": false
+                                    }
+                                  }
+                                ],
+                                "ComponentFog": [
+                                  {
+                                    "ƒ.ComponentFog": {
+                                      "color": "[0.19607843137254902, 0.2235294117647059, 0.5607843137254902, 1]",
+                                      "near": 0.5,
+                                      "far": 400,
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "PawnRotational",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "PawnRotationalController": [
+                            {
+                              "Script.PawnRotationalController": {
+                                "active": true,
+                                "message": "CustomComponentUpdatedScript added to ",
+                                "useRenderEvent": false
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.Node": {
+                              "name": "DolphinModel",
+                              "active": true,
+                              "components": {
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 180, 0]",
+                                        "scaling": "[0.01, 0.01, 0.01]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentMesh": [
+                                  {
+                                    "ƒ.ComponentMesh": {
+                                      "idMesh": "MeshGLTF|2024-12-27T14:23:54.375Z|56680",
+                                      "pivot": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentMaterial": [
+                                  {
+                                    "ƒ.ComponentMaterial": {
+                                      "sortForAlpha": false,
+                                      "clrPrimary": "[1, 1, 1, 1]",
+                                      "clrSecondary": "[1, 1, 1, 1]",
+                                      "pivot": {
+                                        "translation": "[0, 0]",
+                                        "rotation": 0,
+                                        "scaling": "[1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      },
+                                      "idMaterial": "Material|2024-12-27T17:29:57.538Z|96197"
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "HeadLamp",
+                        "active": true,
+                        "components": {
+                          "ComponentLight": [
+                            {
+                              "ƒ.ComponentLight": {
+                                "pivot": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "light": {
+                                  "ƒ.LightPoint": {
+                                    "color": "[1, 1, 1, 1]",
+                                    "intensity": 4
+                                  }
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 0.08957019448280334, -1.4025116137905691e-11]",
+                                  "rotation": "[90.00016262777179, 0, 0]",
+                                  "scaling": "[340.8973388671875, 340.89733886856067, 340.89733886856067]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "SunLIght",
+                  "active": true,
+                  "components": {
+                    "ComponentLight": [
+                      {
+                        "ƒ.ComponentLight": {
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "light": {
+                            "ƒ.LightDirectional": {
+                              "color": "[1, 1, 1, 1]",
+                              "intensity": 1.0599999999999994
+                            }
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[90.00009855393627, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              }
+            ]
+          }
+        },
         {
           "ƒ.Node": {
             "name": "SurfaceCollider",
@@ -113,389 +539,6 @@
         },
         {
           "ƒ.Node": {
-            "name": "PointLight",
-            "active": true,
-            "components": {
-              "ComponentLight": [
-                {
-                  "ƒ.ComponentLight": {
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "light": {
-                      "ƒ.LightPoint": {
-                        "color": "[1, 1, 1, 1]",
-                        "intensity": 3
-                      }
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[-400, -0.5384147763252258, -400]",
-                      "rotation": "[90.00016262777179, 0, 0]",
-                      "scaling": "[143.39926147460938, 143.399261475187, 143.399261475187]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "PawnPointLightController": [
-                {
-                  "Script.PawnPointLightController": {
-                    "active": true,
-                    "message": "CustomComponentUpdatedScript added to ",
-                    "useRenderEvent": false
-                  }
-                }
-              ]
-            },
-            "children": []
-          }
-        },
-        {
-          "ƒ.Node": {
-            "name": "SunLIght",
-            "active": true,
-            "components": {
-              "ComponentLight": [
-                {
-                  "ƒ.ComponentLight": {
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "light": {
-                      "ƒ.LightDirectional": {
-                        "color": "[1, 1, 1, 1]",
-                        "intensity": 0.4
-                      }
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[90.00009855393627, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": []
-          }
-        },
-        {
-          "ƒ.Node": {
-            "name": "Pawn",
-            "active": true,
-            "components": {
-              "PawnController": [
-                {
-                  "Script.PawnController": {
-                    "active": true,
-                    "message": "CustomComponentUpdatedScript added to ",
-                    "useRenderEvent": false,
-                    "acceleration": 350,
-                    "dragCoefficient": 0,
-                    "dragExponent": 2.0000000000000027,
-                    "mouseTorqueFactor": 0.01000000000000001
-                  }
-                }
-              ],
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[-400.7828369140625, -3.9287819862365723, -400.9453125]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentRigidbody": [
-                {
-                  "ƒ.ComponentRigidbody": {
-                    "initialization": "TO_PIVOT",
-                    "friction": 0,
-                    "restitution": 0.02,
-                    "mass": 1,
-                    "dampTranslation": 0.5000000000000004,
-                    "dampRotation": 3,
-                    "effectGravity": 0,
-                    "typeBody": "DYNAMIC",
-                    "typeCollider": "SPHERE",
-                    "isTrigger": false,
-                    "id": 0,
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[2, 2, 2]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": [
-              {
-                "ƒ.Node": {
-                  "name": "CameraRotator",
-                  "active": true,
-                  "components": {
-                    "ComponentTransform": [
-                      {
-                        "ƒ.ComponentTransform": {
-                          "local": {
-                            "translation": "[0, 0, 0]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[1, 1, 1]"
-                          },
-                          "Component": {
-                            "active": true
-                          }
-                        }
-                      }
-                    ],
-                    "PawnCameraRotatorController": [
-                      {
-                        "Script.PawnCameraRotatorController": {
-                          "active": true,
-                          "message": "CustomComponentUpdatedScript added to ",
-                          "useRenderEvent": false,
-                          "mouseTorqueFactor": 0.009999999999999997,
-                          "maxXRotation": 89
-                        }
-                      }
-                    ]
-                  },
-                  "children": [
-                    {
-                      "ƒ.Node": {
-                        "name": "PawnCamera",
-                        "active": true,
-                        "components": {
-                          "ComponentCamera": [
-                            {
-                              "ƒ.ComponentCamera": {
-                                "backgroundColor": {
-                                  "r": 0,
-                                  "g": 0,
-                                  "b": 0,
-                                  "a": 1
-                                },
-                                "backgroundEnabled": true,
-                                "projection": "central",
-                                "fieldOfView": 80,
-                                "direction": "diagonal",
-                                "near": 1,
-                                "far": 2000,
-                                "aspect": 1.7770000000000001,
-                                "pivot": {
-                                  "translation": "[0, 0, 0]",
-                                  "rotation": "[0, 0, 0]",
-                                  "scaling": "[1, 1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                }
-                              }
-                            }
-                          ],
-                          "ComponentTransform": [
-                            {
-                              "ƒ.ComponentTransform": {
-                                "local": {
-                                  "translation": "[0, 1.0675852298736572, -4.890320301055908]",
-                                  "rotation": "[12.640732573814189, 0, 0]",
-                                  "scaling": "[1, 1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                }
-                              }
-                            }
-                          ],
-                          "PawnCameraController": [
-                            {
-                              "Script.PawnCameraController": {
-                                "active": true,
-                                "message": "CustomComponentUpdatedScript added to ",
-                                "useRenderEvent": false
-                              }
-                            }
-                          ]
-                        },
-                        "children": []
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "ƒ.Node": {
-                  "name": "PawnRotational",
-                  "active": true,
-                  "components": {
-                    "ComponentTransform": [
-                      {
-                        "ƒ.ComponentTransform": {
-                          "local": {
-                            "translation": "[0, 0, 0]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[1, 1, 1]"
-                          },
-                          "Component": {
-                            "active": true
-                          }
-                        }
-                      }
-                    ],
-                    "PawnRotationalController": [
-                      {
-                        "Script.PawnRotationalController": {
-                          "active": true,
-                          "message": "CustomComponentUpdatedScript added to ",
-                          "useRenderEvent": false
-                        }
-                      }
-                    ]
-                  },
-                  "children": [
-                    {
-                      "ƒ.Node": {
-                        "name": "DolphinModel",
-                        "active": true,
-                        "components": {
-                          "ComponentTransform": [
-                            {
-                              "ƒ.ComponentTransform": {
-                                "local": {
-                                  "translation": "[0, 0, 0]",
-                                  "rotation": "[0, 180, 0]",
-                                  "scaling": "[0.01, 0.01, 0.01]"
-                                },
-                                "Component": {
-                                  "active": true
-                                }
-                              }
-                            }
-                          ],
-                          "ComponentMesh": [
-                            {
-                              "ƒ.ComponentMesh": {
-                                "idMesh": "MeshGLTF|2024-12-27T14:23:54.375Z|56680",
-                                "pivot": {
-                                  "translation": "[0, 0, 0]",
-                                  "rotation": "[0, 0, 0]",
-                                  "scaling": "[1, 1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                }
-                              }
-                            }
-                          ],
-                          "ComponentMaterial": [
-                            {
-                              "ƒ.ComponentMaterial": {
-                                "sortForAlpha": false,
-                                "clrPrimary": "[1, 1, 1, 1]",
-                                "clrSecondary": "[1, 1, 1, 1]",
-                                "pivot": {
-                                  "translation": "[0, 0]",
-                                  "rotation": 0,
-                                  "scaling": "[1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                },
-                                "idMaterial": "Material|2024-12-27T17:29:57.538Z|96197"
-                              }
-                            }
-                          ]
-                        },
-                        "children": []
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "ƒ.Node": {
-                  "name": "PointLight",
-                  "active": true,
-                  "components": {
-                    "ComponentLight": [
-                      {
-                        "ƒ.ComponentLight": {
-                          "pivot": {
-                            "translation": "[0, 0, 0]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[1, 1, 1]"
-                          },
-                          "light": {
-                            "ƒ.LightPoint": {
-                              "color": "[1, 1, 1, 1]",
-                              "intensity": 3
-                            }
-                          },
-                          "Component": {
-                            "active": true
-                          }
-                        }
-                      }
-                    ],
-                    "ComponentTransform": [
-                      {
-                        "ƒ.ComponentTransform": {
-                          "local": {
-                            "translation": "[0, -1.6599782705307007, -1.4194112031573614e-11]",
-                            "rotation": "[90.00016262777179, 0, 0]",
-                            "scaling": "[143.39926147460938, 143.399261475187, 143.399261475187]"
-                          },
-                          "Component": {
-                            "active": true
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "children": []
-                }
-              }
-            ]
-          }
-        },
-        {
-          "ƒ.Node": {
             "name": "ambientlight",
             "active": true,
             "components": {
@@ -512,118 +555,6 @@
                         "color": "[1, 1, 1, 1]",
                         "intensity": 0.20000000000000037
                       }
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": []
-          }
-        },
-        {
-          "ƒ.Node": {
-            "name": "Cube",
-            "active": true,
-            "components": {
-              "ComponentMesh": [
-                {
-                  "ƒ.ComponentMesh": {
-                    "idMesh": "MeshCube|2024-12-23T16:06:52.456Z|22663",
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentMaterial": [
-                {
-                  "ƒ.ComponentMaterial": {
-                    "sortForAlpha": false,
-                    "clrPrimary": "[1, 1, 1, 1]",
-                    "clrSecondary": "[1, 1, 1, 1]",
-                    "pivot": {
-                      "translation": "[0, 0]",
-                      "rotation": 0,
-                      "scaling": "[1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    },
-                    "idMaterial": "Material|2024-12-23T16:07:19.428Z|36675"
-                  }
-                }
-              ],
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[12.168021202087402, 3.1348092555999756, 12.300609588623047]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1.0004514455795288, 5.419256687164307, 0.9996314644813538]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": []
-          }
-        },
-        {
-          "ƒ.Node": {
-            "name": "Cube",
-            "active": true,
-            "components": {
-              "ComponentMesh": [
-                {
-                  "ƒ.ComponentMesh": {
-                    "idMesh": "MeshCube|2024-12-23T16:06:52.456Z|22663",
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentMaterial": [
-                {
-                  "ƒ.ComponentMaterial": {
-                    "sortForAlpha": false,
-                    "clrPrimary": "[1, 1, 1, 1]",
-                    "clrSecondary": "[1, 1, 1, 1]",
-                    "pivot": {
-                      "translation": "[0, 0]",
-                      "rotation": 0,
-                      "scaling": "[1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    },
-                    "idMaterial": "Material|2024-12-23T16:07:19.428Z|36675"
-                  }
-                }
-              ],
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[-12.50705623626709, 3.1348092555999756, 12.300609588623047]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1.0004514455795288, 5.419256687164307, 0.9996314644813538]"
                     },
                     "Component": {
                       "active": true
@@ -733,33 +664,9 @@
           }
         },
         {
-          "ƒ.Node": {
-            "name": "TunaMova",
-            "active": true,
-            "components": {
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[-402.7101745605469, -3.107339859008789, -397.7259521484375]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": [
-              {
-                "ƒ.GraphInstance": {
-                  "deserializeFromSource": true,
-                  "idSource": "GraphGLTF|2024-12-27T20:36:46.583Z|64847"
-                }
-              }
-            ]
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-12-28T08:59:40.667Z|89103"
           }
         }
       ],
@@ -767,78 +674,47 @@
       "type": "Graph"
     }
   },
-  "GraphGLTF|2024-12-27T20:36:46.583Z|64847": {
+  "GraphGLTF|2024-12-28T08:59:40.667Z|89103": {
     "ƒ.GraphGLTF": {
-      "name": "Tuna",
+      "name": "OceanScene",
       "active": true,
-      "components": {
-        "ComponentAnimator": [
-          {
-            "ƒ.ComponentAnimator": {
-              "Component": {
-                "active": true
-              },
-              "idAnimation": "AnimationGLTF|2024-12-27T20:36:46.583Z|75944",
-              "playmode": "loop",
-              "quantization": "continous",
-              "scale": 1,
-              "scaleWithGameTime": true,
-              "animateInEditor": false
-            }
-          }
-        ]
-      },
-      "idResource": "GraphGLTF|2024-12-27T20:36:46.583Z|64847",
+      "components": {},
+      "idResource": "GraphGLTF|2024-12-28T08:59:40.667Z|89103",
       "type": "GraphGLTF",
-      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+      "url": "Assets\\gltf\\OwnExports\\Ocean.glb"
     }
   },
-  "AnimationGLTF|2024-12-27T20:36:46.583Z|75944": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-27T20:36:46.583Z|75944",
-      "name": "Armature.001|Scene",
-      "type": "AnimationGLTF",
-      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
-    }
-  },
-  "AnimationGLTF|2024-12-27T20:36:46.613Z|73511": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-27T20:36:46.613Z|73511",
-      "name": "Armature.001|Scene.001",
-      "type": "AnimationGLTF",
-      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
-    }
-  },
-  "AnimationGLTF|2024-12-27T20:36:46.635Z|90782": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-27T20:36:46.635Z|90782",
-      "name": "Armature|Scene",
-      "type": "AnimationGLTF",
-      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
-    }
-  },
-  "AnimationGLTF|2024-12-27T20:36:46.652Z|23961": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-27T20:36:46.652Z|23961",
-      "name": "Armature|Scene.001",
-      "type": "AnimationGLTF",
-      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
-    }
-  },
-  "MaterialGLTF|2024-12-27T20:36:46.665Z|68638": {
+  "MaterialGLTF|2024-12-28T08:59:40.667Z|81367": {
     "ƒ.MaterialGLTF": {
-      "idResource": "MaterialGLTF|2024-12-27T20:36:46.665Z|68638",
-      "name": "Tuna_M.001",
+      "idResource": "MaterialGLTF|2024-12-28T08:59:40.667Z|81367",
+      "name": "FloorMatBlender",
       "type": "MaterialGLTF",
-      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+      "url": "Assets\\gltf\\OwnExports\\Ocean.glb"
     }
   },
-  "MeshGLTF|2024-12-27T20:36:46.665Z|05686": {
+  "MaterialGLTF|2024-12-28T08:59:40.667Z|03340": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-12-28T08:59:40.667Z|03340",
+      "name": "SurfaceMat",
+      "type": "MaterialGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Ocean.glb"
+    }
+  },
+  "MeshGLTF|2024-12-28T08:59:40.667Z|35639": {
     "ƒ.MeshGLTF": {
-      "idResource": "MeshGLTF|2024-12-27T20:36:46.665Z|05686",
-      "name": "Tuna.001",
+      "idResource": "MeshGLTF|2024-12-28T08:59:40.667Z|35639",
+      "name": "Floor",
       "type": "MeshGLTF",
-      "url": "Assets\\gltf\\OwnExports\\Tuna.glb",
+      "url": "Assets\\gltf\\OwnExports\\Ocean.glb",
+      "iPrimitive": 0
+    }
+  },
+  "MeshGLTF|2024-12-28T08:59:41.000Z|82895": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-12-28T08:59:41.000Z|82895",
+      "name": "Surface",
+      "type": "MeshGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Ocean.glb",
       "iPrimitive": 0
     }
   }
