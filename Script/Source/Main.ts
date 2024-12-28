@@ -3,7 +3,7 @@ namespace Script {
   ƒ.Debug.info("Main Program Template running!");
 
   let viewport: ƒ.Viewport;
-  let root: ƒ.Graph;
+  export let root: ƒ.Graph;
   let rootGraphId: string = "Graph|2024-12-23T15:59:29.558Z|27668";
 
   window.addEventListener("load", start);
@@ -47,5 +47,13 @@ namespace Script {
 
     ƒ.AudioManager.default.update();
 
+  }
+
+  export function getRandomVector(): ƒ.Vector3 {
+
+    let random: ƒ.Random = new ƒ.Random();
+    let randomVector: ƒ.Vector3 = random.getVector3(new ƒ.Vector3(-1, -1, -1), new ƒ.Vector3(1, 1, 1));
+
+    return randomVector;
   }
 }

@@ -20,26 +20,41 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    import ƒ = FudgeCore;
     class FishController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
+        diceTargetElapseSeconds: number;
+        maxTargetDistance: number;
+        speed: number;
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private preventSurfacePenetration;
+        move(): void;
+        diceNewTarget: (_event?: ƒ.EventTimer) => Promise<void>;
+        private calculateNewTarget;
+    }
+}
+declare namespace Script {
+    class FishSpawner extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        elapseSeconds: number;
+        fishPrefabId: string;
+        minSpawnRadius: number;
+        maxSpawnRadius: number;
+        maxFishAmount: number;
+        private get amountFishInRange();
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+        private spawn;
     }
 }
 declare namespace Script {
     import ƒ = FudgeCore;
-    class FishSpawner extends CustomComponentUpdatedScript {
-        static readonly iSubclass: number;
-        elapse: number;
-        constructor();
-        start(): void;
-        update: (_event: Event) => void;
-        spawn: (_event: ƒ.EventTimer) => void;
-    }
-}
-declare namespace Script {
+    let root: ƒ.Graph;
     let deltaTime: number;
+    function getRandomVector(): ƒ.Vector3;
 }
 declare namespace Script {
     class PawnCameraController extends CustomComponentUpdatedScript {

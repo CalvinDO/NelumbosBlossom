@@ -124,6 +124,43 @@
         },
         {
           "ƒ.Node": {
+            "name": "FishSpawner",
+            "active": true,
+            "components": {
+              "FishSpawner": [
+                {
+                  "Script.FishSpawner": {
+                    "active": true,
+                    "message": "CustomComponentUpdatedScript added to ",
+                    "useRenderEvent": false,
+                    "elapseSeconds": 0.5,
+                    "fishPrefabId": "Graph|2024-12-28T10:31:03.363Z|38094",
+                    "minSpawnRadius": 60,
+                    "maxSpawnRadius": 150,
+                    "maxFishAmount": 40
+                  }
+                }
+              ],
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": []
+          }
+        },
+        {
+          "ƒ.Node": {
             "name": "PawnStartPosition",
             "active": true,
             "components": {
@@ -581,102 +618,9 @@
           }
         },
         {
-          "ƒ.Node": {
-            "name": "MeasureCube",
-            "active": true,
-            "components": {
-              "ComponentMesh": [
-                {
-                  "ƒ.ComponentMesh": {
-                    "idMesh": "MeshCube|2024-12-23T16:06:52.456Z|22663",
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentMaterial": [
-                {
-                  "ƒ.ComponentMaterial": {
-                    "sortForAlpha": false,
-                    "clrPrimary": "[1, 1, 1, 1]",
-                    "clrSecondary": "[1, 1, 1, 1]",
-                    "pivot": {
-                      "translation": "[0, 0]",
-                      "rotation": 0,
-                      "scaling": "[1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    },
-                    "idMaterial": "Material|2024-12-23T16:07:19.428Z|36675"
-                  }
-                }
-              ],
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[-0.031118594110012054, 0.13480925559997559, 0.09197328984737396]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1.0004514455795288, 0.1318640410900116, 0.366755872964859]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": []
-          }
-        },
-        {
-          "ƒ.GraphInstance": {
-            "deserializeFromSource": true,
-            "idSource": "Graph|2024-12-28T10:31:03.363Z|38094"
-          }
-        },
-        {
           "ƒ.GraphInstance": {
             "deserializeFromSource": true,
             "idSource": "GraphGLTF|2024-12-28T08:59:40.667Z|89103"
-          }
-        },
-        {
-          "ƒ.GraphInstance": {
-            "deserializeFromSource": true,
-            "idSource": "Graph|2024-12-28T10:31:03.363Z|38094"
-          }
-        },
-        {
-          "ƒ.GraphInstance": {
-            "deserializeFromSource": true,
-            "idSource": "Graph|2024-12-28T10:31:03.363Z|38094"
-          }
-        },
-        {
-          "ƒ.Node": {
-            "name": "FishSpawner",
-            "active": true,
-            "components": {
-              "FishSpawner": [
-                {
-                  "Script.FishSpawner": {
-                    "active": true,
-                    "message": "CustomComponentUpdatedScript added to ",
-                    "useRenderEvent": false,
-                    "elapse": 1000
-                  }
-                }
-              ]
-            },
-            "children": []
           }
         }
       ],
@@ -827,7 +771,10 @@
             "Script.FishController": {
               "active": true,
               "message": "CustomComponentUpdatedScript added to ",
-              "useRenderEvent": false
+              "useRenderEvent": false,
+              "diceTargetElapseSeconds": 3,
+              "maxTargetDistance": 10,
+              "speed": 5
             }
           }
         ]
@@ -837,7 +784,22 @@
           "ƒ.Node": {
             "name": "Mesh",
             "active": true,
-            "components": {},
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 180, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
             "children": [
               {
                 "ƒ.GraphInstance": {
@@ -850,6 +812,64 @@
         }
       ],
       "idResource": "Graph|2024-12-28T10:31:03.363Z|38094",
+      "type": "Graph"
+    }
+  },
+  "Graph|2024-12-28T18:54:28.474Z|28203": {
+    "ƒ.Graph": {
+      "name": "MeasureCube",
+      "active": true,
+      "components": {
+        "ComponentMesh": [
+          {
+            "ƒ.ComponentMesh": {
+              "idMesh": "MeshCube|2024-12-23T16:06:52.456Z|22663",
+              "pivot": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "ComponentMaterial": [
+          {
+            "ƒ.ComponentMaterial": {
+              "sortForAlpha": false,
+              "clrPrimary": "[1, 1, 1, 1]",
+              "clrSecondary": "[1, 1, 1, 1]",
+              "pivot": {
+                "translation": "[0, 0]",
+                "rotation": 0,
+                "scaling": "[1, 1]"
+              },
+              "Component": {
+                "active": true
+              },
+              "idMaterial": "Material|2024-12-23T16:07:19.428Z|36675"
+            }
+          }
+        ],
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[-0.031118594110012054, 0.13480925559997559, 0.09197328984737396]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1.0004514455795288, 0.1318640410900116, 0.366755872964859]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      "children": [],
+      "idResource": "Graph|2024-12-28T18:54:28.474Z|28203",
       "type": "Graph"
     }
   }

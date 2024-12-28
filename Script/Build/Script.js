@@ -97,14 +97,37 @@ var Script;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class FishController extends Script.CustomComponentUpdatedScript {
         static { this.iSubclass = ƒ.Component.registerSubclass(FishController); }
+        //private currentTargetPos: ƒ.Vector3;
         constructor() {
             super();
+            this.diceTargetElapseSeconds = 0;
+            this.maxTargetDistance = 0;
+            this.speed = 0;
             // Update function 
             this.update = (_event) => {
-                this.node.mtxLocal.translateZ(0.1 * ƒ.Loop.timeFrameReal * 0.001);
+                this.preventSurfacePenetration();
+                this.move();
+            };
+            this.diceNewTarget = async (_event) => {
+                if ((Math.random()) > 0.5) {
+                    this.calculateNewTarget();
+                }
             };
         }
         start() {
+            let timer = new ƒ.Timer(new ƒ.Time(), this.diceTargetElapseSeconds * 1000, 0, this.diceNewTarget);
+        }
+        preventSurfacePenetration() {
+            if (this.node.mtxWorld.translation.y > -1) {
+                this.node.mtxLocal.lookAt(ƒ.Vector3.Y(-1));
+            }
+        }
+        move() {
+            this.node.mtxLocal.translateZ(this.speed * ƒ.Loop.timeFrameReal * 0.001, true);
+        }
+        calculateNewTarget() {
+            let currentDirection = ƒ.Vector3.SUM(this.node.mtxLocal.translation, Script.getRandomVector());
+            this.node.mtxLocal.lookAt(currentDirection);
         }
     }
     Script.FishController = FishController;
@@ -117,19 +140,65 @@ var Script;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class FishSpawner extends Script.CustomComponentUpdatedScript {
         static { this.iSubclass = ƒ.Component.registerSubclass(FishSpawner); }
+        get amountFishInRange() {
+            let amount = 0;
+            this.node.getChildren().forEach(fish => {
+                let distance = Script.PawnController.instance.node.mtxWorld.translation.getDistance(fish.mtxLocal.translation);
+                if (distance < this.maxSpawnRadius) {
+                    amount++;
+                }
+                else {
+                    if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
+                        this.node.removeChild(fish);
+                        Script.root.removeChild(fish);
+                        fish = undefined;
+                    }
+                }
+            });
+            return amount;
+        }
         constructor() {
             super();
-            this.elapse = 0;
+            this.elapseSeconds = 0;
+            this.fishPrefabId = "";
+            this.minSpawnRadius = 0;
+            this.maxSpawnRadius = 0;
+            this.maxFishAmount = 0;
             // Update function 
             this.update = (_event) => {
             };
-            this.spawn = (_event) => {
-                console.log("spawn");
+            this.spawn = async (_event) => {
+                if (this.amountFishInRange > this.maxFishAmount) {
+                    return;
+                }
+                let newFish;
+                try {
+                    newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.fishPrefabId]);
+                }
+                catch (error) {
+                    console.warn(error);
+                    return;
+                }
+                let randomVector = Script.getRandomVector();
+                let minDirectionVector = ƒ.Vector3.SCALE(randomVector, this.minSpawnRadius);
+                newFish.mtxLocal.translation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
+                if (newFish.mtxLocal.translation.y > -1) {
+                    return;
+                }
+                newFish.mtxLocal.rotation = Script.getRandomVector().scale(108);
+                this.node.addChild(newFish);
             };
         }
         start() {
-            let timer = new ƒ.Timer(new ƒ.Time(), this.elapse, 0, this.spawn);
-            //timer.active = true;
+            let timer = new ƒ.Timer(new ƒ.Time(), this.elapseSeconds * 1000, 0, this.spawn);
+            for (let i = 0; i < this.maxFishAmount; i++) {
+                try {
+                    this.spawn();
+                }
+                catch (error) {
+                    console.warn(error);
+                }
+            }
         }
     }
     Script.FishSpawner = FishSpawner;
@@ -139,7 +208,6 @@ var Script;
     var ƒ = FudgeCore;
     ƒ.Debug.info("Main Program Template running!");
     let viewport;
-    let root;
     let rootGraphId = "Graph|2024-12-23T15:59:29.558Z|27668";
     window.addEventListener("load", start);
     async function start() {
@@ -157,9 +225,9 @@ var Script;
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
     function setIngameCameraAndViewport() {
-        root = ƒ.Project.resources[rootGraphId];
+        Script.root = ƒ.Project.resources[rootGraphId];
         viewport = new ƒ.Viewport();
-        viewport.initialize("Viewport", root, Script.PawnCameraController.instance.node.getComponent(ƒ.ComponentCamera), document.querySelector("canvas"));
+        viewport.initialize("Viewport", Script.root, Script.PawnCameraController.instance.node.getComponent(ƒ.ComponentCamera), document.querySelector("canvas"));
     }
     function update(_event) {
         Script.deltaTime = ƒ.Loop.timeFrameReal * 0.001;
@@ -167,6 +235,12 @@ var Script;
         viewport.draw();
         ƒ.AudioManager.default.update();
     }
+    function getRandomVector() {
+        let random = new ƒ.Random();
+        let randomVector = random.getVector3(new ƒ.Vector3(-1, -1, -1), new ƒ.Vector3(1, 1, 1));
+        return randomVector;
+    }
+    Script.getRandomVector = getRandomVector;
 })(Script || (Script = {}));
 ///<reference path = "CustomComponentUpdatedScript.ts"/>
 var Script;
