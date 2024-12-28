@@ -637,50 +637,46 @@
           }
         },
         {
-          "ƒ.Node": {
-            "name": "Fish",
-            "active": true,
-            "components": {
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "FishController": [
-                {
-                  "Script.FishController": {
-                    "active": true,
-                    "message": "CustomComponentUpdatedScript added to ",
-                    "useRenderEvent": false
-                  }
-                }
-              ]
-            },
-            "children": [
-              {
-                "ƒ.Node": {
-                  "name": "Mesh",
-                  "active": true,
-                  "components": {},
-                  "children": []
-                }
-              }
-            ]
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "Graph|2024-12-28T10:31:03.363Z|38094"
           }
         },
         {
           "ƒ.GraphInstance": {
             "deserializeFromSource": true,
             "idSource": "GraphGLTF|2024-12-28T08:59:40.667Z|89103"
+          }
+        },
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "Graph|2024-12-28T10:31:03.363Z|38094"
+          }
+        },
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "Graph|2024-12-28T10:31:03.363Z|38094"
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "FishSpawner",
+            "active": true,
+            "components": {
+              "FishSpawner": [
+                {
+                  "Script.FishSpawner": {
+                    "active": true,
+                    "message": "CustomComponentUpdatedScript added to ",
+                    "useRenderEvent": false,
+                    "elapse": 1000
+                  }
+                }
+              ]
+            },
+            "children": []
           }
         }
       ],
@@ -730,6 +726,131 @@
       "type": "MeshGLTF",
       "url": "Assets\\gltf\\OwnExports\\Ocean.glb",
       "iPrimitive": 0
+    }
+  },
+  "GraphGLTF|2024-12-28T10:23:36.176Z|90012": {
+    "ƒ.GraphGLTF": {
+      "name": "Tuna",
+      "active": true,
+      "components": {
+        "ComponentAnimator": [
+          {
+            "ƒ.ComponentAnimator": {
+              "Component": {
+                "active": true
+              },
+              "idAnimation": "AnimationGLTF|2024-12-28T10:23:36.176Z|42859",
+              "playmode": "loop",
+              "quantization": "continous",
+              "scale": 1,
+              "scaleWithGameTime": true,
+              "animateInEditor": false
+            }
+          }
+        ]
+      },
+      "idResource": "GraphGLTF|2024-12-28T10:23:36.176Z|90012",
+      "type": "GraphGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-28T10:23:36.176Z|42859": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-28T10:23:36.176Z|42859",
+      "name": "Armature.001|Scene",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-28T10:23:36.196Z|29615": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-28T10:23:36.196Z|29615",
+      "name": "Armature.001|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-28T10:23:36.212Z|94241": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-28T10:23:36.212Z|94241",
+      "name": "Armature|Scene",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-28T10:23:36.222Z|31272": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-28T10:23:36.222Z|31272",
+      "name": "Armature|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "MaterialGLTF|2024-12-28T10:23:36.237Z|08861": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-12-28T10:23:36.237Z|08861",
+      "name": "Tuna_M.001",
+      "type": "MaterialGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb"
+    }
+  },
+  "MeshGLTF|2024-12-28T10:23:36.237Z|18395": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-12-28T10:23:36.237Z|18395",
+      "name": "Tuna.001",
+      "type": "MeshGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Tuna.glb",
+      "iPrimitive": 0
+    }
+  },
+  "Graph|2024-12-28T10:31:03.363Z|38094": {
+    "ƒ.Graph": {
+      "name": "Fish",
+      "active": true,
+      "components": {
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[1.3048385381698608, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "FishController": [
+          {
+            "Script.FishController": {
+              "active": true,
+              "message": "CustomComponentUpdatedScript added to ",
+              "useRenderEvent": false
+            }
+          }
+        ]
+      },
+      "children": [
+        {
+          "ƒ.Node": {
+            "name": "Mesh",
+            "active": true,
+            "components": {},
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "GraphGLTF|2024-12-28T10:23:36.176Z|90012"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "idResource": "Graph|2024-12-28T10:31:03.363Z|38094",
+      "type": "Graph"
     }
   }
 }

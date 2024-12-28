@@ -22,7 +22,6 @@ namespace Script {
         public override update = (_event: Event): void => {
 
             this.node.mtxLocal.translation = new ƒ.Vector3(PawnController.instance.node.mtxWorld.translation.x, -0.5, PawnController.instance.node.mtxWorld.translation.z);
-            console.log(this.node.mtxLocal.translation)
         }
     }
 }

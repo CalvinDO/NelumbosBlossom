@@ -28,6 +28,17 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    import ƒ = FudgeCore;
+    class FishSpawner extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        elapse: number;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+        spawn: (_event: ƒ.EventTimer) => void;
+    }
+}
+declare namespace Script {
     let deltaTime: number;
 }
 declare namespace Script {

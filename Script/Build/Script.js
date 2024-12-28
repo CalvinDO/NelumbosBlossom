@@ -109,6 +109,31 @@ var Script;
     }
     Script.FishController = FishController;
 })(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class FishSpawner extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(FishSpawner); }
+        constructor() {
+            super();
+            this.elapse = 0;
+            // Update function 
+            this.update = (_event) => {
+            };
+            this.spawn = (_event) => {
+                console.log("spawn");
+            };
+        }
+        start() {
+            let timer = new ƒ.Timer(new ƒ.Time(), this.elapse, 0, this.spawn);
+            //timer.active = true;
+        }
+    }
+    Script.FishSpawner = FishSpawner;
+})(Script || (Script = {}));
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
@@ -304,7 +329,6 @@ var Script;
             // Update function 
             this.update = (_event) => {
                 this.node.mtxLocal.translation = new ƒ.Vector3(Script.PawnController.instance.node.mtxWorld.translation.x, -0.5, Script.PawnController.instance.node.mtxWorld.translation.z);
-                console.log(this.node.mtxLocal.translation);
             };
             this.singleton = true;
             PawnPointLightController.instance = this;

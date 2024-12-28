@@ -37,6 +37,30 @@
       },
       {
         "idResource": "ParticleSystem|2024-12-28T09:00:49.480Z|47825"
+      },
+      {
+        "idResource": "GraphGLTF|2024-12-28T10:23:36.176Z|90012"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-28T10:23:36.176Z|42859"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-28T10:23:36.196Z|29615"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-28T10:23:36.212Z|94241"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-28T10:23:36.222Z|31272"
+      },
+      {
+        "idResource": "MaterialGLTF|2024-12-28T10:23:36.237Z|08861"
+      },
+      {
+        "idResource": "MeshGLTF|2024-12-28T10:23:36.237Z|18395"
+      },
+      {
+        "idResource": "Graph|2024-12-28T10:31:03.363Z|38094"
       }
     ]
   }
