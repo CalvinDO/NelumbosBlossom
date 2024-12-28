@@ -485,6 +485,49 @@
                   },
                   "children": []
                 }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "ambientlight",
+                  "active": true,
+                  "components": {
+                    "ComponentLight": [
+                      {
+                        "ƒ.ComponentLight": {
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "light": {
+                            "ƒ.LightAmbient": {
+                              "color": "[1, 1, 1, 1]",
+                              "intensity": 0.20000000000000004
+                            }
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
               }
             ]
           }
@@ -526,35 +569,6 @@
                       "translation": "[0, 0, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[3000, 1.0000000000000009, 3000]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": []
-          }
-        },
-        {
-          "ƒ.Node": {
-            "name": "ambientlight",
-            "active": true,
-            "components": {
-              "ComponentLight": [
-                {
-                  "ƒ.ComponentLight": {
-                    "pivot": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "light": {
-                      "ƒ.LightAmbient": {
-                        "color": "[1, 1, 1, 1]",
-                        "intensity": 0.20000000000000037
-                      }
                     },
                     "Component": {
                       "active": true
