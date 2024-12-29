@@ -16,7 +16,13 @@ namespace Script {
     public rb: ƒ.ComponentRigidbody;
 
     public satietyGainPerFish: number = 0;
+    public hungerPerSecond: number = 0;
+
     private satiety: number = 0.5;
+
+    private dead: boolean = false;
+
+    private satietyBar: HTMLProgressElement;
 
 
     constructor() {
@@ -27,10 +33,15 @@ namespace Script {
     }
 
     public override start(): void {
+      this.satietyBar = <HTMLProgressElement>document.querySelector("#pawn-satiety-bar");
     }
 
     // Update function 
     public override update = (_event: Event): void => {
+
+      if (this.dead) {
+        return;
+      }
 
       if (!this.rb) {
         this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
@@ -38,10 +49,32 @@ namespace Script {
 
       this.checkCollisions();
 
+      this.hunger();
+      this.updateBar();
       this.handleMovementKeys();
     }
 
-    public checkCollisions(): void {
+    private updateBar(): void {
+      this.satietyBar.value = this.satiety;
+    }
+
+
+    private hunger(): void {
+
+      this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
+
+      if (this.satiety <= 0) {
+        this.die();
+      }
+    }
+
+    private die(): void {
+
+      this.node.getParent().removeChild(this.node);
+      this.dead = true;
+    }
+
+    private checkCollisions(): void {
 
       for (let colIndex: number = 0; colIndex < this.rb.collisions.length; colIndex++) {
 
@@ -56,11 +89,10 @@ namespace Script {
     private eatFish(_fish: FishController): void {
 
       this.satiety += this.satietyGainPerFish;
+      this.satiety = this.satiety > 1 ? 1 : this.satiety;
       
       FishSpawner.instance.node.removeChild(_fish.node);
       _fish = undefined;
-      
-      console.log(this.satiety);
     }
 
     /*
@@ -127,13 +159,16 @@ namespace Script {
       }
 
       if (inputVector.magnitude > 0) {
-
-        inputVector.normalize();
-        let acceleration: ƒ.Vector3 = inputVector.clone.scale(this.acceleration * deltaTime);
-        this.rb.applyForce(acceleration);
+        this.accelerateTowards(inputVector);
       }
 
       //console.log(this.rb.getVelocity().magnitude);
+    }
+
+    private accelerateTowards(_direction: ƒ.Vector3) {
+      _direction.normalize();
+      let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * deltaTime);
+      this.rb.applyForce(acceleration);
     }
   }
 }

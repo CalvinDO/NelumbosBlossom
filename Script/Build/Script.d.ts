@@ -89,13 +89,20 @@ declare namespace Script {
         mouseTorqueFactor: number;
         rb: ƒ.ComponentRigidbody;
         satietyGainPerFish: number;
+        hungerPerSecond: number;
         private satiety;
+        private dead;
+        private satietyBar;
         constructor();
         start(): void;
         update: (_event: Event) => void;
-        checkCollisions(): void;
+        private updateBar;
+        private hunger;
+        private die;
+        private checkCollisions;
         private eatFish;
         private handleMovementKeys;
+        private accelerateTowards;
     }
 }
 declare namespace Script {

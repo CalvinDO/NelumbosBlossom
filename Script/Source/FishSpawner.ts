@@ -24,6 +24,7 @@ namespace Script {
                 } else {
                     if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
                         this.node.removeChild(fish);
+                        root.removeChild(fish);
                         fish = undefined;
                     }
                 }

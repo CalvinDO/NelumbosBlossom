@@ -136,8 +136,8 @@
                     "elapseSeconds": 0.5,
                     "fishPrefabId": "Graph|2024-12-28T10:31:03.363Z|38094",
                     "minSpawnRadius": 60,
-                    "maxSpawnRadius": 150,
-                    "maxFishAmount": 40
+                    "maxSpawnRadius": 180,
+                    "maxFishAmount": 30
                   }
                 }
               ],
@@ -196,7 +196,9 @@
                           "dragExponent": 2.0000000000000027,
                           "mouseTorqueFactor": 0.01000000000000001,
                           "satietyGainPerFish": 0.1,
-                          "satiety": 0.5
+                          "hungerPerSecond": 0.005,
+                          "satiety": 0.5,
+                          "dead": false
                         }
                       }
                     ],
@@ -776,7 +778,7 @@
               "useRenderEvent": false,
               "diceTargetElapseSeconds": 10,
               "maxTargetDistance": 10,
-              "speed": 0.1
+              "speed": 1.9999999999999996
             }
           }
         ],

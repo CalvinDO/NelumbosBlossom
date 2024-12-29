@@ -1,16 +1,53 @@
-html, body {
+html,
+body {
   padding: 0px;
   margin: 0px;
   width: 100%;
   height: 100%;
- overflow: hidden;
+  overflow: hidden;
 }
 
-dialog { 
-  text-align: center; 
+dialog {
+  text-align: center;
 }
 
-canvas.fullscreen { 
-  width: 100vw; 
-  height: 100vh; 
+canvas.fullscreen {
+  width: 100vw;
+  height: 100vh;
+}
+
+#pawn-satiety-bar {
+  position: fixed;
+  /* Fixiert das Element relativ zum Browserfenster */
+  bottom: 1%;
+  /* Setzt das Element an den unteren Rand des Bildschirms */
+  left: 50%;
+  /* Positioniert das Element horizontal in der Mitte */
+  transform: translateX(-50%);
+  /* Korrigiert die Position, damit es perfekt zentriert ist */
+  z-index: 99 !important;
+  width: 18%;
+  height: 2.25%;
+}
+
+/* background: */
+progress::-webkit-progress-bar {
+  background-color: lightgray;
+}
+
+progress {
+  background-color: lightgray;
+}
+
+/* value: */
+progress::-webkit-progress-value {
+  background-color: orange !important;
+}
+
+progress::-moz-progress-bar {
+  background-color: orange !important;
+}
+
+progress {
+  color: orange;
 }

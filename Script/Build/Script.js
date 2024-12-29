@@ -152,6 +152,7 @@ var Script;
                 else {
                     if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
                         this.node.removeChild(fish);
+                        Script.root.removeChild(fish);
                         fish = undefined;
                     }
                 }
@@ -324,19 +325,40 @@ var Script;
             this.dragExponent = 0;
             this.mouseTorqueFactor = 0;
             this.satietyGainPerFish = 0;
+            this.hungerPerSecond = 0;
             this.satiety = 0.5;
+            this.dead = false;
             // Update function 
             this.update = (_event) => {
+                if (this.dead) {
+                    return;
+                }
                 if (!this.rb) {
                     this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
                 }
                 this.checkCollisions();
+                this.hunger();
+                this.updateBar();
                 this.handleMovementKeys();
             };
             this.singleton = true;
             PawnController.instance = this;
         }
         start() {
+            this.satietyBar = document.querySelector("#pawn-satiety-bar");
+        }
+        updateBar() {
+            this.satietyBar.value = this.satiety;
+        }
+        hunger() {
+            this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
+            if (this.satiety <= 0) {
+                this.die();
+            }
+        }
+        die() {
+            this.node.getParent().removeChild(this.node);
+            this.dead = true;
         }
         checkCollisions() {
             for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {
@@ -348,9 +370,9 @@ var Script;
         }
         eatFish(_fish) {
             this.satiety += this.satietyGainPerFish;
+            this.satiety = this.satiety > 1 ? 1 : this.satiety;
             Script.FishSpawner.instance.node.removeChild(_fish.node);
             _fish = undefined;
-            console.log(this.satiety);
         }
         /*
             private decelerate() {
@@ -405,11 +427,14 @@ var Script;
                 this.rb.addVelocity(pawnUp); */
             }
             if (inputVector.magnitude > 0) {
-                inputVector.normalize();
-                let acceleration = inputVector.clone.scale(this.acceleration * Script.deltaTime);
-                this.rb.applyForce(acceleration);
+                this.accelerateTowards(inputVector);
             }
             //console.log(this.rb.getVelocity().magnitude);
+        }
+        accelerateTowards(_direction) {
+            _direction.normalize();
+            let acceleration = _direction.clone.scale(this.acceleration * Script.deltaTime);
+            this.rb.applyForce(acceleration);
         }
     }
     Script.PawnController = PawnController;
@@ -448,8 +473,10 @@ var Script;
             super();
             // Update function 
             this.update = (_event) => {
-                if (Script.PawnController.instance.rb.getVelocity().magnitude > 0) {
-                    this.node.mtxLocal.lookAt(Script.PawnController.instance.rb.getVelocity(), ƒ.Vector3.Y());
+                if (Script.PawnController.instance.rb) {
+                    if (Script.PawnController.instance.rb.getVelocity().magnitude > 0) {
+                        this.node.mtxLocal.lookAt(Script.PawnController.instance.rb.getVelocity(), ƒ.Vector3.Y());
+                    }
                 }
             };
             this.singleton = true;
