@@ -145,7 +145,7 @@ var Script;
         get amountFishInRange() {
             let amount = 0;
             this.node.getChildren().forEach(fish => {
-                let distance = Script.PawnController.instance.node.mtxWorld.translation.getDistance(fish.mtxLocal.translation);
+                let distance = Script.PawnController.instance.node.mtxWorld.translation.getDistance(fish.mtxWorld.translation);
                 if (distance < this.maxSpawnRadius) {
                     amount++;
                 }
@@ -187,6 +187,7 @@ var Script;
                 if (newFish.mtxLocal.translation.y > -1) {
                     return;
                 }
+                //let ray: ƒ.Ray = new ƒ.Ray(ƒ.Vector3.Y().scale(-1), newFish.mtxLocal.translation, 1000);
                 newFish.mtxLocal.rotation = Script.getRandomVector().scale(108);
                 this.node.addChild(newFish);
             };
@@ -207,6 +208,161 @@ var Script;
         }
     }
     Script.FishSpawner = FishSpawner;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class FlipperCameraController extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(FlipperCameraController); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+            };
+            this.singleton = true;
+            FlipperCameraController.instance = this;
+        }
+        start() {
+        }
+    }
+    Script.FlipperCameraController = FlipperCameraController;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class FlipperController extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(FlipperController); }
+        constructor() {
+            super();
+            this.acceleration = 0;
+            this.satietyGainPerFish = 0;
+            this.hungerPerSecond = 0;
+            this.satiety = 0.5;
+            this.dead = false;
+            this.targetSearchIntervalSeconds = 0;
+            this.targetDetectionRadius = 0;
+            // Update function 
+            this.update = (_event) => {
+                if (this.dead) {
+                    return;
+                }
+                if (!this.rb) {
+                    this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
+                }
+                this.checkCollisions();
+                this.hunger();
+                this.updateBar();
+                this.followTarget();
+            };
+            this.searchTarget = (_event) => {
+                let sortedArray = Script.FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
+                    let distance1 = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
+                    let distance2 = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
+                    if (distance1 > distance2) {
+                        return 1;
+                    }
+                    if (distance1 < distance2) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.currentTarget = sortedArray[0];
+                /*
+                this.node.getChildren().forEach(fish => {
+    
+                    let distance: number = this.node.mtxWorld.translation.getDistance(fish.mtxLocal.translation);
+    
+                    if (distance < this.maxSpawnRadius) {
+                        amount++;
+                    } else {
+                        if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
+                            this.node.removeChild(fish);
+                            root.removeChild(fish);
+                            fish = undefined;
+                        }
+                    }
+                });
+                */
+            };
+            this.singleton = true;
+            FlipperController.instance = this;
+        }
+        start() {
+            this.satietyBar = document.querySelector("#flipper-satiety-bar");
+            let timer = new ƒ.Timer(new ƒ.Time(), this.targetSearchIntervalSeconds * 1000, 0, this.searchTarget);
+        }
+        followTarget() {
+            if (!this.currentTarget) {
+                return;
+            }
+            this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
+        }
+        accelerateTowards(_direction) {
+            _direction.normalize();
+            let acceleration = _direction.clone.scale(this.acceleration * Script.deltaTime);
+            this.rb.applyForce(acceleration);
+        }
+        updateBar() {
+            this.satietyBar.value = this.satiety;
+        }
+        hunger() {
+            this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
+            if (this.satiety <= 0) {
+                this.die();
+            }
+        }
+        die() {
+            this.node.getParent().removeChild(this.node);
+            this.dead = true;
+        }
+        checkCollisions() {
+            for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {
+                let currentFish = this.rb.collisions[colIndex].node.getComponent(Script.FishController);
+                if (currentFish) {
+                    this.eatFish(currentFish);
+                }
+            }
+        }
+        eatFish(_fish) {
+            this.satiety += this.satietyGainPerFish;
+            this.satiety = this.satiety > 1 ? 1 : this.satiety;
+            Script.FishSpawner.instance.node.removeChild(_fish.node);
+            _fish = undefined;
+        }
+    }
+    Script.FlipperController = FlipperController;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class FlipperRotationalController extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(FlipperRotationalController); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+                if (Script.FlipperController.instance.rb) {
+                    if (Script.FlipperController.instance.rb.getVelocity().magnitude > 0) {
+                        this.node.mtxLocal.lookAt(Script.FlipperController.instance.rb.getVelocity(), ƒ.Vector3.Y());
+                    }
+                }
+            };
+            this.singleton = true;
+            FlipperRotationalController.instance = this;
+        }
+        start() {
+        }
+    }
+    Script.FlipperRotationalController = FlipperRotationalController;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {

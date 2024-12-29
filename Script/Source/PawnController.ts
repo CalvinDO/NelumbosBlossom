@@ -18,11 +18,11 @@ namespace Script {
     public satietyGainPerFish: number = 0;
     public hungerPerSecond: number = 0;
 
-    private satiety: number = 0.5;
+    public satiety: number = 0.5;
 
-    private dead: boolean = false;
+    public dead: boolean = false;
 
-    private satietyBar: HTMLProgressElement;
+    public satietyBar: HTMLProgressElement;
 
 
     constructor() {
@@ -51,6 +51,7 @@ namespace Script {
 
       this.hunger();
       this.updateBar();
+
       this.handleMovementKeys();
     }
 
@@ -90,7 +91,7 @@ namespace Script {
 
       this.satiety += this.satietyGainPerFish;
       this.satiety = this.satiety > 1 ? 1 : this.satiety;
-      
+
       FishSpawner.instance.node.removeChild(_fish.node);
       _fish = undefined;
     }

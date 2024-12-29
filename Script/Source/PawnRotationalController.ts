@@ -4,6 +4,7 @@ namespace Script {
     ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
     export class PawnRotationalController extends CustomComponentUpdatedScript {
+        
         public static readonly iSubclass: number = ƒ.Component.registerSubclass(PawnRotationalController);
         public static instance: PawnRotationalController;
 
@@ -20,7 +21,7 @@ namespace Script {
 
         // Update function 
         public override update = (_event: Event): void => {
-            
+
             if (PawnController.instance.rb) {
 
                 if (PawnController.instance.rb.getVelocity().magnitude > 0) {

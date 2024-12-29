@@ -52,6 +52,52 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    class FlipperCameraController extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: FlipperCameraController;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class FlipperController extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: FlipperController;
+        acceleration: number;
+        rb: ƒ.ComponentRigidbody;
+        satietyGainPerFish: number;
+        hungerPerSecond: number;
+        satiety: number;
+        dead: boolean;
+        satietyBar: HTMLProgressElement;
+        targetSearchIntervalSeconds: number;
+        targetDetectionRadius: number;
+        private currentTarget;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+        private followTarget;
+        private searchTarget;
+        private accelerateTowards;
+        private updateBar;
+        private hunger;
+        private die;
+        private checkCollisions;
+        private eatFish;
+    }
+}
+declare namespace Script {
+    class FlipperRotationalController extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: FlipperRotationalController;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+    }
+}
+declare namespace Script {
     import ƒ = FudgeCore;
     let root: ƒ.Graph;
     let deltaTime: number;
@@ -90,9 +136,9 @@ declare namespace Script {
         rb: ƒ.ComponentRigidbody;
         satietyGainPerFish: number;
         hungerPerSecond: number;
-        private satiety;
-        private dead;
-        private satietyBar;
+        satiety: number;
+        dead: boolean;
+        satietyBar: HTMLProgressElement;
         constructor();
         start(): void;
         update: (_event: Event) => void;

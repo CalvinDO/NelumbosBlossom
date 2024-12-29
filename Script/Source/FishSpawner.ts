@@ -18,7 +18,7 @@ namespace Script {
             let amount: number = 0;
 
             this.node.getChildren().forEach(fish => {
-                let distance: number = PawnController.instance.node.mtxWorld.translation.getDistance(fish.mtxLocal.translation);
+                let distance: number = PawnController.instance.node.mtxWorld.translation.getDistance(fish.mtxWorld.translation);
                 if (distance < this.maxSpawnRadius) {
                     amount++;
                 } else {
@@ -86,6 +86,9 @@ namespace Script {
             if (newFish.mtxLocal.translation.y > -1) {
                 return;
             }
+
+            //let ray: ƒ.Ray = new ƒ.Ray(ƒ.Vector3.Y().scale(-1), newFish.mtxLocal.translation, 1000);
+            
 
             newFish.mtxLocal.rotation = getRandomVector().scale(108);
 

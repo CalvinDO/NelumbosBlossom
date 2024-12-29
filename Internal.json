@@ -161,7 +161,7 @@
         },
         {
           "ƒ.Node": {
-            "name": "PawnStartPosition",
+            "name": "StartPosition",
             "active": true,
             "components": {
               "ComponentTransform": [
@@ -568,6 +568,298 @@
                     ]
                   },
                   "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Flipper",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[1.9629420042037964, -0.20153585076332092, 0.7126430869102478]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentRigidbody": [
+                      {
+                        "ƒ.ComponentRigidbody": {
+                          "initialization": "TO_PIVOT",
+                          "friction": 0,
+                          "restitution": 0.02,
+                          "mass": 1,
+                          "dampTranslation": 0.5000000000000004,
+                          "dampRotation": 3,
+                          "effectGravity": 0,
+                          "typeBody": "DYNAMIC",
+                          "typeCollider": "SPHERE",
+                          "isTrigger": false,
+                          "id": 0,
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1.236, 1.236, 1.236]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "FlipperController": [
+                      {
+                        "Script.FlipperController": {
+                          "active": true,
+                          "message": "CustomComponentUpdatedScript added to ",
+                          "useRenderEvent": false,
+                          "acceleration": 350,
+                          "satietyGainPerFish": 0.1,
+                          "hungerPerSecond": 0.005,
+                          "satiety": 0.5,
+                          "dead": false,
+                          "targetSearchIntervalSeconds": 1,
+                          "targetDetectionRadius": 0
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "FlipperRotational",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "FlipperRotationalController": [
+                            {
+                              "Script.FlipperRotationalController": {
+                                "active": true,
+                                "message": "CustomComponentUpdatedScript added to ",
+                                "useRenderEvent": false
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.Node": {
+                              "name": "DolphinModel",
+                              "active": true,
+                              "components": {
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 180, 0]",
+                                        "scaling": "[0.006179999999999997, 0.006179999999999997, 0.006179999999999997]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentMesh": [
+                                  {
+                                    "ƒ.ComponentMesh": {
+                                      "idMesh": "MeshGLTF|2024-12-27T14:23:54.375Z|56680",
+                                      "pivot": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentMaterial": [
+                                  {
+                                    "ƒ.ComponentMaterial": {
+                                      "sortForAlpha": false,
+                                      "clrPrimary": "[1, 1, 1, 1]",
+                                      "clrSecondary": "[1, 1, 1, 1]",
+                                      "pivot": {
+                                        "translation": "[0, 0]",
+                                        "rotation": 0,
+                                        "scaling": "[1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      },
+                                      "idMaterial": "Material|2024-12-27T17:29:57.538Z|96197"
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
+                            }
+                          },
+                          {
+                            "ƒ.Node": {
+                              "name": "CameraRotator",
+                              "active": true,
+                              "components": {
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": [
+                                {
+                                  "ƒ.Node": {
+                                    "name": "FlipperCamera",
+                                    "active": true,
+                                    "components": {
+                                      "ComponentCamera": [
+                                        {
+                                          "ƒ.ComponentCamera": {
+                                            "backgroundColor": {
+                                              "r": 0,
+                                              "g": 0,
+                                              "b": 0,
+                                              "a": 1
+                                            },
+                                            "backgroundEnabled": true,
+                                            "projection": "central",
+                                            "fieldOfView": 80,
+                                            "direction": "diagonal",
+                                            "near": 1,
+                                            "far": 3500,
+                                            "aspect": 1.7770000000000001,
+                                            "pivot": {
+                                              "translation": "[0, 0, 0]",
+                                              "rotation": "[0, 0, 0]",
+                                              "scaling": "[1, 1, 1]"
+                                            },
+                                            "Component": {
+                                              "active": true
+                                            }
+                                          }
+                                        }
+                                      ],
+                                      "ComponentTransform": [
+                                        {
+                                          "ƒ.ComponentTransform": {
+                                            "local": {
+                                              "translation": "[0, 1.0675852298736572, -4.890320301055908]",
+                                              "rotation": "[12.640732573814189, 0, 0]",
+                                              "scaling": "[1, 1, 1]"
+                                            },
+                                            "Component": {
+                                              "active": true
+                                            }
+                                          }
+                                        }
+                                      ],
+                                      "ComponentFog": [
+                                        {
+                                          "ƒ.ComponentFog": {
+                                            "color": "[0.19607843137254902, 0.2235294117647059, 0.5607843137254902, 1]",
+                                            "near": 0.5,
+                                            "far": 400,
+                                            "Component": {
+                                              "active": true
+                                            }
+                                          }
+                                        }
+                                      ],
+                                      "FlipperCameraController": [
+                                        {
+                                          "Script.FlipperCameraController": {
+                                            "active": true,
+                                            "message": "CustomComponentUpdatedScript added to ",
+                                            "useRenderEvent": false
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "children": []
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "HeadLamp",
+                        "active": true,
+                        "components": {
+                          "ComponentLight": [
+                            {
+                              "ƒ.ComponentLight": {
+                                "pivot": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "light": {
+                                  "ƒ.LightPoint": {
+                                    "color": "[1, 1, 1, 1]",
+                                    "intensity": 4
+                                  }
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 0.08957019448280334, -1.4025116137905691e-11]",
+                                  "rotation": "[90.00016262777179, 0, 0]",
+                                  "scaling": "[340.8973388671875, 340.89733886856067, 340.89733886856067]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    }
+                  ]
                 }
               }
             ]
