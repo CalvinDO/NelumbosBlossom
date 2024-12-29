@@ -4,6 +4,7 @@ namespace Script {
   ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
   export class PawnController extends CustomComponentUpdatedScript {
+
     public static readonly iSubclass: number = ƒ.Component.registerSubclass(PawnController);
     public static instance: PawnController;
 
@@ -13,6 +14,10 @@ namespace Script {
     public mouseTorqueFactor: number = 0;
 
     public rb: ƒ.ComponentRigidbody;
+
+    public satietyGainPerFish: number = 0;
+    private satiety: number = 0.5;
+
 
     constructor() {
       super();
@@ -31,24 +36,47 @@ namespace Script {
         this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
       }
 
-      //TODO:
-      //Mouse move rotates Pawn
+      this.checkCollisions();
 
       this.handleMovementKeys();
     }
 
-    private decelerate() {
-      let velo: ƒ.Vector3 = this.rb.getVelocity();
+    public checkCollisions(): void {
 
-      let ms: number = velo.magnitudeSquared;
-      let drag: number = ms * -this.dragCoefficient * deltaTime;
+      for (let colIndex: number = 0; colIndex < this.rb.collisions.length; colIndex++) {
 
-      if (velo.magnitude > 0) {
-        velo.normalize(drag);
+        let currentFish: FishController = this.rb.collisions[colIndex].node.getComponent(FishController);
+
+        if (currentFish) {
+          this.eatFish(currentFish);
+        }
       }
-
-      this.rb.addVelocity(velo);
     }
+
+    private eatFish(_fish: FishController): void {
+
+      this.satiety += this.satietyGainPerFish;
+      
+      FishSpawner.instance.node.removeChild(_fish.node);
+      _fish = undefined;
+      
+      console.log(this.satiety);
+    }
+
+    /*
+        private decelerate() {
+          let velo: ƒ.Vector3 = this.rb.getVelocity();
+    
+          let ms: number = velo.magnitudeSquared;
+          let drag: number = ms * -this.dragCoefficient * deltaTime;
+    
+          if (velo.magnitude > 0) {
+            velo.normalize(drag);
+          }
+    
+          this.rb.addVelocity(velo);
+        }
+    */
 
     private handleMovementKeys() {
 

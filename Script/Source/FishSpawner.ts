@@ -12,6 +12,8 @@ namespace Script {
         public maxSpawnRadius: number = 0;
         public maxFishAmount: number = 0;
 
+        public static instance: FishSpawner;
+
         private get amountFishInRange(): number {
             let amount: number = 0;
 
@@ -22,7 +24,6 @@ namespace Script {
                 } else {
                     if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
                         this.node.removeChild(fish);
-                        root.removeChild(fish);
                         fish = undefined;
                     }
                 }
@@ -33,6 +34,9 @@ namespace Script {
 
         constructor() {
             super();
+
+            this.singleton = true;
+            FishSpawner.instance = this;
         }
 
 
@@ -40,13 +44,15 @@ namespace Script {
 
             let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), this.elapseSeconds * 1000, 0, this.spawn);
 
-            for (let i: number = 0; i < this.maxFishAmount; i++) {
-                try {
-                    this.spawn();
-                } catch (error) {
-                    console.warn(error);
-                }
-            }
+            /*
+                        for (let i: number = 0; i < this.maxFishAmount; i++) {
+                            try {
+                                this.spawn();
+                            } catch (error) {
+                                console.warn(error);
+                            }
+                        }
+             */
         }
 
 
@@ -82,7 +88,7 @@ namespace Script {
 
             newFish.mtxLocal.rotation = getRandomVector().scale(108);
 
-            
+
             this.node.addChild(newFish);
         }
     }

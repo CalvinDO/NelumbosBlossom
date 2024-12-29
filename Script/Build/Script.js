@@ -97,6 +97,7 @@ var Script;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class FishController extends Script.CustomComponentUpdatedScript {
         static { this.iSubclass = ƒ.Component.registerSubclass(FishController); }
+        //private rb: ƒ.ComponentRigidbody;
         //private currentTargetPos: ƒ.Vector3;
         constructor() {
             super();
@@ -115,6 +116,7 @@ var Script;
             };
         }
         start() {
+            //this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
             let timer = new ƒ.Timer(new ƒ.Time(), this.diceTargetElapseSeconds * 1000, 0, this.diceNewTarget);
         }
         preventSurfacePenetration() {
@@ -150,7 +152,6 @@ var Script;
                 else {
                     if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
                         this.node.removeChild(fish);
-                        Script.root.removeChild(fish);
                         fish = undefined;
                     }
                 }
@@ -188,17 +189,20 @@ var Script;
                 newFish.mtxLocal.rotation = Script.getRandomVector().scale(108);
                 this.node.addChild(newFish);
             };
+            this.singleton = true;
+            FishSpawner.instance = this;
         }
         start() {
             let timer = new ƒ.Timer(new ƒ.Time(), this.elapseSeconds * 1000, 0, this.spawn);
-            for (let i = 0; i < this.maxFishAmount; i++) {
-                try {
-                    this.spawn();
-                }
-                catch (error) {
-                    console.warn(error);
-                }
-            }
+            /*
+                        for (let i: number = 0; i < this.maxFishAmount; i++) {
+                            try {
+                                this.spawn();
+                            } catch (error) {
+                                console.warn(error);
+                            }
+                        }
+             */
         }
     }
     Script.FishSpawner = FishSpawner;
@@ -319,13 +323,14 @@ var Script;
             this.dragCoefficient = 0;
             this.dragExponent = 0;
             this.mouseTorqueFactor = 0;
+            this.satietyGainPerFish = 0;
+            this.satiety = 0.5;
             // Update function 
             this.update = (_event) => {
                 if (!this.rb) {
                     this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
                 }
-                //TODO:
-                //Mouse move rotates Pawn
+                this.checkCollisions();
                 this.handleMovementKeys();
             };
             this.singleton = true;
@@ -333,15 +338,34 @@ var Script;
         }
         start() {
         }
-        decelerate() {
-            let velo = this.rb.getVelocity();
-            let ms = velo.magnitudeSquared;
-            let drag = ms * -this.dragCoefficient * Script.deltaTime;
-            if (velo.magnitude > 0) {
-                velo.normalize(drag);
+        checkCollisions() {
+            for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {
+                let currentFish = this.rb.collisions[colIndex].node.getComponent(Script.FishController);
+                if (currentFish) {
+                    this.eatFish(currentFish);
+                }
             }
-            this.rb.addVelocity(velo);
         }
+        eatFish(_fish) {
+            this.satiety += this.satietyGainPerFish;
+            Script.FishSpawner.instance.node.removeChild(_fish.node);
+            _fish = undefined;
+            console.log(this.satiety);
+        }
+        /*
+            private decelerate() {
+              let velo: ƒ.Vector3 = this.rb.getVelocity();
+        
+              let ms: number = velo.magnitudeSquared;
+              let drag: number = ms * -this.dragCoefficient * deltaTime;
+        
+              if (velo.magnitude > 0) {
+                velo.normalize(drag);
+              }
+        
+              this.rb.addVelocity(velo);
+            }
+        */
         handleMovementKeys() {
             let pawnForward = ƒ.Vector3.Z();
             let pawnUp = ƒ.Vector3.Y();

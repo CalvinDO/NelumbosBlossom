@@ -43,6 +43,7 @@ declare namespace Script {
         minSpawnRadius: number;
         maxSpawnRadius: number;
         maxFishAmount: number;
+        static instance: FishSpawner;
         private get amountFishInRange();
         constructor();
         start(): void;
@@ -87,10 +88,13 @@ declare namespace Script {
         dragExponent: number;
         mouseTorqueFactor: number;
         rb: ƒ.ComponentRigidbody;
+        satietyGainPerFish: number;
+        private satiety;
         constructor();
         start(): void;
         update: (_event: Event) => void;
-        private decelerate;
+        checkCollisions(): void;
+        private eatFish;
         private handleMovementKeys;
     }
 }

@@ -10,6 +10,7 @@ namespace Script {
         public maxTargetDistance: number = 0;
         public speed: number = 0;
 
+        //private rb: ƒ.ComponentRigidbody;
         //private currentTargetPos: ƒ.Vector3;
 
         constructor() {
@@ -18,6 +19,8 @@ namespace Script {
 
 
         public override start(): void {
+
+            //this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
 
             let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), this.diceTargetElapseSeconds * 1000, 0, this.diceNewTarget);
         }

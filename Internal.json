@@ -194,7 +194,9 @@
                           "acceleration": 350,
                           "dragCoefficient": 0,
                           "dragExponent": 2.0000000000000027,
-                          "mouseTorqueFactor": 0.01000000000000001
+                          "mouseTorqueFactor": 0.01000000000000001,
+                          "satietyGainPerFish": 0.1,
+                          "satiety": 0.5
                         }
                       }
                     ],
@@ -603,7 +605,7 @@
                     "isTrigger": false,
                     "id": 1,
                     "pivot": {
-                      "translation": "[0, 0, 0]",
+                      "translation": "[0, 1, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[3000, 1.0000000000000009, 3000]"
                     },
@@ -772,9 +774,34 @@
               "active": true,
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
-              "diceTargetElapseSeconds": 3,
+              "diceTargetElapseSeconds": 10,
               "maxTargetDistance": 10,
-              "speed": 5
+              "speed": 0.1
+            }
+          }
+        ],
+        "ComponentRigidbody": [
+          {
+            "ƒ.ComponentRigidbody": {
+              "initialization": "TO_PIVOT",
+              "friction": 0.2,
+              "restitution": 0.2,
+              "mass": 1,
+              "dampTranslation": 0.1,
+              "dampRotation": 0.1,
+              "effectGravity": 0,
+              "typeBody": "KINEMATIC",
+              "typeCollider": "CUBE",
+              "isTrigger": true,
+              "id": 0,
+              "pivot": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[0.3000000000000001, 0.30000000000000004, 0.8999999999999999]"
+              },
+              "Component": {
+                "active": true
+              }
             }
           }
         ]
