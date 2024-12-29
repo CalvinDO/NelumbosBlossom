@@ -97,17 +97,19 @@ var Script;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class FishController extends Script.CustomComponentUpdatedScript {
         static { this.iSubclass = ƒ.Component.registerSubclass(FishController); }
-        //private rb: ƒ.ComponentRigidbody;
         //private currentTargetPos: ƒ.Vector3;
         constructor() {
             super();
             this.diceTargetElapseSeconds = 0;
-            this.maxTargetDistance = 0;
             this.speed = 0;
             // Update function 
             this.update = (_event) => {
-                this.preventSurfacePenetration();
+                if (!this.rb) {
+                    this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
+                }
+                //this.preventSurfacePenetration();
                 this.move();
+                this.checkCollisions();
             };
             this.diceNewTarget = async (_event) => {
                 if ((Math.random()) > 0.5) {
@@ -116,8 +118,16 @@ var Script;
             };
         }
         start() {
-            //this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
+            this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
             let timer = new ƒ.Timer(new ƒ.Time(), this.diceTargetElapseSeconds * 1000, 0, this.diceNewTarget);
+        }
+        checkCollisions() {
+            if (this.rb.collisions.length > 0) {
+                this.onCollision();
+            }
+        }
+        onCollision() {
+            this.calculateNewTarget();
         }
         preventSurfacePenetration() {
             if (this.node.mtxWorld.translation.y > -1) {
@@ -163,6 +173,8 @@ var Script;
             super();
             this.elapseSeconds = 0;
             this.fishPrefabId = "";
+            this.pufferFishPrefabId = "";
+            this.maxPufferFishChance = 0;
             this.minSpawnRadius = 0;
             this.maxSpawnRadius = 0;
             this.maxFishAmount = 0;
@@ -173,38 +185,51 @@ var Script;
                 if (this.amountFishInRange > this.maxFishAmount) {
                     return;
                 }
-                let newFish;
-                try {
-                    newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.fishPrefabId]);
-                }
-                catch (error) {
-                    console.warn(error);
-                    return;
-                }
                 let randomVector = Script.getRandomVector();
                 let minDirectionVector = ƒ.Vector3.SCALE(randomVector, this.minSpawnRadius);
-                newFish.mtxLocal.translation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
-                if (newFish.mtxLocal.translation.y > -1) {
+                let newFishTranslation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
+                // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
+                let rayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y().scale(1), 2000);
+                if (rayHitInfo.hit == false) {
                     return;
                 }
-                //let ray: ƒ.Ray = new ƒ.Ray(ƒ.Vector3.Y().scale(-1), newFish.mtxLocal.translation, 1000);
-                newFish.mtxLocal.rotation = Script.getRandomVector().scale(108);
-                this.node.addChild(newFish);
+                //return when ray doesn't hit surface, therefore origin is under floor collider
+                if (!rayHitInfo.rigidbodyComponent.node.getComponent(Script.SurfaceCollider)) {
+                    return;
+                }
+                if (rayHitInfo.hitDistance < 2) {
+                    return;
+                }
+                if (newFishTranslation.y > -1) {
+                    return;
+                }
+                await this.spawnFish(newFishTranslation);
             };
             this.singleton = true;
             FishSpawner.instance = this;
         }
         start() {
             let timer = new ƒ.Timer(new ƒ.Time(), this.elapseSeconds * 1000, 0, this.spawn);
-            /*
-                        for (let i: number = 0; i < this.maxFishAmount; i++) {
-                            try {
-                                this.spawn();
-                            } catch (error) {
-                                console.warn(error);
-                            }
-                        }
-             */
+        }
+        async spawnFish(_translation) {
+            let newFish;
+            let currentPufferfishChance = (Script.PawnController.instance.node.mtxWorld.translation.y / -885) * this.maxPufferFishChance;
+            try {
+                console.log(currentPufferfishChance);
+                if (Math.random() > currentPufferfishChance) {
+                    newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
+                }
+                else {
+                    newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.fishPrefabId]);
+                }
+            }
+            catch (error) {
+                console.warn(error);
+                return;
+            }
+            newFish.mtxLocal.translation = _translation;
+            newFish.mtxLocal.rotation = Script.getRandomVector().scale(108);
+            this.node.addChild(newFish);
         }
     }
     Script.FishSpawner = FishSpawner;
@@ -272,23 +297,14 @@ var Script;
                     }
                     return 0;
                 });
-                this.currentTarget = sortedArray[0];
-                /*
-                this.node.getChildren().forEach(fish => {
-    
-                    let distance: number = this.node.mtxWorld.translation.getDistance(fish.mtxLocal.translation);
-    
-                    if (distance < this.maxSpawnRadius) {
-                        amount++;
-                    } else {
-                        if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
-                            this.node.removeChild(fish);
-                            root.removeChild(fish);
-                            fish = undefined;
-                        }
+                for (let sortedArrayIndex = 0; sortedArrayIndex < sortedArray.length; sortedArrayIndex++) {
+                    let possibleTarget = sortedArray[sortedArrayIndex];
+                    if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node == possibleTarget) {
+                        console.log("ray node " + ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node);
+                        this.currentTarget = possibleTarget;
+                        return;
                     }
-                });
-                */
+                }
             };
             this.singleton = true;
             FlipperController.instance = this;
@@ -323,11 +339,18 @@ var Script;
         }
         checkCollisions() {
             for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {
-                let currentFish = this.rb.collisions[colIndex].node.getComponent(Script.FishController);
-                if (currentFish) {
-                    this.eatFish(currentFish);
+                if (this.rb.collisions[colIndex].node.getComponent(Script.PufferFishController)) {
+                    this.suckFish(this.rb.collisions[colIndex].node.getComponent(Script.PufferFishController));
+                    return;
+                }
+                if (this.rb.collisions[colIndex].node.getComponent(Script.FishController)) {
+                    this.eatFish(this.rb.collisions[colIndex].node.getComponent(Script.FishController));
+                    return;
                 }
             }
+        }
+        suckFish(_pufferFish) {
+            throw new Error("Method not implemented.");
         }
         eatFish(_fish) {
             this.satiety += this.satietyGainPerFish;
@@ -619,7 +642,7 @@ var Script;
         }
         accelerateTowards(_direction) {
             _direction.normalize();
-            let acceleration = _direction.clone.scale(this.acceleration * Script.deltaTime);
+            let acceleration = _direction.clone.scale(this.acceleration * Script.deltaTime * 10);
             this.rb.applyForce(acceleration);
         }
     }
@@ -672,5 +695,45 @@ var Script;
         }
     }
     Script.PawnRotationalController = PawnRotationalController;
+})(Script || (Script = {}));
+///<reference path = "FishController.ts"/>
+var Script;
+///<reference path = "FishController.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class PufferFishController extends Script.FishController {
+        static { this.iSubclass = ƒ.Component.registerSubclass(PufferFishController); }
+        constructor() {
+            super();
+        }
+        onCollision() {
+            if (this.rb.collisions.find(collidingRb => collidingRb.node.getComponent(Script.FlipperController))) {
+            }
+            super.onCollision();
+        }
+    }
+    Script.PufferFishController = PufferFishController;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class SurfaceCollider extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(SurfaceCollider); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+            };
+            this.singleton = true;
+            SurfaceCollider.instance = this;
+        }
+        start() {
+        }
+    }
+    Script.SurfaceCollider = SurfaceCollider;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

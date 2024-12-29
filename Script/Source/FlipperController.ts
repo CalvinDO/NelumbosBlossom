@@ -68,7 +68,7 @@ namespace Script {
             if (!this.currentTarget) {
                 return;
             }
-            
+
             this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
         }
 
@@ -78,6 +78,7 @@ namespace Script {
 
                 let distance1: number = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
                 let distance2: number = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
+
 
                 if (distance1 > distance2) {
                     return 1;
@@ -90,23 +91,16 @@ namespace Script {
                 return 0;
             });
 
-            this.currentTarget = sortedArray[0];
-            /*
-            this.node.getChildren().forEach(fish => {
+            for (let sortedArrayIndex: number = 0; sortedArrayIndex < sortedArray.length; sortedArrayIndex++) {
 
-                let distance: number = this.node.mtxWorld.translation.getDistance(fish.mtxLocal.translation);
+                let possibleTarget: ƒ.Node = sortedArray[sortedArrayIndex];
 
-                if (distance < this.maxSpawnRadius) {
-                    amount++;
-                } else {
-                    if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
-                        this.node.removeChild(fish);
-                        root.removeChild(fish);
-                        fish = undefined;
-                    }
+                if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node == possibleTarget) {
+                    console.log("ray node " + ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node);
+                    this.currentTarget = possibleTarget;
+                    return;
                 }
-            });
-            */
+            }
         }
 
         private accelerateTowards(_direction: ƒ.Vector3) {
@@ -140,12 +134,19 @@ namespace Script {
 
             for (let colIndex: number = 0; colIndex < this.rb.collisions.length; colIndex++) {
 
-                let currentFish: FishController = this.rb.collisions[colIndex].node.getComponent(FishController);
+                if (this.rb.collisions[colIndex].node.getComponent(PufferFishController)) {
+                    this.suckFish(this.rb.collisions[colIndex].node.getComponent(PufferFishController));
+                    return;
+                }
 
-                if (currentFish) {
-                    this.eatFish(currentFish);
+                if (this.rb.collisions[colIndex].node.getComponent(FishController)) {
+                    this.eatFish(this.rb.collisions[colIndex].node.getComponent(FishController));
+                    return;
                 }
             }
+        }
+        private suckFish(_pufferFish: PufferFishController) {
+            throw new Error("Method not implemented.");
         }
 
         private eatFish(_fish: FishController): void {

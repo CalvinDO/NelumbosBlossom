@@ -7,10 +7,9 @@ namespace Script {
         public static readonly iSubclass: number = ƒ.Component.registerSubclass(FishController);
 
         public diceTargetElapseSeconds: number = 0;
-        public maxTargetDistance: number = 0;
         public speed: number = 0;
 
-        //private rb: ƒ.ComponentRigidbody;
+        public rb: ƒ.ComponentRigidbody;
         //private currentTargetPos: ƒ.Vector3;
 
         constructor() {
@@ -20,7 +19,7 @@ namespace Script {
 
         public override start(): void {
 
-            //this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
+            this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
 
             let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), this.diceTargetElapseSeconds * 1000, 0, this.diceNewTarget);
         }
@@ -28,11 +27,27 @@ namespace Script {
         // Update function 
         public override update = (_event: Event): void => {
 
-            this.preventSurfacePenetration();
+            if (!this.rb) {
+                this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
+            }
+
+            //this.preventSurfacePenetration();
 
             this.move();
+
+            this.checkCollisions();
         }
 
+        private checkCollisions() {
+
+            if (this.rb.collisions.length > 0) {
+                this.onCollision();
+            }
+        }
+
+        public onCollision() {
+            this.calculateNewTarget();
+        }
 
         private preventSurfacePenetration() {
             if (this.node.mtxWorld.translation.y > -1) {

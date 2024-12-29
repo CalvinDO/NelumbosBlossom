@@ -24,11 +24,13 @@ declare namespace Script {
     class FishController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         diceTargetElapseSeconds: number;
-        maxTargetDistance: number;
         speed: number;
+        rb: ƒ.ComponentRigidbody;
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private checkCollisions;
+        onCollision(): void;
         private preventSurfacePenetration;
         move(): void;
         diceNewTarget: (_event?: ƒ.EventTimer) => Promise<void>;
@@ -36,10 +38,13 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    import ƒ = FudgeCore;
     class FishSpawner extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         elapseSeconds: number;
         fishPrefabId: string;
+        pufferFishPrefabId: string;
+        maxPufferFishChance: number;
         minSpawnRadius: number;
         maxSpawnRadius: number;
         maxFishAmount: number;
@@ -49,6 +54,7 @@ declare namespace Script {
         start(): void;
         update: (_event: Event) => void;
         private spawn;
+        spawnFish(_translation: ƒ.Vector3): Promise<void>;
     }
 }
 declare namespace Script {
@@ -85,6 +91,7 @@ declare namespace Script {
         private hunger;
         private die;
         private checkCollisions;
+        private suckFish;
         private eatFish;
     }
 }
@@ -173,6 +180,22 @@ declare namespace Script {
     class PawnRotationalController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         static instance: PawnRotationalController;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+    }
+}
+declare namespace Script {
+    class PufferFishController extends FishController {
+        static readonly iSubclass: number;
+        constructor();
+        onCollision(): void;
+    }
+}
+declare namespace Script {
+    class SurfaceCollider extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: SurfaceCollider;
         constructor();
         start(): void;
         update: (_event: Event) => void;

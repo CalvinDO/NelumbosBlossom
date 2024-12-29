@@ -135,6 +135,8 @@
                     "useRenderEvent": false,
                     "elapseSeconds": 0.5,
                     "fishPrefabId": "Graph|2024-12-28T10:31:03.363Z|38094",
+                    "pufferFishPrefabId": "Graph|2024-12-29T18:40:51.978Z|72551",
+                    "maxPufferFishChance": 1,
                     "minSpawnRadius": 60,
                     "maxSpawnRadius": 180,
                     "maxFishAmount": 30
@@ -819,7 +821,7 @@
                     {
                       "ƒ.Node": {
                         "name": "HeadLamp",
-                        "active": true,
+                        "active": false,
                         "components": {
                           "ComponentLight": [
                             {
@@ -906,6 +908,15 @@
                     "Component": {
                       "active": true
                     }
+                  }
+                }
+              ],
+              "SurfaceCollider": [
+                {
+                  "Script.SurfaceCollider": {
+                    "active": true,
+                    "message": "CustomComponentUpdatedScript added to ",
+                    "useRenderEvent": false
                   }
                 }
               ]
@@ -1058,7 +1069,7 @@
           {
             "ƒ.ComponentTransform": {
               "local": {
-                "translation": "[1.3048385381698608, 0, 0]",
+                "translation": "[0, 0, 0]",
                 "rotation": "[0, 0, 0]",
                 "scaling": "[1, 1, 1]"
               },
@@ -1084,15 +1095,15 @@
           {
             "ƒ.ComponentRigidbody": {
               "initialization": "TO_PIVOT",
-              "friction": 0.2,
-              "restitution": 0.2,
-              "mass": 1,
-              "dampTranslation": 0.1,
-              "dampRotation": 0.1,
+              "friction": 0,
+              "restitution": 0,
+              "mass": 0.000010000000000000026,
+              "dampTranslation": 0,
+              "dampRotation": 0,
               "effectGravity": 0,
-              "typeBody": "KINEMATIC",
+              "typeBody": "DYNAMIC",
               "typeCollider": "CUBE",
-              "isTrigger": true,
+              "isTrigger": false,
               "id": 0,
               "pivot": {
                 "translation": "[0, 0, 0]",
@@ -1218,6 +1229,158 @@
       "idResource": "GraphGLTF|2024-12-29T16:38:50.384Z|49878",
       "type": "GraphGLTF",
       "url": "Assets\\gltf\\OwnExports\\FloorCollider.glb"
+    }
+  },
+  "Graph|2024-12-29T18:40:51.978Z|72551": {
+    "ƒ.Graph": {
+      "name": "Pufferfish",
+      "active": true,
+      "components": {
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "ComponentRigidbody": [
+          {
+            "ƒ.ComponentRigidbody": {
+              "initialization": "TO_PIVOT",
+              "friction": 0,
+              "restitution": 0,
+              "mass": 0.01,
+              "dampTranslation": 0,
+              "dampRotation": 0,
+              "effectGravity": 0,
+              "typeBody": "DYNAMIC",
+              "typeCollider": "CUBE",
+              "isTrigger": false,
+              "id": 0,
+              "pivot": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[0.20000000000000004, 0.20000000000000004, 0.6]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "PufferFishController": [
+          {
+            "Script.PufferFishController": {
+              "active": true,
+              "message": "CustomComponentUpdatedScript added to ",
+              "useRenderEvent": false,
+              "diceTargetElapseSeconds": 10,
+              "maxTargetDistance": 0,
+              "speed": 2
+            }
+          }
+        ]
+      },
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-12-29T18:46:33.411Z|95552"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-12-29T18:40:51.978Z|72551",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-12-29T18:46:33.411Z|95552": {
+    "ƒ.GraphGLTF": {
+      "name": "Blowfish",
+      "active": true,
+      "components": {
+        "ComponentAnimator": [
+          {
+            "ƒ.ComponentAnimator": {
+              "Component": {
+                "active": true
+              },
+              "idAnimation": "AnimationGLTF|2024-12-29T18:46:33.411Z|11264",
+              "playmode": "loop",
+              "quantization": "continous",
+              "scale": 1,
+              "scaleWithGameTime": true,
+              "animateInEditor": true
+            }
+          }
+        ]
+      },
+      "idResource": "GraphGLTF|2024-12-29T18:46:33.411Z|95552",
+      "type": "GraphGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-29T18:46:33.411Z|11264": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-29T18:46:33.411Z|11264",
+      "name": "Armature.001|Scene",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-29T18:46:33.443Z|48889": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-29T18:46:33.443Z|48889",
+      "name": "Armature.001|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-29T18:46:33.476Z|50762": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-29T18:46:33.476Z|50762",
+      "name": "Armature|Scene",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-29T18:46:33.510Z|41550": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-29T18:46:33.510Z|41550",
+      "name": "Armature|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-29T18:46:33.553Z|67225": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-29T18:46:33.553Z|67225",
+      "name": "Key|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
+    }
+  },
+  "MaterialGLTF|2024-12-29T18:46:33.553Z|77030": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-12-29T18:46:33.553Z|77030",
+      "name": "Blowfish_M.001",
+      "type": "MaterialGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
+    }
+  },
+  "MeshGLTF|2024-12-29T18:46:33.553Z|77266": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-12-29T18:46:33.553Z|77266",
+      "name": "Blowfish.mesh.001",
+      "type": "MeshGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Blowfish.glb",
+      "iPrimitive": 0
     }
   }
 }

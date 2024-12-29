@@ -7,7 +7,11 @@ namespace Script {
         public static readonly iSubclass: number = ƒ.Component.registerSubclass(FishSpawner);
 
         public elapseSeconds: number = 0;
+
         public fishPrefabId: string = "";
+        public pufferFishPrefabId: string = "";
+        public maxPufferFishChance: number = 0;
+
         public minSpawnRadius: number = 0;
         public maxSpawnRadius: number = 0;
         public maxFishAmount: number = 0;
@@ -44,16 +48,6 @@ namespace Script {
         public override start(): void {
 
             let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), this.elapseSeconds * 1000, 0, this.spawn);
-
-            /*
-                        for (let i: number = 0; i < this.maxFishAmount; i++) {
-                            try {
-                                this.spawn();
-                            } catch (error) {
-                                console.warn(error);
-                            }
-                        }
-             */
         }
 
 
@@ -69,29 +63,56 @@ namespace Script {
                 return;
             }
 
+            let randomVector: ƒ.Vector3 = getRandomVector();
+            let minDirectionVector: ƒ.Vector3 = ƒ.Vector3.SCALE(randomVector, this.minSpawnRadius);
+            let newFishTranslation: ƒ.Vector3 = ƒ.Vector3.SUM(PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
+
+            // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
+
+            let rayHitInfo: ƒ.RayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y().scale(1), 2000);
+
+            if (rayHitInfo.hit == false) {
+                return;
+            }
+
+            //return when ray doesn't hit surface, therefore origin is under floor collider
+            if (!rayHitInfo.rigidbodyComponent.node.getComponent(SurfaceCollider)) {
+                return;
+            }
+
+            if (rayHitInfo.hitDistance < 2) {
+                return;
+            }
+
+            if (newFishTranslation.y > -1) {
+                return;
+            }
+
+            await this.spawnFish(newFishTranslation);
+        }
+
+        public async spawnFish(_translation: ƒ.Vector3): Promise<void> {
+
             let newFish: ƒ.GraphInstance;
 
+            let currentPufferfishChance: number = (PawnController.instance.node.mtxWorld.translation.y / -885) * this.maxPufferFishChance;
+
             try {
-                newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.fishPrefabId]);
+                console.log(currentPufferfishChance)
+                if (Math.random() > currentPufferfishChance) {
+
+                    newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.pufferFishPrefabId]);
+                } else {
+
+                    newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.fishPrefabId]);
+                }
             } catch (error) {
                 console.warn(error);
                 return;
             }
 
-            let randomVector: ƒ.Vector3 = getRandomVector();
-            let minDirectionVector: ƒ.Vector3 = ƒ.Vector3.SCALE(randomVector, this.minSpawnRadius);
-
-            newFish.mtxLocal.translation = ƒ.Vector3.SUM(PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
-
-            if (newFish.mtxLocal.translation.y > -1) {
-                return;
-            }
-
-            //let ray: ƒ.Ray = new ƒ.Ray(ƒ.Vector3.Y().scale(-1), newFish.mtxLocal.translation, 1000);
-            
-
+            newFish.mtxLocal.translation = _translation;
             newFish.mtxLocal.rotation = getRandomVector().scale(108);
-
 
             this.node.addChild(newFish);
         }
