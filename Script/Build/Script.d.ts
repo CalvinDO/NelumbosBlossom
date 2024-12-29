@@ -79,8 +79,9 @@ declare namespace Script {
         dead: boolean;
         satietyBar: HTMLProgressElement;
         targetSearchIntervalSeconds: number;
-        targetDetectionRadius: number;
         private currentTarget;
+        private suckedFish;
+        private mouthPosNode;
         constructor();
         start(): void;
         update: (_event: Event) => void;
@@ -91,7 +92,7 @@ declare namespace Script {
         private hunger;
         private die;
         private checkCollisions;
-        private suckFish;
+        private startSuckingFish;
         private eatFish;
     }
 }
@@ -188,8 +189,10 @@ declare namespace Script {
 declare namespace Script {
     class PufferFishController extends FishController {
         static readonly iSubclass: number;
+        private isImmobilized;
         constructor();
-        onCollision(): void;
+        move(): void;
+        immobilize(): void;
     }
 }
 declare namespace Script {

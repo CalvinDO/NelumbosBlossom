@@ -215,7 +215,6 @@ var Script;
             let newFish;
             let currentPufferfishChance = (Script.PawnController.instance.node.mtxWorld.translation.y / -885) * this.maxPufferFishChance;
             try {
-                console.log(currentPufferfishChance);
                 if (Math.random() > currentPufferfishChance) {
                     newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
                 }
@@ -271,7 +270,6 @@ var Script;
             this.satiety = 0.5;
             this.dead = false;
             this.targetSearchIntervalSeconds = 0;
-            this.targetDetectionRadius = 0;
             // Update function 
             this.update = (_event) => {
                 if (this.dead) {
@@ -280,12 +278,18 @@ var Script;
                 if (!this.rb) {
                     this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
                 }
+                if (!this.mouthPosNode) {
+                    this.mouthPosNode = this.node.getChildrenByName("FlipperRotational")[0].getChildrenByName("MouthPos")[0];
+                }
                 this.checkCollisions();
                 this.hunger();
                 this.updateBar();
                 this.followTarget();
             };
             this.searchTarget = (_event) => {
+                if (this.suckedFish) {
+                    return;
+                }
                 let sortedArray = Script.FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
                     let distance1 = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
                     let distance2 = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
@@ -300,7 +304,6 @@ var Script;
                 for (let sortedArrayIndex = 0; sortedArrayIndex < sortedArray.length; sortedArrayIndex++) {
                     let possibleTarget = sortedArray[sortedArrayIndex];
                     if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node == possibleTarget) {
-                        console.log("ray node " + ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node);
                         this.currentTarget = possibleTarget;
                         return;
                     }
@@ -314,6 +317,9 @@ var Script;
             let timer = new ƒ.Timer(new ƒ.Time(), this.targetSearchIntervalSeconds * 1000, 0, this.searchTarget);
         }
         followTarget() {
+            if (this.suckedFish) {
+                return;
+            }
             if (!this.currentTarget) {
                 return;
             }
@@ -340,7 +346,7 @@ var Script;
         checkCollisions() {
             for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {
                 if (this.rb.collisions[colIndex].node.getComponent(Script.PufferFishController)) {
-                    this.suckFish(this.rb.collisions[colIndex].node.getComponent(Script.PufferFishController));
+                    this.startSuckingFish(this.rb.collisions[colIndex].node.getComponent(Script.PufferFishController));
                     return;
                 }
                 if (this.rb.collisions[colIndex].node.getComponent(Script.FishController)) {
@@ -349,8 +355,14 @@ var Script;
                 }
             }
         }
-        suckFish(_pufferFish) {
-            throw new Error("Method not implemented.");
+        startSuckingFish(_pufferFish) {
+            _pufferFish.immobilize();
+            this.suckedFish = _pufferFish;
+            this.currentTarget = undefined;
+            this.mouthPosNode.addChild(_pufferFish.node);
+            console.log(this.node);
+            _pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
+            _pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
         }
         eatFish(_fish) {
             this.satiety += this.satietyGainPerFish;
@@ -707,10 +719,27 @@ var Script;
         constructor() {
             super();
         }
-        onCollision() {
-            if (this.rb.collisions.find(collidingRb => collidingRb.node.getComponent(Script.FlipperController))) {
+        /*
+                public override onCollision(): void {
+        
+                    if (this.rb.collisions.find(collidingRb => collidingRb.node.getComponent(FlipperController))) {
+        
+                    }
+        
+                    super.onCollision();
+                }
+        */
+        move() {
+            if (this.isImmobilized) {
+                return;
             }
-            super.onCollision();
+        }
+        immobilize() {
+            this.isImmobilized = true;
+            //this.node.mtxLocal.lookAt(this.node.mtxLocal.getTranslationTo(FlipperController.instance.node.mtxLocal));
+            this.rb.activate(false);
+            this.node.removeComponent(this.rb);
+            this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator).playmode = ƒ.ANIMATION_PLAYMODE.STOP;
         }
     }
     Script.PufferFishController = PufferFishController;

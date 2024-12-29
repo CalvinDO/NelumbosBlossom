@@ -72,6 +72,5 @@ namespace Script {
             let currentDirection: ƒ.Vector3 = ƒ.Vector3.SUM(this.node.mtxLocal.translation, getRandomVector());
             this.node.mtxLocal.lookAt(currentDirection);
         }
-
     }
 }

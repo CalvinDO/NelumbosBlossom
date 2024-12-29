@@ -627,8 +627,7 @@
                           "hungerPerSecond": 0.005,
                           "satiety": 0.5,
                           "dead": false,
-                          "targetSearchIntervalSeconds": 1,
-                          "targetDetectionRadius": 0
+                          "targetSearchIntervalSeconds": 1
                         }
                       }
                     ]
@@ -813,6 +812,29 @@
                                   }
                                 }
                               ]
+                            }
+                          },
+                          {
+                            "ƒ.Node": {
+                              "name": "MouthPos",
+                              "active": true,
+                              "components": {
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[-0.20789822936058044, -0.038675084710121155, 0.5439391136169434]",
+                                        "rotation": "[0, 89.99994273672982, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
                             }
                           }
                         ]
@@ -1086,7 +1108,6 @@
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
               "diceTargetElapseSeconds": 10,
-              "maxTargetDistance": 10,
               "speed": 1.9999999999999996
             }
           }
@@ -1282,7 +1303,6 @@
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
               "diceTargetElapseSeconds": 10,
-              "maxTargetDistance": 0,
               "speed": 2
             }
           }
@@ -1290,9 +1310,33 @@
       },
       "children": [
         {
-          "ƒ.GraphInstance": {
-            "deserializeFromSource": true,
-            "idSource": "GraphGLTF|2024-12-29T18:46:33.411Z|95552"
+          "ƒ.Node": {
+            "name": "Mesh",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 180, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "GraphGLTF|2024-12-29T20:54:48.953Z|06950"
+                }
+              }
+            ]
           }
         }
       ],
@@ -1300,7 +1344,7 @@
       "type": "Graph"
     }
   },
-  "GraphGLTF|2024-12-29T18:46:33.411Z|95552": {
+  "GraphGLTF|2024-12-29T20:54:48.953Z|06950": {
     "ƒ.GraphGLTF": {
       "name": "Blowfish",
       "active": true,
@@ -1311,7 +1355,7 @@
               "Component": {
                 "active": true
               },
-              "idAnimation": "AnimationGLTF|2024-12-29T18:46:33.411Z|11264",
+              "idAnimation": "AnimationGLTF|2024-12-29T20:54:48.953Z|74360",
               "playmode": "loop",
               "quantization": "continous",
               "scale": 1,
@@ -1321,62 +1365,62 @@
           }
         ]
       },
-      "idResource": "GraphGLTF|2024-12-29T18:46:33.411Z|95552",
+      "idResource": "GraphGLTF|2024-12-29T20:54:48.953Z|06950",
       "type": "GraphGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
     }
   },
-  "AnimationGLTF|2024-12-29T18:46:33.411Z|11264": {
+  "AnimationGLTF|2024-12-29T20:54:48.953Z|74360": {
     "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-29T18:46:33.411Z|11264",
+      "idResource": "AnimationGLTF|2024-12-29T20:54:48.953Z|74360",
       "name": "Armature.001|Scene",
       "type": "AnimationGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
     }
   },
-  "AnimationGLTF|2024-12-29T18:46:33.443Z|48889": {
+  "AnimationGLTF|2024-12-29T20:54:48.972Z|68485": {
     "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-29T18:46:33.443Z|48889",
+      "idResource": "AnimationGLTF|2024-12-29T20:54:48.972Z|68485",
       "name": "Armature.001|Scene.001",
       "type": "AnimationGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
     }
   },
-  "AnimationGLTF|2024-12-29T18:46:33.476Z|50762": {
+  "AnimationGLTF|2024-12-29T20:54:48.995Z|63492": {
     "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-29T18:46:33.476Z|50762",
+      "idResource": "AnimationGLTF|2024-12-29T20:54:48.995Z|63492",
       "name": "Armature|Scene",
       "type": "AnimationGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
     }
   },
-  "AnimationGLTF|2024-12-29T18:46:33.510Z|41550": {
+  "AnimationGLTF|2024-12-29T20:54:49.036Z|15583": {
     "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-29T18:46:33.510Z|41550",
+      "idResource": "AnimationGLTF|2024-12-29T20:54:49.036Z|15583",
       "name": "Armature|Scene.001",
       "type": "AnimationGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
     }
   },
-  "AnimationGLTF|2024-12-29T18:46:33.553Z|67225": {
+  "AnimationGLTF|2024-12-29T20:54:49.079Z|24078": {
     "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-12-29T18:46:33.553Z|67225",
+      "idResource": "AnimationGLTF|2024-12-29T20:54:49.079Z|24078",
       "name": "Key|Scene.001",
       "type": "AnimationGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
     }
   },
-  "MaterialGLTF|2024-12-29T18:46:33.553Z|77030": {
+  "MaterialGLTF|2024-12-29T20:54:49.081Z|97849": {
     "ƒ.MaterialGLTF": {
-      "idResource": "MaterialGLTF|2024-12-29T18:46:33.553Z|77030",
+      "idResource": "MaterialGLTF|2024-12-29T20:54:49.081Z|97849",
       "name": "Blowfish_M.001",
       "type": "MaterialGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb"
     }
   },
-  "MeshGLTF|2024-12-29T18:46:33.553Z|77266": {
+  "MeshGLTF|2024-12-29T20:54:49.081Z|30393": {
     "ƒ.MeshGLTF": {
-      "idResource": "MeshGLTF|2024-12-29T18:46:33.553Z|77266",
+      "idResource": "MeshGLTF|2024-12-29T20:54:49.081Z|30393",
       "name": "Blowfish.mesh.001",
       "type": "MeshGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb",

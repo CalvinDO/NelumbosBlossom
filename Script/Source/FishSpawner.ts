@@ -98,7 +98,6 @@ namespace Script {
             let currentPufferfishChance: number = (PawnController.instance.node.mtxWorld.translation.y / -885) * this.maxPufferFishChance;
 
             try {
-                console.log(currentPufferfishChance)
                 if (Math.random() > currentPufferfishChance) {
 
                     newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.pufferFishPrefabId]);

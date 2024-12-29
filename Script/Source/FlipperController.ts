@@ -24,9 +24,13 @@ namespace Script {
         public satietyBar: HTMLProgressElement;
 
         public targetSearchIntervalSeconds: number = 0;
-        public targetDetectionRadius: number = 0;
 
         private currentTarget: ƒ.Node;
+
+        private suckedFish: PufferFishController;
+
+
+        private mouthPosNode: ƒ.Node;
 
 
 
@@ -55,6 +59,11 @@ namespace Script {
                 this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
             }
 
+            if (!this.mouthPosNode) {
+                this.mouthPosNode = this.node.getChildrenByName("FlipperRotational")[0].getChildrenByName("MouthPos")[0];
+            }
+
+
             this.checkCollisions();
 
             this.hunger();
@@ -65,6 +74,10 @@ namespace Script {
 
         private followTarget(): void {
 
+            if (this.suckedFish) {
+                return;
+            }
+
             if (!this.currentTarget) {
                 return;
             }
@@ -73,6 +86,10 @@ namespace Script {
         }
 
         private searchTarget = (_event?: ƒ.EventTimer): void => {
+
+            if (this.suckedFish) {
+                return;
+            }
 
             let sortedArray: ƒ.Node[] = FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
 
@@ -96,7 +113,6 @@ namespace Script {
                 let possibleTarget: ƒ.Node = sortedArray[sortedArrayIndex];
 
                 if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node == possibleTarget) {
-                    console.log("ray node " + ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node);
                     this.currentTarget = possibleTarget;
                     return;
                 }
@@ -135,7 +151,7 @@ namespace Script {
             for (let colIndex: number = 0; colIndex < this.rb.collisions.length; colIndex++) {
 
                 if (this.rb.collisions[colIndex].node.getComponent(PufferFishController)) {
-                    this.suckFish(this.rb.collisions[colIndex].node.getComponent(PufferFishController));
+                    this.startSuckingFish(this.rb.collisions[colIndex].node.getComponent(PufferFishController));
                     return;
                 }
 
@@ -145,8 +161,19 @@ namespace Script {
                 }
             }
         }
-        private suckFish(_pufferFish: PufferFishController) {
-            throw new Error("Method not implemented.");
+        private startSuckingFish(_pufferFish: PufferFishController) {
+
+            _pufferFish.immobilize();
+
+            this.suckedFish = _pufferFish;
+            this.currentTarget = undefined;
+
+            this.mouthPosNode.addChild(_pufferFish.node);
+
+            console.log(this.node);
+            _pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
+            _pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
+
         }
 
         private eatFish(_fish: FishController): void {
