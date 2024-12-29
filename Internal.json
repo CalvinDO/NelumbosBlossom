@@ -918,6 +918,12 @@
             "deserializeFromSource": true,
             "idSource": "GraphGLTF|2024-12-28T08:59:40.667Z|89103"
           }
+        },
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-12-29T16:38:50.384Z|49878"
+          }
         }
       ],
       "idResource": "Graph|2024-12-23T15:59:29.558Z|27668",
@@ -1192,6 +1198,26 @@
       "children": [],
       "idResource": "Graph|2024-12-28T18:54:28.474Z|28203",
       "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-12-29T16:38:50.384Z|49878": {
+    "ƒ.GraphGLTF": {
+      "name": "FloorColliderScene",
+      "active": true,
+      "components": {
+        "FloorColliderController": [
+          {
+            "Script.FloorColliderController": {
+              "active": true,
+              "message": "CustomComponentUpdatedScript added to ",
+              "useRenderEvent": false
+            }
+          }
+        ]
+      },
+      "idResource": "GraphGLTF|2024-12-29T16:38:50.384Z|49878",
+      "type": "GraphGLTF",
+      "url": "Assets\\gltf\\OwnExports\\FloorCollider.glb"
     }
   }
 }

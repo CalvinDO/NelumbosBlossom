@@ -98,6 +98,15 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    class FloorColliderController extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: FloorColliderController;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+    }
+}
+declare namespace Script {
     import ƒ = FudgeCore;
     let root: ƒ.Graph;
     let deltaTime: number;

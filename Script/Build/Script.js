@@ -364,6 +364,36 @@ var Script;
     }
     Script.FlipperRotationalController = FlipperRotationalController;
 })(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class FloorColliderController extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(FloorColliderController); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+            };
+            this.singleton = true;
+            FloorColliderController.instance = this;
+        }
+        start() {
+            this.node.getChildren().forEach(child => {
+                if (!child.getComponent(ƒ.ComponentRigidbody)) {
+                    let rb = new ƒ.ComponentRigidbody();
+                    rb.typeBody = ƒ.BODY_TYPE.STATIC;
+                    child.addComponent(rb);
+                    child.removeComponent(child.getComponent(ƒ.ComponentMaterial));
+                    child.removeComponent(child.getComponent(ƒ.ComponentMesh));
+                }
+            });
+        }
+    }
+    Script.FloorColliderController = FloorColliderController;
+})(Script || (Script = {}));
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
