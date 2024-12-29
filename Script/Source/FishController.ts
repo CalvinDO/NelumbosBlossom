@@ -12,6 +12,9 @@ namespace Script {
         public rb: ƒ.ComponentRigidbody;
         //private currentTargetPos: ƒ.Vector3;
 
+        public currentDirection: ƒ.Vector3 = getRandomVector();
+
+
         constructor() {
             super();
         }
@@ -56,7 +59,10 @@ namespace Script {
         }
 
         public move(): void {
-            this.node.mtxLocal.translateZ(this.speed * ƒ.Loop.timeFrameReal * 0.001, true);
+            if (this.rb)
+                this.rb.applyForce(ƒ.Vector3.SCALE(this.currentDirection, this.speed * ƒ.Loop.timeFrameReal * 0.001));
+
+            //this.node.mtxLocal.translateZ(this.speed * ƒ.Loop.timeFrameReal * 0.001, true);
         }
 
         public diceNewTarget = async (_event?: ƒ.EventTimer): Promise<void> => {
@@ -69,8 +75,10 @@ namespace Script {
 
         private calculateNewTarget() {
 
-            let currentDirection: ƒ.Vector3 = ƒ.Vector3.SUM(this.node.mtxLocal.translation, getRandomVector());
-            this.node.mtxLocal.lookAt(currentDirection);
+            this.currentDirection = ƒ.Vector3.SUM(this.node.mtxLocal.translation, getRandomVector());
+            this.currentDirection.normalize();
+
+            this.node.getChild(0).mtxLocal.lookAt(this.currentDirection);
         }
     }
 }

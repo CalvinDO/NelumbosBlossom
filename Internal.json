@@ -625,9 +625,11 @@
                           "acceleration": 350,
                           "satietyGainPerFish": 0.1,
                           "hungerPerSecond": 0.005,
+                          "suckingHungerFactor": 4,
                           "satiety": 0.5,
                           "dead": false,
-                          "targetSearchIntervalSeconds": 1
+                          "targetSearchIntervalSeconds": 1,
+                          "state": 1
                         }
                       }
                     ]
@@ -1108,7 +1110,7 @@
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
               "diceTargetElapseSeconds": 10,
-              "speed": 1.9999999999999996
+              "speed": 0.03
             }
           }
         ],
@@ -1119,7 +1121,7 @@
               "friction": 0,
               "restitution": 0,
               "mass": 0.000010000000000000026,
-              "dampTranslation": 0,
+              "dampTranslation": 10,
               "dampRotation": 0,
               "effectGravity": 0,
               "typeBody": "DYNAMIC",
@@ -1278,7 +1280,7 @@
               "friction": 0,
               "restitution": 0,
               "mass": 0.01,
-              "dampTranslation": 0,
+              "dampTranslation": 10.000000000000002,
               "dampRotation": 0,
               "effectGravity": 0,
               "typeBody": "DYNAMIC",
@@ -1303,7 +1305,7 @@
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
               "diceTargetElapseSeconds": 10,
-              "speed": 2
+              "speed": 0.03
             }
           }
         ]

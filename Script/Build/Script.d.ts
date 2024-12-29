@@ -26,6 +26,7 @@ declare namespace Script {
         diceTargetElapseSeconds: number;
         speed: number;
         rb: ƒ.ComponentRigidbody;
+        currentDirection: ƒ.Vector3;
         constructor();
         start(): void;
         update: (_event: Event) => void;
@@ -68,6 +69,11 @@ declare namespace Script {
 }
 declare namespace Script {
     import ƒ = FudgeCore;
+    enum FlipperState {
+        IS_FOLLOWING_PAWN = 0,
+        IS_HUNTING = 1,
+        IS_SUCKING = 2
+    }
     class FlipperController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         static instance: FlipperController;
@@ -75,6 +81,7 @@ declare namespace Script {
         rb: ƒ.ComponentRigidbody;
         satietyGainPerFish: number;
         hungerPerSecond: number;
+        suckingHungerFactor: number;
         satiety: number;
         dead: boolean;
         satietyBar: HTMLProgressElement;
@@ -82,16 +89,20 @@ declare namespace Script {
         private currentTarget;
         private suckedFish;
         private mouthPosNode;
+        private state;
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private checkDeath;
         private followTarget;
         private searchTarget;
+        private searchHuntTarget;
         private accelerateTowards;
         private updateBar;
         private hunger;
         private die;
         private checkCollisions;
+        private disturbSucking;
         private startSuckingFish;
         private eatFish;
     }

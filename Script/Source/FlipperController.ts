@@ -4,8 +4,13 @@ namespace Script {
     import ƒ = FudgeCore;
     ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
-    export class FlipperController extends CustomComponentUpdatedScript {
+    export enum FlipperState {
+        IS_FOLLOWING_PAWN = 0,
+        IS_HUNTING = 1,
+        IS_SUCKING = 2
+    }
 
+    export class FlipperController extends CustomComponentUpdatedScript {
 
         public static readonly iSubclass: number = ƒ.Component.registerSubclass(FlipperController);
         public static instance: FlipperController;
@@ -16,6 +21,7 @@ namespace Script {
 
         public satietyGainPerFish: number = 0;
         public hungerPerSecond: number = 0;
+        public suckingHungerFactor: number = 0;
 
         public satiety: number = 0.5;
 
@@ -25,12 +31,14 @@ namespace Script {
 
         public targetSearchIntervalSeconds: number = 0;
 
+
         private currentTarget: ƒ.Node;
 
         private suckedFish: PufferFishController;
 
 
         private mouthPosNode: ƒ.Node;
+        private state: FlipperState = FlipperState.IS_HUNTING;
 
 
 
@@ -68,8 +76,16 @@ namespace Script {
 
             this.hunger();
             this.updateBar();
+            this.checkDeath();
 
             this.followTarget();
+        }
+
+        private checkDeath(): void {
+
+            if (this.satiety <= 0) {
+                this.die();
+            }
         }
 
         private followTarget(): void {
@@ -87,9 +103,19 @@ namespace Script {
 
         private searchTarget = (_event?: ƒ.EventTimer): void => {
 
-            if (this.suckedFish) {
-                return;
+            switch (this.state) {
+                case FlipperState.IS_SUCKING:
+                    return;
+                case FlipperState.IS_FOLLOWING_PAWN:
+                    this.currentTarget = PawnController.instance.node;
+                    break;
+                case FlipperState.IS_HUNTING:
+                    this.searchHuntTarget();
+                    break;
             }
+        }
+
+        private searchHuntTarget(): void {
 
             let sortedArray: ƒ.Node[] = FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
 
@@ -133,10 +159,21 @@ namespace Script {
 
         private hunger(): void {
 
+            if (this.state == FlipperState.IS_SUCKING) {
+
+                this.satiety -= this.hungerPerSecond * this.suckingHungerFactor * ƒ.Loop.timeFrameReal * 0.001;
+
+                return;
+            }
+
             this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
 
-            if (this.satiety <= 0) {
-                this.die();
+            if (this.satiety > 0.75) {
+                this.state = FlipperState.IS_FOLLOWING_PAWN;
+            }
+
+            if (this.satiety < 0.3) {
+                this.state = FlipperState.IS_HUNTING;
             }
         }
 
@@ -150,6 +187,10 @@ namespace Script {
 
             for (let colIndex: number = 0; colIndex < this.rb.collisions.length; colIndex++) {
 
+                if (this.rb.collisions[colIndex].node.getComponent(PawnController)) {
+                    this.disturbSucking();
+                }
+
                 if (this.rb.collisions[colIndex].node.getComponent(PufferFishController)) {
                     this.startSuckingFish(this.rb.collisions[colIndex].node.getComponent(PufferFishController));
                     return;
@@ -161,11 +202,23 @@ namespace Script {
                 }
             }
         }
+
+        private disturbSucking(): void {
+
+            if (this.state == FlipperState.IS_SUCKING) {
+                this.mouthPosNode.removeChild(this.suckedFish.node);
+                this.suckedFish = undefined;
+            }
+        }
+
         private startSuckingFish(_pufferFish: PufferFishController) {
 
             _pufferFish.immobilize();
 
             this.suckedFish = _pufferFish;
+
+            this.state = FlipperState.IS_SUCKING;
+
             this.currentTarget = undefined;
 
             this.mouthPosNode.addChild(_pufferFish.node);

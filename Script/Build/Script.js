@@ -97,11 +97,12 @@ var Script;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class FishController extends Script.CustomComponentUpdatedScript {
         static { this.iSubclass = ƒ.Component.registerSubclass(FishController); }
-        //private currentTargetPos: ƒ.Vector3;
         constructor() {
             super();
             this.diceTargetElapseSeconds = 0;
             this.speed = 0;
+            //private currentTargetPos: ƒ.Vector3;
+            this.currentDirection = Script.getRandomVector();
             // Update function 
             this.update = (_event) => {
                 if (!this.rb) {
@@ -135,11 +136,14 @@ var Script;
             }
         }
         move() {
-            this.node.mtxLocal.translateZ(this.speed * ƒ.Loop.timeFrameReal * 0.001, true);
+            if (this.rb)
+                this.rb.applyForce(ƒ.Vector3.SCALE(this.currentDirection, this.speed * ƒ.Loop.timeFrameReal * 0.001));
+            //this.node.mtxLocal.translateZ(this.speed * ƒ.Loop.timeFrameReal * 0.001, true);
         }
         calculateNewTarget() {
-            let currentDirection = ƒ.Vector3.SUM(this.node.mtxLocal.translation, Script.getRandomVector());
-            this.node.mtxLocal.lookAt(currentDirection);
+            this.currentDirection = ƒ.Vector3.SUM(this.node.mtxLocal.translation, Script.getRandomVector());
+            this.currentDirection.normalize();
+            this.node.getChild(0).mtxLocal.lookAt(this.currentDirection);
         }
     }
     Script.FishController = FishController;
@@ -215,7 +219,7 @@ var Script;
             let newFish;
             let currentPufferfishChance = (Script.PawnController.instance.node.mtxWorld.translation.y / -885) * this.maxPufferFishChance;
             try {
-                if (Math.random() > currentPufferfishChance) {
+                if (Math.random() < currentPufferfishChance) {
                     newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
                 }
                 else {
@@ -260,6 +264,12 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    let FlipperState;
+    (function (FlipperState) {
+        FlipperState[FlipperState["IS_FOLLOWING_PAWN"] = 0] = "IS_FOLLOWING_PAWN";
+        FlipperState[FlipperState["IS_HUNTING"] = 1] = "IS_HUNTING";
+        FlipperState[FlipperState["IS_SUCKING"] = 2] = "IS_SUCKING";
+    })(FlipperState = Script.FlipperState || (Script.FlipperState = {}));
     class FlipperController extends Script.CustomComponentUpdatedScript {
         static { this.iSubclass = ƒ.Component.registerSubclass(FlipperController); }
         constructor() {
@@ -267,9 +277,11 @@ var Script;
             this.acceleration = 0;
             this.satietyGainPerFish = 0;
             this.hungerPerSecond = 0;
+            this.suckingHungerFactor = 0;
             this.satiety = 0.5;
             this.dead = false;
             this.targetSearchIntervalSeconds = 0;
+            this.state = FlipperState.IS_HUNTING;
             // Update function 
             this.update = (_event) => {
                 if (this.dead) {
@@ -284,29 +296,19 @@ var Script;
                 this.checkCollisions();
                 this.hunger();
                 this.updateBar();
+                this.checkDeath();
                 this.followTarget();
             };
             this.searchTarget = (_event) => {
-                if (this.suckedFish) {
-                    return;
-                }
-                let sortedArray = Script.FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
-                    let distance1 = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
-                    let distance2 = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
-                    if (distance1 > distance2) {
-                        return 1;
-                    }
-                    if (distance1 < distance2) {
-                        return -1;
-                    }
-                    return 0;
-                });
-                for (let sortedArrayIndex = 0; sortedArrayIndex < sortedArray.length; sortedArrayIndex++) {
-                    let possibleTarget = sortedArray[sortedArrayIndex];
-                    if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node == possibleTarget) {
-                        this.currentTarget = possibleTarget;
+                switch (this.state) {
+                    case FlipperState.IS_SUCKING:
                         return;
-                    }
+                    case FlipperState.IS_FOLLOWING_PAWN:
+                        this.currentTarget = Script.PawnController.instance.node;
+                        break;
+                    case FlipperState.IS_HUNTING:
+                        this.searchHuntTarget();
+                        break;
                 }
             };
             this.singleton = true;
@@ -315,6 +317,11 @@ var Script;
         start() {
             this.satietyBar = document.querySelector("#flipper-satiety-bar");
             let timer = new ƒ.Timer(new ƒ.Time(), this.targetSearchIntervalSeconds * 1000, 0, this.searchTarget);
+        }
+        checkDeath() {
+            if (this.satiety <= 0) {
+                this.die();
+            }
         }
         followTarget() {
             if (this.suckedFish) {
@@ -325,6 +332,26 @@ var Script;
             }
             this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
         }
+        searchHuntTarget() {
+            let sortedArray = Script.FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
+                let distance1 = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
+                let distance2 = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
+                if (distance1 > distance2) {
+                    return 1;
+                }
+                if (distance1 < distance2) {
+                    return -1;
+                }
+                return 0;
+            });
+            for (let sortedArrayIndex = 0; sortedArrayIndex < sortedArray.length; sortedArrayIndex++) {
+                let possibleTarget = sortedArray[sortedArrayIndex];
+                if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node == possibleTarget) {
+                    this.currentTarget = possibleTarget;
+                    return;
+                }
+            }
+        }
         accelerateTowards(_direction) {
             _direction.normalize();
             let acceleration = _direction.clone.scale(this.acceleration * Script.deltaTime);
@@ -334,9 +361,16 @@ var Script;
             this.satietyBar.value = this.satiety;
         }
         hunger() {
+            if (this.state == FlipperState.IS_SUCKING) {
+                this.satiety -= this.hungerPerSecond * this.suckingHungerFactor * ƒ.Loop.timeFrameReal * 0.001;
+                return;
+            }
             this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
-            if (this.satiety <= 0) {
-                this.die();
+            if (this.satiety > 0.75) {
+                this.state = FlipperState.IS_FOLLOWING_PAWN;
+            }
+            if (this.satiety < 0.3) {
+                this.state = FlipperState.IS_HUNTING;
             }
         }
         die() {
@@ -345,6 +379,9 @@ var Script;
         }
         checkCollisions() {
             for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {
+                if (this.rb.collisions[colIndex].node.getComponent(Script.PawnController)) {
+                    this.disturbSucking();
+                }
                 if (this.rb.collisions[colIndex].node.getComponent(Script.PufferFishController)) {
                     this.startSuckingFish(this.rb.collisions[colIndex].node.getComponent(Script.PufferFishController));
                     return;
@@ -355,9 +392,16 @@ var Script;
                 }
             }
         }
+        disturbSucking() {
+            if (this.state == FlipperState.IS_SUCKING) {
+                this.mouthPosNode.removeChild(this.suckedFish.node);
+                this.suckedFish = undefined;
+            }
+        }
         startSuckingFish(_pufferFish) {
             _pufferFish.immobilize();
             this.suckedFish = _pufferFish;
+            this.state = FlipperState.IS_SUCKING;
             this.currentTarget = undefined;
             this.mouthPosNode.addChild(_pufferFish.node);
             console.log(this.node);
