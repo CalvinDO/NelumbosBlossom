@@ -44,7 +44,7 @@ namespace Script {
                     }
                 }
             });
-            console.log(amount);
+
             return amount;
         }
 

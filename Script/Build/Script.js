@@ -180,7 +180,6 @@ var Script;
                     }
                 }
             });
-            console.log(amount);
             return amount;
         }
         constructor() {
