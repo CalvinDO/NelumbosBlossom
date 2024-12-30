@@ -54,7 +54,7 @@ namespace Script {
 
         private checkCollisions() {
 
-            if (ƒ.Physics.raycast(this.rb.getPosition(), this.rb.getVelocity(), 2, true).hit) {
+            if (ƒ.Physics.raycast(this.rb.getPosition(), this.rb.getVelocity(), 2).hit) {
                 this.onCourseOfCollision();
             }
         }
