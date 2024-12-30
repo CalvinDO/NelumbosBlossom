@@ -197,9 +197,9 @@
                           "dragCoefficient": 0,
                           "dragExponent": 2.0000000000000027,
                           "mouseTorqueFactor": 0.01000000000000001,
-                          "satietyGainPerFish": 0.1,
-                          "hungerPerSecond": 0.005,
-                          "satiety": 0.5,
+                          "satietyGainPerFish": 0.15000000000000002,
+                          "hungerPerSecond": 0.006000000000000001,
+                          "satiety": 0.6599999999999998,
                           "dead": false
                         }
                       }
@@ -623,13 +623,16 @@
                           "message": "CustomComponentUpdatedScript added to ",
                           "useRenderEvent": false,
                           "acceleration": 350,
-                          "satietyGainPerFish": 0.1,
-                          "hungerPerSecond": 0.005,
+                          "satietyGainPerFish": 0.15000000000000002,
+                          "hungerPerSecond": 0.005999999999999997,
                           "suckingHungerFactor": 4,
-                          "satiety": 0.5,
+                          "satiety": 0.66,
+                          "satietyForHunting": 0.5,
+                          "satietyForFollowingPawn": 0.8,
                           "dead": false,
                           "targetSearchIntervalSeconds": 1,
-                          "state": 1
+                          "minPawnFollowDistance": 4,
+                          "state": 0
                         }
                       }
                     ]
@@ -1109,8 +1112,8 @@
               "active": true,
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
-              "diceTargetElapseSeconds": 10,
-              "acceleration": 0.002,
+              "diceTargetElapseSeconds": 5,
+              "acceleration": 0.0015000000000000002,
               "currentDirection": {
                 "x": -0.006691371083087816,
                 "y": -0.4009894150610447,
@@ -1308,7 +1311,7 @@
               "initialization": "TO_PIVOT",
               "friction": 0,
               "restitution": 0,
-              "mass": 0.01,
+              "mass": 0.000010000000000000026,
               "dampTranslation": 1,
               "dampRotation": 0,
               "effectGravity": 0,
@@ -1333,8 +1336,8 @@
               "active": true,
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
-              "diceTargetElapseSeconds": 10,
-              "acceleration": 0.002,
+              "diceTargetElapseSeconds": 5,
+              "acceleration": 0.0011500000000000002,
               "currentDirection": {
                 "x": -0.5844664719445967,
                 "y": -0.9959870766898073,

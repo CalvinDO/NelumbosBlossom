@@ -16,6 +16,12 @@ canvas.fullscreen {
   height: 100vh;
 }
 
+/* Definiere eine CSS-Variable für die Farbe des Fortschrittsbalkens */
+:root {
+  --progress-bar-color: orange;
+  /* Standardfarbe (orange) */
+}
+
 #pawn-satiety-bar {
   position: fixed;
   /* Fixiert das Element relativ zum Browserfenster */
@@ -44,24 +50,27 @@ canvas.fullscreen {
   height: 2.25%;
 }
 
-/* background: */
+/* Hintergrund des Fortschrittsbalkens */
+progress {
+  background-color: lightgray;
+  /* Standard Hintergrundfarbe */
+  color: var(--progress-bar-color);
+  /* Verwendet die dynamische Farbe */
+}
+
+/* Webkit-Spezifische Progressbar (für Chrome, Safari etc.) */
 progress::-webkit-progress-bar {
   background-color: lightgray;
 }
 
-progress {
-  background-color: lightgray;
-}
-
-/* value: */
+/* Webkit-Spezifische Progressbar-Wert (für Chrome, Safari etc.) */
 progress::-webkit-progress-value {
-  background-color: orange !important;
+  background-color: var(--progress-bar-color) !important;
+  /* Verwendet die dynamische Farbe */
 }
 
+/* Mozilla-spezifische Progressbar (für Firefox) */
 progress::-moz-progress-bar {
-  background-color: orange !important;
-}
-
-progress {
-  color: orange;
+  background-color: var(--progress-bar-color) !important;
+  /* Verwendet die dynamische Farbe */
 }

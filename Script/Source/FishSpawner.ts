@@ -22,18 +22,29 @@ namespace Script {
             let amount: number = 0;
 
             this.node.getChildren().forEach(fish => {
+
                 let distance: number = PawnController.instance.node.mtxWorld.translation.getDistance(fish.mtxWorld.translation);
+
                 if (distance < this.maxSpawnRadius) {
+
                     amount++;
+
                 } else {
+
                     if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
-                        this.node.removeChild(fish);
-                        root.removeChild(fish);
-                        fish = undefined;
+
+                        let pufferFish: PufferFishController = fish.getComponent(PufferFishController);
+
+                        if (!pufferFish || !pufferFish.isImmobilized) {
+                            this.node.removeChild(fish);
+                            root.removeChild(fish);
+                            fish = undefined;
+                        }
+
                     }
                 }
             });
-
+            console.log(amount);
             return amount;
         }
 
@@ -69,7 +80,7 @@ namespace Script {
 
             // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
 
-            let rayHitInfo: ƒ.RayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y().scale(1), 2000);
+            let rayHitInfo: ƒ.RayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y(), 2000);
 
             if (rayHitInfo.hit == false) {
                 return;
@@ -95,7 +106,7 @@ namespace Script {
 
             let newFish: ƒ.GraphInstance;
 
-            let currentPufferfishChance: number = (PawnController.instance.node.mtxWorld.translation.y / -885) * this.maxPufferFishChance;
+            let currentPufferfishChance: number = (_translation.y / -885) * this.maxPufferFishChance;
 
             try {
                 if (Math.random() < currentPufferfishChance) {

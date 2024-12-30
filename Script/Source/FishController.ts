@@ -88,7 +88,6 @@ namespace Script {
         }
 
         private dodge(): void {
-            console.log("dodge")
             this.calculateNewDirection();
             //this.currentDirection = ƒ.Vector3.SCALE(this.currentDirection, -1);
         }

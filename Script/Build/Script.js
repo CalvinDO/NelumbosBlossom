@@ -148,7 +148,6 @@ var Script;
             this.currentDirection.normalize();
         }
         dodge() {
-            console.log("dodge");
             this.calculateNewDirection();
             //this.currentDirection = ƒ.Vector3.SCALE(this.currentDirection, -1);
         }
@@ -172,12 +171,16 @@ var Script;
                 }
                 else {
                     if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
-                        this.node.removeChild(fish);
-                        Script.root.removeChild(fish);
-                        fish = undefined;
+                        let pufferFish = fish.getComponent(Script.PufferFishController);
+                        if (!pufferFish || !pufferFish.isImmobilized) {
+                            this.node.removeChild(fish);
+                            Script.root.removeChild(fish);
+                            fish = undefined;
+                        }
                     }
                 }
             });
+            console.log(amount);
             return amount;
         }
         constructor() {
@@ -200,7 +203,7 @@ var Script;
                 let minDirectionVector = ƒ.Vector3.SCALE(randomVector, this.minSpawnRadius);
                 let newFishTranslation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
                 // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
-                let rayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y().scale(1), 2000);
+                let rayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y(), 2000);
                 if (rayHitInfo.hit == false) {
                     return;
                 }
@@ -224,7 +227,7 @@ var Script;
         }
         async spawnFish(_translation) {
             let newFish;
-            let currentPufferfishChance = (Script.PawnController.instance.node.mtxWorld.translation.y / -885) * this.maxPufferFishChance;
+            let currentPufferfishChance = (_translation.y / -885) * this.maxPufferFishChance;
             try {
                 if (Math.random() < currentPufferfishChance) {
                     newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
@@ -286,9 +289,12 @@ var Script;
             this.hungerPerSecond = 0;
             this.suckingHungerFactor = 0;
             this.satiety = 0.5;
+            this.satietyForHunting = 0.5;
+            this.satietyForFollowingPawn = 0.8;
             this.dead = false;
             this.targetSearchIntervalSeconds = 0;
-            this.state = FlipperState.IS_HUNTING;
+            this.minPawnFollowDistance = 0;
+            this.state = FlipperState.IS_FOLLOWING_PAWN;
             // Update function 
             this.update = (_event) => {
                 if (this.dead) {
@@ -331,13 +337,20 @@ var Script;
             }
         }
         followTarget() {
-            if (this.suckedFish) {
-                return;
-            }
             if (!this.currentTarget) {
                 return;
             }
-            this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
+            switch (this.state) {
+                case FlipperState.IS_SUCKING:
+                    return;
+                case FlipperState.IS_FOLLOWING_PAWN:
+                    if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.minPawnFollowDistance) {
+                        break;
+                    }
+                default:
+                    this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
+                    break;
+            }
         }
         searchHuntTarget() {
             let sortedArray = Script.FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
@@ -366,6 +379,12 @@ var Script;
         }
         updateBar() {
             this.satietyBar.value = this.satiety;
+            if (this.state == FlipperState.IS_SUCKING) {
+                this.satietyBar.style.setProperty('--progress-bar-color', 'red');
+            }
+            else {
+                this.satietyBar.style.setProperty('--progress-bar-color', 'orange');
+            }
         }
         hunger() {
             if (this.state == FlipperState.IS_SUCKING) {
@@ -373,11 +392,14 @@ var Script;
                 return;
             }
             this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
-            if (this.satiety > 0.75) {
-                this.state = FlipperState.IS_FOLLOWING_PAWN;
-            }
-            if (this.satiety < 0.3) {
+            if (this.satiety <= this.satietyForHunting) {
+                if (this.state == FlipperState.IS_FOLLOWING_PAWN) {
+                    this.currentTarget = undefined;
+                }
                 this.state = FlipperState.IS_HUNTING;
+            }
+            else if (this.satiety > this.satietyForFollowingPawn) {
+                this.state = FlipperState.IS_FOLLOWING_PAWN;
             }
         }
         die() {
@@ -401,8 +423,14 @@ var Script;
         }
         disturbSucking() {
             if (this.state == FlipperState.IS_SUCKING) {
-                this.mouthPosNode.removeChild(this.suckedFish.node);
-                this.suckedFish = undefined;
+                this.state = FlipperState.IS_FOLLOWING_PAWN;
+                try {
+                    this.mouthPosNode.removeChild(this.suckedFish.node);
+                    this.suckedFish = undefined;
+                }
+                catch (error) {
+                    console.warn(error);
+                }
             }
         }
         startSuckingFish(_pufferFish) {
@@ -411,7 +439,6 @@ var Script;
             this.state = FlipperState.IS_SUCKING;
             this.currentTarget = undefined;
             this.mouthPosNode.addChild(_pufferFish.node);
-            console.log(this.node);
             _pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
             _pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
         }
@@ -770,27 +797,18 @@ var Script;
         constructor() {
             super();
         }
-        /*
-                public override onCollision(): void {
-        
-                    if (this.rb.collisions.find(collidingRb => collidingRb.node.getComponent(FlipperController))) {
-        
-                    }
-        
-                    super.onCollision();
-                }
-        */
         move() {
             if (this.isImmobilized) {
                 return;
             }
+            super.move();
         }
         immobilize() {
             this.isImmobilized = true;
             //this.node.mtxLocal.lookAt(this.node.mtxLocal.getTranslationTo(FlipperController.instance.node.mtxLocal));
             this.rb.activate(false);
             this.node.removeComponent(this.rb);
-            this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator).playmode = ƒ.ANIMATION_PLAYMODE.STOP;
+            this.node.getChild(0).getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator).playmode = ƒ.ANIMATION_PLAYMODE.STOP;
         }
     }
     Script.PufferFishController = PufferFishController;

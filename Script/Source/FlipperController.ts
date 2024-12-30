@@ -25,12 +25,16 @@ namespace Script {
 
         public satiety: number = 0.5;
 
+        public satietyForHunting: number = 0.5;
+        public satietyForFollowingPawn: number = 0.8;
+
         public dead: boolean = false;
 
         public satietyBar: HTMLProgressElement;
 
         public targetSearchIntervalSeconds: number = 0;
 
+        public minPawnFollowDistance: number = 0;
 
         private currentTarget: ƒ.Node;
 
@@ -38,7 +42,7 @@ namespace Script {
 
 
         private mouthPosNode: ƒ.Node;
-        private state: FlipperState = FlipperState.IS_HUNTING;
+        private state: FlipperState = FlipperState.IS_FOLLOWING_PAWN;
 
 
 
@@ -79,6 +83,7 @@ namespace Script {
             this.checkDeath();
 
             this.followTarget();
+
         }
 
         private checkDeath(): void {
@@ -90,15 +95,21 @@ namespace Script {
 
         private followTarget(): void {
 
-            if (this.suckedFish) {
-                return;
-            }
-
             if (!this.currentTarget) {
                 return;
             }
 
-            this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
+            switch (this.state) {
+                case FlipperState.IS_SUCKING:
+                    return;
+                case FlipperState.IS_FOLLOWING_PAWN:
+                    if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.minPawnFollowDistance) {
+                        break;
+                    }
+                default:
+                    this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
+                    break;
+            }
         }
 
         private searchTarget = (_event?: ƒ.EventTimer): void => {
@@ -154,6 +165,12 @@ namespace Script {
 
         private updateBar(): void {
             this.satietyBar.value = this.satiety;
+
+            if (this.state == FlipperState.IS_SUCKING) {
+                this.satietyBar.style.setProperty('--progress-bar-color', 'red');
+            } else {
+                this.satietyBar.style.setProperty('--progress-bar-color', 'orange');
+            }
         }
 
 
@@ -168,12 +185,17 @@ namespace Script {
 
             this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
 
-            if (this.satiety > 0.75) {
-                this.state = FlipperState.IS_FOLLOWING_PAWN;
-            }
+            if (this.satiety <= this.satietyForHunting) {
 
-            if (this.satiety < 0.3) {
+                if (this.state == FlipperState.IS_FOLLOWING_PAWN) {
+                    this.currentTarget = undefined;
+                }
+
                 this.state = FlipperState.IS_HUNTING;
+
+            } else if (this.satiety > this.satietyForFollowingPawn) {
+
+                this.state = FlipperState.IS_FOLLOWING_PAWN;
             }
         }
 
@@ -206,8 +228,14 @@ namespace Script {
         private disturbSucking(): void {
 
             if (this.state == FlipperState.IS_SUCKING) {
-                this.mouthPosNode.removeChild(this.suckedFish.node);
-                this.suckedFish = undefined;
+                this.state = FlipperState.IS_FOLLOWING_PAWN;
+                try {
+                    this.mouthPosNode.removeChild(this.suckedFish.node);
+                    this.suckedFish = undefined;
+
+                } catch (error) {
+                    console.warn(error);
+                }
             }
         }
 
@@ -223,7 +251,6 @@ namespace Script {
 
             this.mouthPosNode.addChild(_pufferFish.node);
 
-            console.log(this.node);
             _pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
             _pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
 

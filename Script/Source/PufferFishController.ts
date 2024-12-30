@@ -9,27 +9,21 @@ namespace Script {
 
         public static readonly iSubclass: number = ƒ.Component.registerSubclass(PufferFishController);
 
-        private isImmobilized: boolean;
+        public isImmobilized: boolean;
 
         constructor() {
             super();
         }
 
-        /*
-                public override onCollision(): void {
-        
-                    if (this.rb.collisions.find(collidingRb => collidingRb.node.getComponent(FlipperController))) {
-        
-                    }
-        
-                    super.onCollision();
-                }
-        */
+
 
         public override move(): void {
+
             if (this.isImmobilized) {
                 return;
             }
+
+            super.move();
         }
 
         public immobilize(): void {
@@ -40,7 +34,7 @@ namespace Script {
             this.rb.activate(false);
             this.node.removeComponent(this.rb);
 
-            this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator).playmode = ƒ.ANIMATION_PLAYMODE.STOP;
+            this.node.getChild(0).getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator).playmode = ƒ.ANIMATION_PLAYMODE.STOP;
         }
     }
 }

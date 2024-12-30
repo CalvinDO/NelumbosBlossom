@@ -84,9 +84,12 @@ declare namespace Script {
         hungerPerSecond: number;
         suckingHungerFactor: number;
         satiety: number;
+        satietyForHunting: number;
+        satietyForFollowingPawn: number;
         dead: boolean;
         satietyBar: HTMLProgressElement;
         targetSearchIntervalSeconds: number;
+        minPawnFollowDistance: number;
         private currentTarget;
         private suckedFish;
         private mouthPosNode;
@@ -201,7 +204,7 @@ declare namespace Script {
 declare namespace Script {
     class PufferFishController extends FishController {
         static readonly iSubclass: number;
-        private isImmobilized;
+        isImmobilized: boolean;
         constructor();
         move(): void;
         immobilize(): void;
