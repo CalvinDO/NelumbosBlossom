@@ -271,9 +271,9 @@ namespace Script {
             this.currentTarget = undefined;
 
             this.mouthPosNode.addChild(_pufferFish.node);
-
-            _pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
-            _pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
+            _pufferFish.node.mtxLocal.translation = ƒ.Vector3.ZERO();
+            //_pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
+            //_pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
 
         }
 

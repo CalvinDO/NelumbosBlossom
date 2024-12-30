@@ -23,6 +23,7 @@ namespace Script {
     public dead: boolean = false;
 
     public satietyBar: HTMLProgressElement;
+    public callBar: HTMLProgressElement;
 
     public callSatietyCost: number = 0.2;
     public callRefillSpeedPerSecond: number = 0.025;
@@ -40,6 +41,8 @@ namespace Script {
     public override start(): void {
 
       this.satietyBar = <HTMLProgressElement>document.querySelector("#pawn-satiety-bar");
+      this.callBar = <HTMLProgressElement>document.querySelector("#pawn-call-bar");
+
 
       let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), 5 * 1000, 0, this.dumpRecycler);
 
@@ -47,7 +50,7 @@ namespace Script {
     private dumpRecycler = async (_event?: ƒ.EventTimer): Promise<void> => {
 
       console.log("Recycler dumpAll");
-      
+
       ƒ.Recycler.dumpAll();
     }
 
@@ -65,7 +68,7 @@ namespace Script {
       this.checkCollisions();
 
       this.hunger();
-      this.updateBar();
+      this.updateBars();
 
       this.handleMovementKeys();
 
@@ -97,8 +100,12 @@ namespace Script {
       this.callPreparedness = 0;
     }
 
-    private updateBar(): void {
+    private updateBars(): void {
+
       this.satietyBar.value = this.satiety;
+
+      this.callBar.value = this.callPreparedness;
+      this.callBar.style.setProperty('--progress-bar-color', 'green');
     }
 
 

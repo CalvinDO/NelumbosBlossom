@@ -230,7 +230,7 @@ var Script;
             let currentPufferfishChance = (_translation.y / -885) * this.maxPufferFishChance;
             console.log(currentPufferfishChance);
             try {
-                if (Math.random() < currentPufferfishChance) {
+                if (Math.random() > currentPufferfishChance) {
                     newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
                 }
                 else {
@@ -258,13 +258,8 @@ var Script;
         static { this.iSubclass = ƒ.Component.registerSubclass(FlipperCameraController); }
         constructor() {
             super();
-            // Update function 
-            this.update = (_event) => {
-            };
             this.singleton = true;
             FlipperCameraController.instance = this;
-        }
-        start() {
         }
     }
     Script.FlipperCameraController = FlipperCameraController;
@@ -455,8 +450,9 @@ var Script;
             this.state = FlipperState.IS_SUCKING;
             this.currentTarget = undefined;
             this.mouthPosNode.addChild(_pufferFish.node);
-            _pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
-            _pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
+            _pufferFish.node.mtxLocal.translation = ƒ.Vector3.ZERO();
+            //_pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
+            //_pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
         }
         eatFish(_fish) {
             this.satiety += this.satietyGainPerFish;
@@ -664,7 +660,7 @@ var Script;
                 }
                 this.checkCollisions();
                 this.hunger();
-                this.updateBar();
+                this.updateBars();
                 this.handleMovementKeys();
                 this.handleCall();
             };
@@ -673,6 +669,7 @@ var Script;
         }
         start() {
             this.satietyBar = document.querySelector("#pawn-satiety-bar");
+            this.callBar = document.querySelector("#pawn-call-bar");
             let timer = new ƒ.Timer(new ƒ.Time(), 5 * 1000, 0, this.dumpRecycler);
         }
         handleCall() {
@@ -693,8 +690,10 @@ var Script;
             this.satiety -= this.callSatietyCost;
             this.callPreparedness = 0;
         }
-        updateBar() {
+        updateBars() {
             this.satietyBar.value = this.satiety;
+            this.callBar.value = this.callPreparedness;
+            this.callBar.style.setProperty('--progress-bar-color', 'green');
         }
         hunger() {
             this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;

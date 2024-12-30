@@ -136,7 +136,7 @@
                     "elapseSeconds": 0.10000000000000005,
                     "fishPrefabId": "Graph|2024-12-28T10:31:03.363Z|38094",
                     "pufferFishPrefabId": "Graph|2024-12-29T18:40:51.978Z|72551",
-                    "maxPufferFishChance": 0.4,
+                    "maxPufferFishChance": 0.33000000000000007,
                     "minSpawnRadius": 120,
                     "maxSpawnRadius": 180,
                     "maxFishAmount": 30
@@ -234,7 +234,7 @@
                           "satiety": 0.6599999999999998,
                           "dead": false,
                           "callSatietyCost": 0.2,
-                          "callRefillSpeedPerSecond": 0.025,
+                          "callRefillSpeedPerSecond": 0.05,
                           "callPreparedness": 1
                         }
                       }
@@ -762,6 +762,29 @@
                           },
                           {
                             "ƒ.Node": {
+                              "name": "MouthPos",
+                              "active": true,
+                              "components": {
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[-0.003782898187637329, -0.038675084710121155, 0.776011049747467]",
+                                        "rotation": "[0, 89.99994273672982, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
+                            }
+                          },
+                          {
+                            "ƒ.Node": {
                               "name": "CameraRotator",
                               "active": true,
                               "components": {
@@ -770,7 +793,7 @@
                                     "ƒ.ComponentTransform": {
                                       "local": {
                                         "translation": "[0, 0, 0]",
-                                        "rotation": "[0, 0, 0]",
+                                        "rotation": "[0, -90, 0]",
                                         "scaling": "[1, 1, 1]"
                                       },
                                       "Component": {
@@ -784,7 +807,7 @@
                                 {
                                   "ƒ.Node": {
                                     "name": "FlipperCamera",
-                                    "active": true,
+                                    "active": false,
                                     "components": {
                                       "ComponentCamera": [
                                         {
@@ -797,11 +820,11 @@
                                             },
                                             "backgroundEnabled": true,
                                             "projection": "central",
-                                            "fieldOfView": 80,
+                                            "fieldOfView": 54,
                                             "direction": "diagonal",
-                                            "near": 1,
+                                            "near": 0.25000000000000006,
                                             "far": 3500,
-                                            "aspect": 1.7770000000000001,
+                                            "aspect": 0.9999999999999998,
                                             "pivot": {
                                               "translation": "[0, 0, 0]",
                                               "rotation": "[0, 0, 0]",
@@ -817,22 +840,10 @@
                                         {
                                           "ƒ.ComponentTransform": {
                                             "local": {
-                                              "translation": "[0, 1.0675852298736572, -4.890320301055908]",
-                                              "rotation": "[12.640732573814189, 0, 0]",
+                                              "translation": "[-1.4442179095459798e-16, 0, -2.531731605529785]",
+                                              "rotation": "[0, 0, 0]",
                                               "scaling": "[1, 1, 1]"
                                             },
-                                            "Component": {
-                                              "active": true
-                                            }
-                                          }
-                                        }
-                                      ],
-                                      "ComponentFog": [
-                                        {
-                                          "ƒ.ComponentFog": {
-                                            "color": "[0.19607843137254902, 0.2235294117647059, 0.5607843137254902, 1]",
-                                            "near": 0.5,
-                                            "far": 400,
                                             "Component": {
                                               "active": true
                                             }
@@ -853,29 +864,6 @@
                                   }
                                 }
                               ]
-                            }
-                          },
-                          {
-                            "ƒ.Node": {
-                              "name": "MouthPos",
-                              "active": true,
-                              "components": {
-                                "ComponentTransform": [
-                                  {
-                                    "ƒ.ComponentTransform": {
-                                      "local": {
-                                        "translation": "[-0.20789822936058044, -0.038675084710121155, 0.5439391136169434]",
-                                        "rotation": "[0, 89.99994273672982, 0]",
-                                        "scaling": "[1, 1, 1]"
-                                      },
-                                      "Component": {
-                                        "active": true
-                                      }
-                                    }
-                                  }
-                                ]
-                              },
-                              "children": []
                             }
                           }
                         ]

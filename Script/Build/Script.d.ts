@@ -63,9 +63,8 @@ declare namespace Script {
     class FlipperCameraController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         static instance: FlipperCameraController;
+        private viewport;
         constructor();
-        start(): void;
-        update: (_event: Event) => void;
     }
 }
 declare namespace Script {
@@ -174,6 +173,7 @@ declare namespace Script {
         satiety: number;
         dead: boolean;
         satietyBar: HTMLProgressElement;
+        callBar: HTMLProgressElement;
         callSatietyCost: number;
         callRefillSpeedPerSecond: number;
         private callPreparedness;
@@ -183,7 +183,7 @@ declare namespace Script {
         update: (_event: Event) => void;
         private handleCall;
         private callFlipper;
-        private updateBar;
+        private updateBars;
         private hunger;
         private die;
         private checkCollisions;

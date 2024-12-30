@@ -12,8 +12,26 @@ dialog {
 }
 
 canvas.fullscreen {
+  z-index: 9 !important;
+
   width: 100vw;
   height: 100vh;
+}
+
+#suck-cam{
+  position: fixed;
+  /* Fixiert das Element relativ zum Browserfenster */
+  bottom: 3%;
+  /* Setzt das Element an den unteren Rand des Bildschirms */
+  left: 61.8%;
+  /* Positioniert das Element horizontal in der Mitte */
+  transform: translateX(61.8%);
+  /* Korrigiert die Position, damit es perfekt zentriert ist */
+  z-index: 99 !important;
+  width: 18%;
+  height: 18%;
+
+   /*background-color: rgba(0, 0, 0, 0.5);*/
 }
 
 /* Definiere eine CSS-Variable für die Farbe des Fortschrittsbalkens */
@@ -26,6 +44,20 @@ canvas.fullscreen {
   position: fixed;
   /* Fixiert das Element relativ zum Browserfenster */
   bottom: 1%;
+  /* Setzt das Element an den unteren Rand des Bildschirms */
+  left: 50%;
+  /* Positioniert das Element horizontal in der Mitte */
+  transform: translateX(-50%);
+  /* Korrigiert die Position, damit es perfekt zentriert ist */
+  z-index: 99 !important;
+  width: 18%;
+  height: 2.25%;
+}
+
+#pawn-call-bar {
+  position: fixed;
+  /* Fixiert das Element relativ zum Browserfenster */
+  bottom: 3%;
   /* Setzt das Element an den unteren Rand des Bildschirms */
   left: 50%;
   /* Positioniert das Element horizontal in der Mitte */
