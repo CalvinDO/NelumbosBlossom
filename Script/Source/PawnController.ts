@@ -57,6 +57,10 @@ namespace Script {
     // Update function 
     public override update = (_event: Event): void => {
 
+      if (WinTrigger.instance.gameWon) {
+        return;
+      }
+
       if (this.dead) {
         return;
       }
@@ -122,6 +126,9 @@ namespace Script {
 
       this.node.getParent().removeChild(this.node);
       this.dead = true;
+
+      ƒ.Loop.stop();
+      window.alert("You died");
     }
 
     private checkCollisions(): void {
@@ -217,7 +224,7 @@ namespace Script {
       //console.log(this.rb.getVelocity().magnitude);
     }
 
-    private accelerateTowards(_direction: ƒ.Vector3) {
+    public accelerateTowards(_direction: ƒ.Vector3) {
       _direction.normalize();
       let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001);
       this.rb.applyForce(acceleration);

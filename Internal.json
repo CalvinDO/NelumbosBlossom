@@ -170,7 +170,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[-18.593021392822266, -848.5391235351562, -36.75395202636719]",
+                      "translation": "[-18.593021392822266, -795.8192749023438, -36.75395202636719]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[315.6749267578125, 76.01204681396484, 333.2174987792969]"
                     },
@@ -190,7 +190,54 @@
                 }
               ]
             },
-            "children": []
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "PawnGoal",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "FlipperGoal",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              }
+            ]
           }
         },
         {

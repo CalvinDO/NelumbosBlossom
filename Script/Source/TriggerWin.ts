@@ -24,10 +24,6 @@ namespace Script {
                 this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
                 this.rb.collisionMask = 108;
             }
-
-            console.log(this.rb.getPosition());
-            console.log(this.node.mtxWorld.translation);
-
         }
     }
 }

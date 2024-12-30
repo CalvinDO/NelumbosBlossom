@@ -103,7 +103,7 @@ declare namespace Script {
         private followTarget;
         private searchTarget;
         private searchHuntTarget;
-        private accelerateTowards;
+        accelerateTowards(_direction: ƒ.Vector3): void;
         private updateBar;
         private hunger;
         private die;
@@ -189,7 +189,7 @@ declare namespace Script {
         private checkCollisions;
         private eatFish;
         private handleMovementKeys;
-        private accelerateTowards;
+        accelerateTowards(_direction: ƒ.Vector3): void;
     }
 }
 declare namespace Script {
@@ -241,9 +241,13 @@ declare namespace Script {
     class WinTrigger extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         static instance: WinTrigger;
+        gameWon: boolean;
+        private pawnGoal;
+        private flipperGoal;
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private riseUp;
         private winGame;
     }
 }

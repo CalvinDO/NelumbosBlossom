@@ -295,6 +295,9 @@ var Script;
             this.state = FlipperState.IS_FOLLOWING_PAWN;
             // Update function 
             this.update = (_event) => {
+                if (Script.WinTrigger.instance.gameWon) {
+                    return;
+                }
                 if (this.dead) {
                     return;
                 }
@@ -415,6 +418,8 @@ var Script;
         die() {
             this.node.getParent().removeChild(this.node);
             this.dead = true;
+            ƒ.Loop.stop();
+            window.alert("You died");
         }
         checkCollisions() {
             for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {
@@ -652,6 +657,9 @@ var Script;
             };
             // Update function 
             this.update = (_event) => {
+                if (Script.WinTrigger.instance.gameWon) {
+                    return;
+                }
                 if (this.dead) {
                     return;
                 }
@@ -704,6 +712,8 @@ var Script;
         die() {
             this.node.getParent().removeChild(this.node);
             this.dead = true;
+            ƒ.Loop.stop();
+            window.alert("You died");
         }
         checkCollisions() {
             for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {
@@ -897,8 +907,6 @@ var Script;
                     this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
                     this.rb.collisionMask = 108;
                 }
-                console.log(this.rb.getPosition());
-                console.log(this.node.mtxWorld.translation);
             };
         }
         start() {
@@ -918,6 +926,10 @@ var Script;
             super();
             // Update function 
             this.update = (_event) => {
+                if (this.gameWon) {
+                    this.riseUp();
+                    return;
+                }
                 let y = this.node.mtxWorld.translation.y;
                 if (Script.PawnController.instance.node.mtxWorld.translation.y < y && Script.FlipperController.instance.node.mtxWorld.translation.y < y) {
                     this.winGame();
@@ -928,10 +940,31 @@ var Script;
         }
         start() {
         }
+        riseUp() {
+            this.node.mtxLocal.translateY(20 * ƒ.Loop.timeFrameReal * 0.001);
+            this.node.mtxLocal.rotateY(90 * ƒ.Loop.timeFrameReal * 0.001);
+            Script.SurfaceCollider.instance.node.activate(false);
+            try {
+                Script.PawnController.instance.accelerateTowards(Script.PawnController.instance.node.mtxWorld.getTranslationTo(this.pawnGoal.mtxWorld).normalize().scale(100 * ƒ.Loop.timeFrameReal * 0.001));
+                Script.FlipperController.instance.accelerateTowards(Script.FlipperController.instance.node.mtxWorld.getTranslationTo(this.flipperGoal.mtxWorld).normalize().scale(100 * ƒ.Loop.timeFrameReal * 0.001));
+            }
+            catch (error) {
+                console.warn(error);
+            }
+        }
         winGame() {
+            this.gameWon = true;
+            console.log("game wonm");
+            this.pawnGoal = this.node.getChild(0);
+            this.flipperGoal = this.node.getChild(1);
+            this.pawnGoal.mtxLocal.translation = Script.PawnController.instance.node.mtxWorld.translation;
+            this.flipperGoal.mtxLocal.translation = new ƒ.Vector3(-this.pawnGoal.mtxLocal.translation.x, this.pawnGoal.mtxLocal.translation.y, -this.pawnGoal.mtxLocal.translation.z);
+            this.node.mtxLocal.translateY(20);
+            /*
+            ƒ.Loop.stop();
             window.alert("game Won");
             console.log("game won");
-            ƒ.Loop.stop();
+            */
         }
     }
     Script.WinTrigger = WinTrigger;
