@@ -179,6 +179,7 @@ declare namespace Script {
         private callPreparedness;
         constructor();
         start(): void;
+        private dumpRecycler;
         update: (_event: Event) => void;
         private handleCall;
         private callFlipper;

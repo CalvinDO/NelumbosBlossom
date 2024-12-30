@@ -283,6 +283,8 @@ namespace Script {
             this.satiety = this.satiety > 1 ? 1 : this.satiety;
 
             FishSpawner.instance.node.removeChild(_fish.node);
+            ƒ.Recycler.store(_fish.node);
+
             _fish = undefined;
         }
     }

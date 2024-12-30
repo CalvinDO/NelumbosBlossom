@@ -31,19 +31,22 @@ namespace Script {
 
                 } else {
 
-                    if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
+                    if (distance > (this.maxSpawnRadius)) {
 
                         let pufferFish: PufferFishController = fish.getComponent(PufferFishController);
 
                         if (!pufferFish || !pufferFish.isImmobilized) {
                             this.node.removeChild(fish);
                             root.removeChild(fish);
-                            fish = undefined;
+                            //fish = undefined;
+                            ƒ.Recycler.store(fish);
                         }
 
                     }
                 }
             });
+
+
 
             return amount;
         }
@@ -110,7 +113,6 @@ namespace Script {
             console.log(currentPufferfishChance);
             try {
                 if (Math.random() < currentPufferfishChance) {
-
                     newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.pufferFishPrefabId]);
                 } else {
 

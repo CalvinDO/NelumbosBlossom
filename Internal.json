@@ -230,7 +230,7 @@
                           "dragExponent": 2.0000000000000027,
                           "mouseTorqueFactor": 0.01000000000000001,
                           "satietyGainPerFish": 0.15000000000000002,
-                          "hungerPerSecond": 0.006000000000000001,
+                          "hungerPerSecond": 0.006,
                           "satiety": 0.6599999999999998,
                           "dead": false,
                           "callSatietyCost": 0.2,

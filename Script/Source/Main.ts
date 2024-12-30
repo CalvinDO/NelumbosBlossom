@@ -23,12 +23,16 @@ namespace Script {
     canvas.addEventListener("mousedown", canvas.requestPointerLock);
     canvas.addEventListener("mouseup", function (_event: MouseEvent) { if (_event.button == 1) { document.exitPointerLock(); } });
 
-    ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0001;
-    ƒ.Physics.settings.sleepingVelocityThreshold = 0.0001;
+   
+
+    ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0005;
+    ƒ.Physics.settings.sleepingVelocityThreshold = 0.0005;
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
   }
+
+  
 
   function setIngameCameraAndViewport() {
 
@@ -44,6 +48,11 @@ namespace Script {
 
     ƒ.Physics.simulate();  // if physics is included and used
     viewport.draw();
+
+
+    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Q])) {
+      ƒ.Recycler.dumpAll();
+    }
 
     ƒ.AudioManager.default.update();
 

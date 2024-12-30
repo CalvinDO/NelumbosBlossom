@@ -38,7 +38,17 @@ namespace Script {
     }
 
     public override start(): void {
+
       this.satietyBar = <HTMLProgressElement>document.querySelector("#pawn-satiety-bar");
+
+      let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), 5 * 1000, 0, this.dumpRecycler);
+
+    }
+    private dumpRecycler = async (_event?: ƒ.EventTimer): Promise<void> => {
+
+      console.log("Recycler dumpAll");
+      
+      ƒ.Recycler.dumpAll();
     }
 
     // Update function 
@@ -125,6 +135,8 @@ namespace Script {
       this.satiety = this.satiety > 1 ? 1 : this.satiety;
 
       FishSpawner.instance.node.removeChild(_fish.node);
+      ƒ.Recycler.store(_fish.node);
+
       _fish = undefined;
     }
 

@@ -170,12 +170,13 @@ var Script;
                     amount++;
                 }
                 else {
-                    if (distance > (this.maxSpawnRadius + this.minSpawnRadius)) {
+                    if (distance > (this.maxSpawnRadius)) {
                         let pufferFish = fish.getComponent(Script.PufferFishController);
                         if (!pufferFish || !pufferFish.isImmobilized) {
                             this.node.removeChild(fish);
                             Script.root.removeChild(fish);
-                            fish = undefined;
+                            //fish = undefined;
+                            ƒ.Recycler.store(fish);
                         }
                     }
                 }
@@ -461,6 +462,7 @@ var Script;
             this.satiety += this.satietyGainPerFish;
             this.satiety = this.satiety > 1 ? 1 : this.satiety;
             Script.FishSpawner.instance.node.removeChild(_fish.node);
+            ƒ.Recycler.store(_fish.node);
             _fish = undefined;
         }
     }
@@ -538,8 +540,8 @@ var Script;
         canvas.addEventListener("mouseup", function (_event) { if (_event.button == 1) {
             document.exitPointerLock();
         } });
-        ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0001;
-        ƒ.Physics.settings.sleepingVelocityThreshold = 0.0001;
+        ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0005;
+        ƒ.Physics.settings.sleepingVelocityThreshold = 0.0005;
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
@@ -552,6 +554,9 @@ var Script;
         Script.deltaTime = ƒ.Loop.timeFrameReal * 0.001;
         ƒ.Physics.simulate(); // if physics is included and used
         viewport.draw();
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Q])) {
+            ƒ.Recycler.dumpAll();
+        }
         ƒ.AudioManager.default.update();
     }
     function getRandomVector() {
@@ -645,6 +650,10 @@ var Script;
             this.callSatietyCost = 0.2;
             this.callRefillSpeedPerSecond = 0.025;
             this.callPreparedness = 1;
+            this.dumpRecycler = async (_event) => {
+                console.log("Recycler dumpAll");
+                ƒ.Recycler.dumpAll();
+            };
             // Update function 
             this.update = (_event) => {
                 if (this.dead) {
@@ -664,6 +673,7 @@ var Script;
         }
         start() {
             this.satietyBar = document.querySelector("#pawn-satiety-bar");
+            let timer = new ƒ.Timer(new ƒ.Time(), 5 * 1000, 0, this.dumpRecycler);
         }
         handleCall() {
             this.callPreparedness += ƒ.Loop.timeFrameReal * 0.001 * this.callRefillSpeedPerSecond;
@@ -708,6 +718,7 @@ var Script;
             this.satiety += this.satietyGainPerFish;
             this.satiety = this.satiety > 1 ? 1 : this.satiety;
             Script.FishSpawner.instance.node.removeChild(_fish.node);
+            ƒ.Recycler.store(_fish.node);
             _fish = undefined;
         }
         /*
