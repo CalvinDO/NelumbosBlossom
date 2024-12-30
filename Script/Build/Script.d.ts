@@ -24,18 +24,19 @@ declare namespace Script {
     class FishController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         diceTargetElapseSeconds: number;
-        speed: number;
+        acceleration: number;
         rb: ƒ.ComponentRigidbody;
         currentDirection: ƒ.Vector3;
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private lookAtSpeed;
         private checkCollisions;
-        onCollision(): void;
-        private preventSurfacePenetration;
+        onCourseOfCollision(): void;
         move(): void;
         diceNewTarget: (_event?: ƒ.EventTimer) => Promise<void>;
-        private calculateNewTarget;
+        private calculateNewDirection;
+        private dodge;
     }
 }
 declare namespace Script {

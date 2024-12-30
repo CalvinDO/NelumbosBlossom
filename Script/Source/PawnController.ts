@@ -168,7 +168,7 @@ namespace Script {
 
     private accelerateTowards(_direction: ƒ.Vector3) {
       _direction.normalize();
-      let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * deltaTime * 10);
+      let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * deltaTime);
       this.rb.applyForce(acceleration);
     }
   }

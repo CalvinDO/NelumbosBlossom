@@ -111,7 +111,7 @@ namespace Script {
             }
 
             newFish.mtxLocal.translation = _translation;
-            newFish.mtxLocal.rotation = getRandomVector().scale(108);
+            //newFish.mtxLocal.rotation = getRandomVector().scale(108);
 
             this.node.addChild(newFish);
         }

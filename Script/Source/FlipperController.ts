@@ -138,7 +138,7 @@ namespace Script {
 
                 let possibleTarget: ƒ.Node = sortedArray[sortedArrayIndex];
 
-                if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 1000).rigidbodyComponent.node == possibleTarget) {
+                if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 3000).rigidbodyComponent.node == possibleTarget) {
                     this.currentTarget = possibleTarget;
                     return;
                 }

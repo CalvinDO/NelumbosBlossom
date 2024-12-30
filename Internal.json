@@ -133,7 +133,7 @@
                     "active": true,
                     "message": "CustomComponentUpdatedScript added to ",
                     "useRenderEvent": false,
-                    "elapseSeconds": 0.5,
+                    "elapseSeconds": 0.10000000000000005,
                     "fishPrefabId": "Graph|2024-12-28T10:31:03.363Z|38094",
                     "pufferFishPrefabId": "Graph|2024-12-29T18:40:51.978Z|72551",
                     "maxPufferFishChance": 1,
@@ -1110,7 +1110,12 @@
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
               "diceTargetElapseSeconds": 10,
-              "speed": 0.03
+              "acceleration": 0.002,
+              "currentDirection": {
+                "x": -0.006691371083087816,
+                "y": -0.4009894150610447,
+                "z": -0.10210746396158621
+              }
             }
           }
         ],
@@ -1121,7 +1126,7 @@
               "friction": 0,
               "restitution": 0,
               "mass": 0.000010000000000000026,
-              "dampTranslation": 10,
+              "dampTranslation": 1,
               "dampRotation": 0,
               "effectGravity": 0,
               "typeBody": "DYNAMIC",
@@ -1143,7 +1148,7 @@
       "children": [
         {
           "ƒ.Node": {
-            "name": "Mesh",
+            "name": "FishRotating",
             "active": true,
             "components": {
               "ComponentTransform": [
@@ -1151,7 +1156,7 @@
                   "ƒ.ComponentTransform": {
                     "local": {
                       "translation": "[0, 0, 0]",
-                      "rotation": "[0, 180, 0]",
+                      "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
                     "Component": {
@@ -1163,9 +1168,33 @@
             },
             "children": [
               {
-                "ƒ.GraphInstance": {
-                  "deserializeFromSource": true,
-                  "idSource": "GraphGLTF|2024-12-28T10:23:36.176Z|90012"
+                "ƒ.Node": {
+                  "name": "Mesh",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 180, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-12-28T10:23:36.176Z|90012"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -1280,7 +1309,7 @@
               "friction": 0,
               "restitution": 0,
               "mass": 0.01,
-              "dampTranslation": 10.000000000000002,
+              "dampTranslation": 1,
               "dampRotation": 0,
               "effectGravity": 0,
               "typeBody": "DYNAMIC",
@@ -1305,7 +1334,12 @@
               "message": "CustomComponentUpdatedScript added to ",
               "useRenderEvent": false,
               "diceTargetElapseSeconds": 10,
-              "speed": 0.03
+              "acceleration": 0.002,
+              "currentDirection": {
+                "x": -0.5844664719445967,
+                "y": -0.9959870766898073,
+                "z": 0.38970220629618924
+              }
             }
           }
         ]
@@ -1313,7 +1347,7 @@
       "children": [
         {
           "ƒ.Node": {
-            "name": "Mesh",
+            "name": "PufferfishRotatable",
             "active": true,
             "components": {
               "ComponentTransform": [
@@ -1321,7 +1355,7 @@
                   "ƒ.ComponentTransform": {
                     "local": {
                       "translation": "[0, 0, 0]",
-                      "rotation": "[0, 180, 0]",
+                      "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
                     "Component": {
@@ -1333,9 +1367,33 @@
             },
             "children": [
               {
-                "ƒ.GraphInstance": {
-                  "deserializeFromSource": true,
-                  "idSource": "GraphGLTF|2024-12-29T20:54:48.953Z|06950"
+                "ƒ.Node": {
+                  "name": "Mesh",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 180, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-12-29T20:54:48.953Z|06950"
+                      }
+                    }
+                  ]
                 }
               }
             ]

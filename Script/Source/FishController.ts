@@ -4,10 +4,11 @@ namespace Script {
     ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
     export class FishController extends CustomComponentUpdatedScript {
+
         public static readonly iSubclass: number = ƒ.Component.registerSubclass(FishController);
 
         public diceTargetElapseSeconds: number = 0;
-        public speed: number = 0;
+        public acceleration: number = 0;
 
         public rb: ƒ.ComponentRigidbody;
         //private currentTargetPos: ƒ.Vector3;
@@ -25,6 +26,7 @@ namespace Script {
             this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
 
             let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), this.diceTargetElapseSeconds * 1000, 0, this.diceNewTarget);
+            this.currentDirection = getRandomVector();
         }
 
         // Update function 
@@ -39,46 +41,56 @@ namespace Script {
             this.move();
 
             this.checkCollisions();
+
+            this.lookAtSpeed();
+        }
+
+        private lookAtSpeed(): void {
+
+            if (this.rb.getVelocity().magnitude > 0.001) {
+                this.node.getChild(0).mtxLocal.lookAt(this.rb.getVelocity()), ƒ.Vector3.Y();
+            }
         }
 
         private checkCollisions() {
 
-            if (this.rb.collisions.length > 0) {
-                this.onCollision();
+            if (ƒ.Physics.raycast(this.rb.getPosition(), this.rb.getVelocity(), 2, true).hit) {
+                this.onCourseOfCollision();
             }
         }
 
-        public onCollision() {
-            this.calculateNewTarget();
+        public onCourseOfCollision() {
+            this.dodge();
         }
 
-        private preventSurfacePenetration() {
-            if (this.node.mtxWorld.translation.y > -1) {
-                this.node.mtxLocal.lookAt(ƒ.Vector3.Y(-1));
-            }
-        }
 
         public move(): void {
-            if (this.rb)
-                this.rb.applyForce(ƒ.Vector3.SCALE(this.currentDirection, this.speed * ƒ.Loop.timeFrameReal * 0.001));
 
-            //this.node.mtxLocal.translateZ(this.speed * ƒ.Loop.timeFrameReal * 0.001, true);
+            if (this.rb) {
+
+                this.rb.applyForce(ƒ.Vector3.SCALE(this.currentDirection, this.acceleration * ƒ.Loop.timeFrameReal * 0.001));
+            }
+
+            //this.node.mtxLocal.translate(ƒ.Vector3.SCALE(ƒ.Vector3.SUM(this.rb.getPosition(), this.currentDirection), this.acceleration * ƒ.Loop.timeFrameReal * 0.001));
         }
 
         public diceNewTarget = async (_event?: ƒ.EventTimer): Promise<void> => {
 
             if ((Math.random()) > 0.5) {
-
-                this.calculateNewTarget();
+                this.calculateNewDirection();
             }
         }
 
-        private calculateNewTarget() {
+        private calculateNewDirection(): void {
 
-            this.currentDirection = ƒ.Vector3.SUM(this.node.mtxLocal.translation, getRandomVector());
+            this.currentDirection = getRandomVector();
             this.currentDirection.normalize();
+        }
 
-            this.node.getChild(0).mtxLocal.lookAt(this.currentDirection);
+        private dodge(): void {
+            console.log("dodge")
+            this.calculateNewDirection();
+            //this.currentDirection = ƒ.Vector3.SCALE(this.currentDirection, -1);
         }
     }
 }
