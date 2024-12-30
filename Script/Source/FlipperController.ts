@@ -7,7 +7,8 @@ namespace Script {
     export enum FlipperState {
         IS_FOLLOWING_PAWN = 0,
         IS_HUNTING = 1,
-        IS_SUCKING = 2
+        IS_SUCKING = 2,
+        IS_CALLED = 3
     }
 
     export class FlipperController extends CustomComponentUpdatedScript {
@@ -36,6 +37,8 @@ namespace Script {
 
         public minPawnFollowDistance: number = 0;
 
+        public arriveDistance: number = 5;
+
         private currentTarget: ƒ.Node;
 
         private suckedFish: PufferFishController;
@@ -43,7 +46,6 @@ namespace Script {
 
         private mouthPosNode: ƒ.Node;
         private state: FlipperState = FlipperState.IS_FOLLOWING_PAWN;
-
 
 
         constructor() {
@@ -76,14 +78,19 @@ namespace Script {
             }
 
 
-            this.checkCollisions();
-
             this.hunger();
             this.updateBar();
             this.checkDeath();
-
             this.followTarget();
 
+            this.checkCollisions();
+        }
+
+        public recieveCall(): void {
+
+            this.disturbSucking();
+
+            this.state = FlipperState.IS_CALLED;
         }
 
         private checkDeath(): void {
@@ -100,8 +107,13 @@ namespace Script {
             }
 
             switch (this.state) {
+
                 case FlipperState.IS_SUCKING:
                     return;
+                case FlipperState.IS_CALLED:
+                    if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.arriveDistance) {
+                        this.state = FlipperState.IS_FOLLOWING_PAWN;
+                    }
                 case FlipperState.IS_FOLLOWING_PAWN:
                     if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.minPawnFollowDistance) {
                         break;
@@ -117,6 +129,7 @@ namespace Script {
             switch (this.state) {
                 case FlipperState.IS_SUCKING:
                     return;
+                case FlipperState.IS_CALLED:
                 case FlipperState.IS_FOLLOWING_PAWN:
                     this.currentTarget = PawnController.instance.node;
                     break;
@@ -158,7 +171,7 @@ namespace Script {
 
         private accelerateTowards(_direction: ƒ.Vector3) {
             _direction.normalize();
-            let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * deltaTime);
+            let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001);
             this.rb.applyForce(acceleration);
         }
 
@@ -184,6 +197,10 @@ namespace Script {
             }
 
             this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
+
+            if (this.state == FlipperState.IS_CALLED) {
+                return;
+            }
 
             if (this.satiety <= this.satietyForHunting) {
 
@@ -227,16 +244,20 @@ namespace Script {
 
         private disturbSucking(): void {
 
-            if (this.state == FlipperState.IS_SUCKING) {
-                this.state = FlipperState.IS_FOLLOWING_PAWN;
-                try {
-                    this.mouthPosNode.removeChild(this.suckedFish.node);
-                    this.suckedFish = undefined;
-
-                } catch (error) {
-                    console.warn(error);
-                }
+            if (this.state != FlipperState.IS_SUCKING) {
+                return;
             }
+
+            this.state = FlipperState.IS_FOLLOWING_PAWN;
+
+            try {
+                this.mouthPosNode.removeChild(this.suckedFish.node);
+                this.suckedFish = undefined;
+
+            } catch (error) {
+                console.warn(error);
+            }
+
         }
 
         private startSuckingFish(_pufferFish: PufferFishController) {

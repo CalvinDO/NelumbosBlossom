@@ -107,7 +107,7 @@ namespace Script {
             let newFish: ƒ.GraphInstance;
 
             let currentPufferfishChance: number = (_translation.y / -885) * this.maxPufferFishChance;
-
+            console.log(currentPufferfishChance);
             try {
                 if (Math.random() < currentPufferfishChance) {
 

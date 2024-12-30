@@ -24,6 +24,11 @@ namespace Script {
 
     public satietyBar: HTMLProgressElement;
 
+    public callSatietyCost: number = 0.2;
+    public callRefillSpeedPerSecond: number = 0.025;
+
+    private callPreparedness: number = 1;
+
 
     constructor() {
       super();
@@ -53,6 +58,33 @@ namespace Script {
       this.updateBar();
 
       this.handleMovementKeys();
+
+      this.handleCall();
+    }
+
+    private handleCall(): void {
+
+      this.callPreparedness += ƒ.Loop.timeFrameReal * 0.001 * this.callRefillSpeedPerSecond;
+      this.callPreparedness = this.callPreparedness > 1 ? 1 : this.callPreparedness;
+
+      if (this.callPreparedness < 1) {
+        return;
+      }
+
+      if (this.satiety - this.callSatietyCost <= 0) {
+        return;
+      }
+
+      if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.E])) {
+        this.callFlipper();
+      }
+    }
+    private callFlipper(): void {
+
+      FlipperController.instance.recieveCall();
+
+      this.satiety -= this.callSatietyCost;
+      this.callPreparedness = 0;
     }
 
     private updateBar(): void {
@@ -168,7 +200,7 @@ namespace Script {
 
     private accelerateTowards(_direction: ƒ.Vector3) {
       _direction.normalize();
-      let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * deltaTime);
+      let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001);
       this.rb.applyForce(acceleration);
     }
   }

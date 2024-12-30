@@ -227,6 +227,7 @@ var Script;
         async spawnFish(_translation) {
             let newFish;
             let currentPufferfishChance = (_translation.y / -885) * this.maxPufferFishChance;
+            console.log(currentPufferfishChance);
             try {
                 if (Math.random() < currentPufferfishChance) {
                     newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
@@ -278,6 +279,7 @@ var Script;
         FlipperState[FlipperState["IS_FOLLOWING_PAWN"] = 0] = "IS_FOLLOWING_PAWN";
         FlipperState[FlipperState["IS_HUNTING"] = 1] = "IS_HUNTING";
         FlipperState[FlipperState["IS_SUCKING"] = 2] = "IS_SUCKING";
+        FlipperState[FlipperState["IS_CALLED"] = 3] = "IS_CALLED";
     })(FlipperState = Script.FlipperState || (Script.FlipperState = {}));
     class FlipperController extends Script.CustomComponentUpdatedScript {
         static { this.iSubclass = ƒ.Component.registerSubclass(FlipperController); }
@@ -293,6 +295,7 @@ var Script;
             this.dead = false;
             this.targetSearchIntervalSeconds = 0;
             this.minPawnFollowDistance = 0;
+            this.arriveDistance = 5;
             this.state = FlipperState.IS_FOLLOWING_PAWN;
             // Update function 
             this.update = (_event) => {
@@ -305,16 +308,17 @@ var Script;
                 if (!this.mouthPosNode) {
                     this.mouthPosNode = this.node.getChildrenByName("FlipperRotational")[0].getChildrenByName("MouthPos")[0];
                 }
-                this.checkCollisions();
                 this.hunger();
                 this.updateBar();
                 this.checkDeath();
                 this.followTarget();
+                this.checkCollisions();
             };
             this.searchTarget = (_event) => {
                 switch (this.state) {
                     case FlipperState.IS_SUCKING:
                         return;
+                    case FlipperState.IS_CALLED:
                     case FlipperState.IS_FOLLOWING_PAWN:
                         this.currentTarget = Script.PawnController.instance.node;
                         break;
@@ -330,6 +334,10 @@ var Script;
             this.satietyBar = document.querySelector("#flipper-satiety-bar");
             let timer = new ƒ.Timer(new ƒ.Time(), this.targetSearchIntervalSeconds * 1000, 0, this.searchTarget);
         }
+        recieveCall() {
+            this.disturbSucking();
+            this.state = FlipperState.IS_CALLED;
+        }
         checkDeath() {
             if (this.satiety <= 0) {
                 this.die();
@@ -342,6 +350,10 @@ var Script;
             switch (this.state) {
                 case FlipperState.IS_SUCKING:
                     return;
+                case FlipperState.IS_CALLED:
+                    if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.arriveDistance) {
+                        this.state = FlipperState.IS_FOLLOWING_PAWN;
+                    }
                 case FlipperState.IS_FOLLOWING_PAWN:
                     if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.minPawnFollowDistance) {
                         break;
@@ -373,7 +385,7 @@ var Script;
         }
         accelerateTowards(_direction) {
             _direction.normalize();
-            let acceleration = _direction.clone.scale(this.acceleration * Script.deltaTime);
+            let acceleration = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001);
             this.rb.applyForce(acceleration);
         }
         updateBar() {
@@ -391,6 +403,9 @@ var Script;
                 return;
             }
             this.satiety -= this.hungerPerSecond * ƒ.Loop.timeFrameReal * 0.001;
+            if (this.state == FlipperState.IS_CALLED) {
+                return;
+            }
             if (this.satiety <= this.satietyForHunting) {
                 if (this.state == FlipperState.IS_FOLLOWING_PAWN) {
                     this.currentTarget = undefined;
@@ -421,15 +436,16 @@ var Script;
             }
         }
         disturbSucking() {
-            if (this.state == FlipperState.IS_SUCKING) {
-                this.state = FlipperState.IS_FOLLOWING_PAWN;
-                try {
-                    this.mouthPosNode.removeChild(this.suckedFish.node);
-                    this.suckedFish = undefined;
-                }
-                catch (error) {
-                    console.warn(error);
-                }
+            if (this.state != FlipperState.IS_SUCKING) {
+                return;
+            }
+            this.state = FlipperState.IS_FOLLOWING_PAWN;
+            try {
+                this.mouthPosNode.removeChild(this.suckedFish.node);
+                this.suckedFish = undefined;
+            }
+            catch (error) {
+                console.warn(error);
             }
         }
         startSuckingFish(_pufferFish) {
@@ -626,6 +642,9 @@ var Script;
             this.hungerPerSecond = 0;
             this.satiety = 0.5;
             this.dead = false;
+            this.callSatietyCost = 0.2;
+            this.callRefillSpeedPerSecond = 0.025;
+            this.callPreparedness = 1;
             // Update function 
             this.update = (_event) => {
                 if (this.dead) {
@@ -638,12 +657,31 @@ var Script;
                 this.hunger();
                 this.updateBar();
                 this.handleMovementKeys();
+                this.handleCall();
             };
             this.singleton = true;
             PawnController.instance = this;
         }
         start() {
             this.satietyBar = document.querySelector("#pawn-satiety-bar");
+        }
+        handleCall() {
+            this.callPreparedness += ƒ.Loop.timeFrameReal * 0.001 * this.callRefillSpeedPerSecond;
+            this.callPreparedness = this.callPreparedness > 1 ? 1 : this.callPreparedness;
+            if (this.callPreparedness < 1) {
+                return;
+            }
+            if (this.satiety - this.callSatietyCost <= 0) {
+                return;
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.E])) {
+                this.callFlipper();
+            }
+        }
+        callFlipper() {
+            Script.FlipperController.instance.recieveCall();
+            this.satiety -= this.callSatietyCost;
+            this.callPreparedness = 0;
         }
         updateBar() {
             this.satietyBar.value = this.satiety;
@@ -731,7 +769,7 @@ var Script;
         }
         accelerateTowards(_direction) {
             _direction.normalize();
-            let acceleration = _direction.clone.scale(this.acceleration * Script.deltaTime);
+            let acceleration = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001);
             this.rb.applyForce(acceleration);
         }
     }
@@ -832,5 +870,60 @@ var Script;
         }
     }
     Script.SurfaceCollider = SurfaceCollider;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class TriggerWin extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(TriggerWin); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+                if (!this.rb) {
+                    this.rb = this.node.getComponent(ƒ.ComponentRigidbody);
+                    this.rb.collisionMask = 108;
+                }
+                console.log(this.rb.getPosition());
+                console.log(this.node.mtxWorld.translation);
+            };
+        }
+        start() {
+        }
+    }
+    Script.TriggerWin = TriggerWin;
+})(Script || (Script = {}));
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+var Script;
+///<reference path = "CustomComponentUpdatedScript.ts"/>
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class WinTrigger extends Script.CustomComponentUpdatedScript {
+        static { this.iSubclass = ƒ.Component.registerSubclass(WinTrigger); }
+        constructor() {
+            super();
+            // Update function 
+            this.update = (_event) => {
+                let y = this.node.mtxWorld.translation.y;
+                if (Script.PawnController.instance.node.mtxWorld.translation.y < y && Script.FlipperController.instance.node.mtxWorld.translation.y < y) {
+                    this.winGame();
+                }
+            };
+            this.singleton = true;
+            WinTrigger.instance = this;
+        }
+        start() {
+        }
+        winGame() {
+            window.alert("game Won");
+            console.log("game won");
+            ƒ.Loop.stop();
+        }
+    }
+    Script.WinTrigger = WinTrigger;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

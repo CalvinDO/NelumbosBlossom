@@ -86,7 +86,7 @@
                     "light": {
                       "ƒ.LightPoint": {
                         "color": "[1, 1, 1, 1]",
-                        "intensity": 4.599999999999998
+                        "intensity": 3.199999999999999
                       }
                     },
                     "Component": {
@@ -136,8 +136,8 @@
                     "elapseSeconds": 0.10000000000000005,
                     "fishPrefabId": "Graph|2024-12-28T10:31:03.363Z|38094",
                     "pufferFishPrefabId": "Graph|2024-12-29T18:40:51.978Z|72551",
-                    "maxPufferFishChance": 1,
-                    "minSpawnRadius": 60,
+                    "maxPufferFishChance": 0.4,
+                    "minSpawnRadius": 120,
                     "maxSpawnRadius": 180,
                     "maxFishAmount": 30
                   }
@@ -154,6 +154,38 @@
                     "Component": {
                       "active": true
                     }
+                  }
+                }
+              ]
+            },
+            "children": []
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "WinTrigger",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[-18.593021392822266, -848.5391235351562, -36.75395202636719]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[315.6749267578125, 76.01204681396484, 333.2174987792969]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "WinTrigger": [
+                {
+                  "Script.WinTrigger": {
+                    "active": true,
+                    "message": "CustomComponentUpdatedScript added to ",
+                    "useRenderEvent": false
                   }
                 }
               ]
@@ -200,7 +232,10 @@
                           "satietyGainPerFish": 0.15000000000000002,
                           "hungerPerSecond": 0.006000000000000001,
                           "satiety": 0.6599999999999998,
-                          "dead": false
+                          "dead": false,
+                          "callSatietyCost": 0.2,
+                          "callRefillSpeedPerSecond": 0.025,
+                          "callPreparedness": 1
                         }
                       }
                     ],
@@ -225,7 +260,7 @@
                           "friction": 0,
                           "restitution": 0.02,
                           "mass": 1,
-                          "dampTranslation": 0.5000000000000004,
+                          "dampTranslation": 1,
                           "dampRotation": 3,
                           "effectGravity": 0,
                           "typeBody": "DYNAMIC",
@@ -456,7 +491,7 @@
                                 "light": {
                                   "ƒ.LightPoint": {
                                     "color": "[1, 1, 1, 1]",
-                                    "intensity": 4
+                                    "intensity": 1
                                   }
                                 },
                                 "Component": {
@@ -502,7 +537,7 @@
                           "light": {
                             "ƒ.LightDirectional": {
                               "color": "[1, 1, 1, 1]",
-                              "intensity": 1.0599999999999994
+                              "intensity": 0.07999999999999938
                             }
                           },
                           "Component": {
@@ -598,7 +633,7 @@
                           "friction": 0,
                           "restitution": 0.02,
                           "mass": 1,
-                          "dampTranslation": 0.5000000000000004,
+                          "dampTranslation": 1.0000000000000004,
                           "dampRotation": 3,
                           "effectGravity": 0,
                           "typeBody": "DYNAMIC",
@@ -625,13 +660,14 @@
                           "acceleration": 350,
                           "satietyGainPerFish": 0.15000000000000002,
                           "hungerPerSecond": 0.005999999999999997,
-                          "suckingHungerFactor": 4,
+                          "suckingHungerFactor": 2,
                           "satiety": 0.66,
                           "satietyForHunting": 0.5,
                           "satietyForFollowingPawn": 0.8,
                           "dead": false,
                           "targetSearchIntervalSeconds": 1,
-                          "minPawnFollowDistance": 4,
+                          "minPawnFollowDistance": 5,
+                          "arriveDistance": 10,
                           "state": 0
                         }
                       }

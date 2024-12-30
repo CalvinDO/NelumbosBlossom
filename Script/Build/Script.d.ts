@@ -73,7 +73,8 @@ declare namespace Script {
     enum FlipperState {
         IS_FOLLOWING_PAWN = 0,
         IS_HUNTING = 1,
-        IS_SUCKING = 2
+        IS_SUCKING = 2,
+        IS_CALLED = 3
     }
     class FlipperController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
@@ -90,6 +91,7 @@ declare namespace Script {
         satietyBar: HTMLProgressElement;
         targetSearchIntervalSeconds: number;
         minPawnFollowDistance: number;
+        arriveDistance: number;
         private currentTarget;
         private suckedFish;
         private mouthPosNode;
@@ -97,6 +99,7 @@ declare namespace Script {
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        recieveCall(): void;
         private checkDeath;
         private followTarget;
         private searchTarget;
@@ -171,9 +174,14 @@ declare namespace Script {
         satiety: number;
         dead: boolean;
         satietyBar: HTMLProgressElement;
+        callSatietyCost: number;
+        callRefillSpeedPerSecond: number;
+        private callPreparedness;
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private handleCall;
+        private callFlipper;
         private updateBar;
         private hunger;
         private die;
@@ -217,5 +225,24 @@ declare namespace Script {
         constructor();
         start(): void;
         update: (_event: Event) => void;
+    }
+}
+declare namespace Script {
+    class TriggerWin extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        private rb;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+    }
+}
+declare namespace Script {
+    class WinTrigger extends CustomComponentUpdatedScript {
+        static readonly iSubclass: number;
+        static instance: WinTrigger;
+        constructor();
+        start(): void;
+        update: (_event: Event) => void;
+        private winGame;
     }
 }
