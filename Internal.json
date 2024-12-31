@@ -260,7 +260,7 @@
                     "maxPufferFishChance": 0.33000000000000007,
                     "minSpawnRadius": 120,
                     "maxSpawnRadius": 180,
-                    "maxFishAmount": 30
+                    "maxFishAmount": 45
                   }
                 }
               ],

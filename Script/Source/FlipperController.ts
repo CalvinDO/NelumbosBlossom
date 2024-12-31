@@ -165,9 +165,11 @@ namespace Script {
 
         private searchHuntTarget(): void {
 
-            let arrayWithoutOctopus: ƒ.Node[] = FishSpawner.instance.node.getChildren().filter(fish => { fish.getComponent(FishController) || fish.getComponent(PufferFishController) });
+            //todo: study how filter works
+            //let arrayWithoutOctopus: ƒ.Node[] = FishSpawner.instance.node.getChildren().filter(fish => { fish.getComponent(FishController) != undefined || fish.getComponent(PufferFishController) != undefined });
 
-            let sortedArray: ƒ.Node[] = arrayWithoutOctopus.sort((fish1, fish2) => {
+
+            let sortedArray: ƒ.Node[] = FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
 
                 let distance1: number = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
                 let distance2: number = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
@@ -188,9 +190,12 @@ namespace Script {
 
                 let possibleTarget: ƒ.Node = sortedArray[sortedArrayIndex];
 
-                if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 3000).rigidbodyComponent.node == possibleTarget) {
-                    this.currentTarget = possibleTarget;
-                    return;
+                if (possibleTarget.getComponent(FishController) || possibleTarget.getComponent(PufferFishController)) {
+
+                    if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 3000).rigidbodyComponent.node == possibleTarget) {
+                        this.currentTarget = possibleTarget;
+                        return;
+                    }
                 }
             }
         }

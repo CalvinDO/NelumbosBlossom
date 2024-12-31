@@ -205,7 +205,7 @@ var Script;
                 let minDirectionVector = ƒ.Vector3.SCALE(randomVector, this.minSpawnRadius);
                 let newFishTranslation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
                 // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
-                let rayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y(), 2000);
+                let rayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y(), 200000);
                 if (rayHitInfo.hit == false) {
                     return;
                 }
@@ -232,15 +232,20 @@ var Script;
             let currentPufferfishChance = (_translation.y / -885) * this.maxPufferFishChance;
             try {
                 let ran = Math.random();
+                let ran2 = Math.random();
+                console.log(currentPufferfishChance.toFixed(4), ran, ran2);
                 if (ran < currentPufferfishChance) {
+                    console.log("spawnPufferfish");
                     newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
                 }
                 else {
-                    if (ran < this.maxOctopusChance) {
+                    if (ran2 < this.maxOctopusChance) {
                         newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.octopusId]);
+                        console.log("spawnOctopus");
                     }
                     else {
                         newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.fishPrefabId]);
+                        console.log("spawnFish");
                     }
                 }
             }
@@ -384,8 +389,9 @@ var Script;
             Script.root.getComponents(ƒ.ComponentAudio)[3].play(true);
         }
         searchHuntTarget() {
-            let arrayWithoutOctopus = Script.FishSpawner.instance.node.getChildren().filter(fish => { fish.getComponent(Script.FishController) || fish.getComponent(Script.PufferFishController); });
-            let sortedArray = arrayWithoutOctopus.sort((fish1, fish2) => {
+            //todo: study how filter works
+            //let arrayWithoutOctopus: ƒ.Node[] = FishSpawner.instance.node.getChildren().filter(fish => { fish.getComponent(FishController) != undefined || fish.getComponent(PufferFishController) != undefined });
+            let sortedArray = Script.FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
                 let distance1 = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
                 let distance2 = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
                 if (distance1 > distance2) {
@@ -398,9 +404,11 @@ var Script;
             });
             for (let sortedArrayIndex = 0; sortedArrayIndex < sortedArray.length; sortedArrayIndex++) {
                 let possibleTarget = sortedArray[sortedArrayIndex];
-                if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 3000).rigidbodyComponent.node == possibleTarget) {
-                    this.currentTarget = possibleTarget;
-                    return;
+                if (possibleTarget.getComponent(Script.FishController) || possibleTarget.getComponent(Script.PufferFishController)) {
+                    if (ƒ.Physics.raycast(this.node.mtxWorld.translation, this.node.mtxWorld.getTranslationTo(possibleTarget.mtxWorld), 3000).rigidbodyComponent.node == possibleTarget) {
+                        this.currentTarget = possibleTarget;
+                        return;
+                    }
                 }
             }
         }

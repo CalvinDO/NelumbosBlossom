@@ -85,7 +85,7 @@ namespace Script {
 
             // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
 
-            let rayHitInfo: ƒ.RayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y(), 2000);
+            let rayHitInfo: ƒ.RayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y(), 200000);
 
             if (rayHitInfo.hit == false) {
                 return;
@@ -114,20 +114,25 @@ namespace Script {
             let currentPufferfishChance: number = (_translation.y / -885) * this.maxPufferFishChance;
 
             try {
+
                 let ran: number = Math.random();
+                let ran2: number = Math.random();
+
+                console.log(currentPufferfishChance.toFixed(4), ran, ran2);
+
                 if (ran < currentPufferfishChance) {
+                    console.log("spawnPufferfish");
                     newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.pufferFishPrefabId]);
-                }
+                } else {
 
-                else {
-
-                    if (ran < this.maxOctopusChance) {
+                    if (ran2 < this.maxOctopusChance) {
 
                         newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.octopusId]);
-
+                        console.log("spawnOctopus");
                     } else {
 
                         newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.fishPrefabId]);
+                        console.log("spawnFish");
                     }
                 }
             } catch (error) {
