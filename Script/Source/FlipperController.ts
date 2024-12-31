@@ -94,7 +94,13 @@ namespace Script {
         }
 
         private setSuckingAudioPivot(): void {
-            root.getComponents(ƒ.ComponentAudio)[4].mtxPivot.translation = PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld).normalize();
+
+            try {
+                root.getComponents(ƒ.ComponentAudio)[4].mtxPivot.translation = PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld).normalize();
+
+            } catch (error) {
+                console.warn();
+            }
         }
 
         public recieveCall(): void {
@@ -159,7 +165,9 @@ namespace Script {
 
         private searchHuntTarget(): void {
 
-            let sortedArray: ƒ.Node[] = FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
+            let arrayWithoutOctopus: ƒ.Node[] = FishSpawner.instance.node.getChildren().filter(fish => { fish.getComponent(FishController) || fish.getComponent(PufferFishController) });
+
+            let sortedArray: ƒ.Node[] = arrayWithoutOctopus.sort((fish1, fish2) => {
 
                 let distance1: number = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
                 let distance2: number = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
@@ -244,8 +252,9 @@ namespace Script {
 
             this.node.getParent().removeChild(this.node);
             this.dead = true;
-            ƒ.Loop.stop();
-            window.alert("You died");
+
+            //ƒ.Loop.stop();
+            window.alert("Flipper died");
         }
 
         private checkCollisions(): void {

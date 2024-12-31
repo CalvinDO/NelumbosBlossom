@@ -10,8 +10,10 @@ namespace Script {
 
         public fishPrefabId: string = "";
         public pufferFishPrefabId: string = "";
-        public maxPufferFishChance: number = 0;
+        private octopusId: string = "Graph|2024-12-31T12:41:56.762Z|96905";
 
+        public maxPufferFishChance: number = 0;
+        public maxOctopusChance: number = 0.15;
         public minSpawnRadius: number = 0;
         public maxSpawnRadius: number = 0;
         public maxFishAmount: number = 0;
@@ -110,13 +112,23 @@ namespace Script {
             let newFish: ƒ.GraphInstance;
 
             let currentPufferfishChance: number = (_translation.y / -885) * this.maxPufferFishChance;
-            console.log(currentPufferfishChance);
-            try {
-                if (Math.random() < currentPufferfishChance) {
-                    newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.pufferFishPrefabId]);
-                } else {
 
-                    newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.fishPrefabId]);
+            try {
+                let ran: number = Math.random();
+                if (ran < currentPufferfishChance) {
+                    newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.pufferFishPrefabId]);
+                }
+
+                else {
+
+                    if (ran < this.maxOctopusChance) {
+
+                        newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.octopusId]);
+
+                    } else {
+
+                        newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.fishPrefabId]);
+                    }
                 }
             } catch (error) {
                 console.warn(error);

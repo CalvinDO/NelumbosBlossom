@@ -188,7 +188,9 @@ var Script;
             this.elapseSeconds = 0;
             this.fishPrefabId = "";
             this.pufferFishPrefabId = "";
+            this.octopusId = "Graph|2024-12-31T12:41:56.762Z|96905";
             this.maxPufferFishChance = 0;
+            this.maxOctopusChance = 0.15;
             this.minSpawnRadius = 0;
             this.maxSpawnRadius = 0;
             this.maxFishAmount = 0;
@@ -228,13 +230,18 @@ var Script;
         async spawnFish(_translation) {
             let newFish;
             let currentPufferfishChance = (_translation.y / -885) * this.maxPufferFishChance;
-            console.log(currentPufferfishChance);
             try {
-                if (Math.random() < currentPufferfishChance) {
+                let ran = Math.random();
+                if (ran < currentPufferfishChance) {
                     newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
                 }
                 else {
-                    newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.fishPrefabId]);
+                    if (ran < this.maxOctopusChance) {
+                        newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.octopusId]);
+                    }
+                    else {
+                        newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.fishPrefabId]);
+                    }
                 }
             }
             catch (error) {
@@ -335,7 +342,12 @@ var Script;
             let timer = new ƒ.Timer(new ƒ.Time(), this.targetSearchIntervalSeconds * 1000, 0, this.searchTarget);
         }
         setSuckingAudioPivot() {
-            Script.root.getComponents(ƒ.ComponentAudio)[4].mtxPivot.translation = Script.PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld).normalize();
+            try {
+                Script.root.getComponents(ƒ.ComponentAudio)[4].mtxPivot.translation = Script.PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld).normalize();
+            }
+            catch (error) {
+                console.warn();
+            }
         }
         recieveCall() {
             this.disturbSucking();
@@ -372,7 +384,8 @@ var Script;
             Script.root.getComponents(ƒ.ComponentAudio)[3].play(true);
         }
         searchHuntTarget() {
-            let sortedArray = Script.FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
+            let arrayWithoutOctopus = Script.FishSpawner.instance.node.getChildren().filter(fish => { fish.getComponent(Script.FishController) || fish.getComponent(Script.PufferFishController); });
+            let sortedArray = arrayWithoutOctopus.sort((fish1, fish2) => {
                 let distance1 = this.node.mtxWorld.translation.getDistance(fish1.mtxWorld.translation);
                 let distance2 = this.node.mtxWorld.translation.getDistance(fish2.mtxWorld.translation);
                 if (distance1 > distance2) {
@@ -431,8 +444,8 @@ var Script;
         die() {
             this.node.getParent().removeChild(this.node);
             this.dead = true;
-            ƒ.Loop.stop();
-            window.alert("You died");
+            //ƒ.Loop.stop();
+            window.alert("Flipper died");
         }
         checkCollisions() {
             for (let colIndex = 0; colIndex < this.rb.collisions.length; colIndex++) {

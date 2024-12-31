@@ -112,6 +112,14 @@
       "type": "Audio"
     }
   },
+  "Audio|2024-12-31T10:39:19.852Z|74776": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\win.mp3",
+      "idResource": "Audio|2024-12-31T10:39:19.852Z|74776",
+      "name": "Assets\\Sounds\\win.mp3",
+      "type": "Audio"
+    }
+  },
   "Graph|2024-12-23T15:59:29.558Z|27668": {
     "ƒ.Graph": {
       "name": "RootScene",
@@ -248,6 +256,7 @@
                     "elapseSeconds": 0.10000000000000005,
                     "fishPrefabId": "Graph|2024-12-28T10:31:03.363Z|38094",
                     "pufferFishPrefabId": "Graph|2024-12-29T18:40:51.978Z|72551",
+                    "octopusId": "Graph|2024-12-31T12:41:56.762Z|96905",
                     "maxPufferFishChance": 0.33000000000000007,
                     "minSpawnRadius": 120,
                     "maxSpawnRadius": 180,
@@ -480,9 +489,9 @@
                                   {
                                     "ƒ.ComponentCamera": {
                                       "backgroundColor": {
-                                        "r": 0,
-                                        "g": 0,
-                                        "b": 0,
+                                        "r": 0.19607843137254902,
+                                        "g": 0.2235294117647059,
+                                        "b": 0.5607843137254902,
                                         "a": 1
                                       },
                                       "backgroundEnabled": true,
@@ -490,7 +499,7 @@
                                       "fieldOfView": 80,
                                       "direction": "diagonal",
                                       "near": 0.33000000000000007,
-                                      "far": 3500,
+                                      "far": 600,
                                       "aspect": 1.7770000000000001,
                                       "pivot": {
                                         "translation": "[0, 0, 0]",
@@ -982,7 +991,7 @@
                                             "fieldOfView": 54,
                                             "direction": "diagonal",
                                             "near": 0.25000000000000006,
-                                            "far": 3500,
+                                            "far": 258,
                                             "aspect": 0.9999999999999998,
                                             "pivot": {
                                               "translation": "[0, 0, 0]",
@@ -1681,12 +1690,151 @@
       "type": "Audio"
     }
   },
-  "Audio|2024-12-31T10:39:19.852Z|74776": {
-    "ƒ.Audio": {
-      "url": "Assets\\Sounds\\win.mp3",
-      "idResource": "Audio|2024-12-31T10:39:19.852Z|74776",
-      "name": "Assets\\Sounds\\win.mp3",
-      "type": "Audio"
+  "GraphGLTF|2024-12-31T12:40:15.614Z|89302": {
+    "ƒ.GraphGLTF": {
+      "name": "Octopus",
+      "active": true,
+      "components": {
+        "ComponentAnimator": [
+          {
+            "ƒ.ComponentAnimator": {
+              "Component": {
+                "active": true
+              },
+              "idAnimation": "AnimationGLTF|2024-12-31T12:40:15.664Z|30107",
+              "playmode": "loop",
+              "quantization": "continous",
+              "scale": 1,
+              "scaleWithGameTime": true,
+              "animateInEditor": true
+            }
+          }
+        ]
+      },
+      "idResource": "GraphGLTF|2024-12-31T12:40:15.614Z|89302",
+      "type": "GraphGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-31T12:40:15.664Z|30107": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-31T12:40:15.664Z|30107",
+      "name": "Armature.001|Scene.002",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-31T12:40:15.614Z|40829": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-31T12:40:15.614Z|40829",
+      "name": "Armature.001|Scene",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-31T12:40:15.640Z|08186": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-31T12:40:15.640Z|08186",
+      "name": "Armature.001|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-31T12:40:15.767Z|96180": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-31T12:40:15.767Z|96180",
+      "name": "ArmatureAction",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-31T12:40:15.794Z|03377": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-31T12:40:15.794Z|03377",
+      "name": "Armature|Scene",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb"
+    }
+  },
+  "AnimationGLTF|2024-12-31T12:40:15.816Z|46064": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-12-31T12:40:15.816Z|46064",
+      "name": "Armature|Scene.001",
+      "type": "AnimationGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb"
+    }
+  },
+  "MaterialGLTF|2024-12-31T12:40:15.841Z|55962": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-12-31T12:40:15.841Z|55962",
+      "name": "Octopus_M.004",
+      "type": "MaterialGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb"
+    }
+  },
+  "MeshGLTF|2024-12-31T12:40:15.841Z|73629": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-12-31T12:40:15.841Z|73629",
+      "name": "Octopus",
+      "type": "MeshGLTF",
+      "url": "Assets\\gltf\\OwnExports\\Octopus.glb",
+      "iPrimitive": 0
+    }
+  },
+  "Graph|2024-12-31T12:41:56.762Z|96905": {
+    "ƒ.Graph": {
+      "name": "OctopusFish",
+      "active": true,
+      "components": {
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      "children": [
+        {
+          "ƒ.Node": {
+            "name": "Mesh",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 180, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "GraphGLTF|2024-12-31T12:40:15.614Z|89302"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "idResource": "Graph|2024-12-31T12:41:56.762Z|96905",
+      "type": "Graph"
     }
   }
 }

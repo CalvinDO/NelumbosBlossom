@@ -46,7 +46,9 @@ declare namespace Script {
         elapseSeconds: number;
         fishPrefabId: string;
         pufferFishPrefabId: string;
+        private octopusId;
         maxPufferFishChance: number;
+        maxOctopusChance: number;
         minSpawnRadius: number;
         maxSpawnRadius: number;
         maxFishAmount: number;

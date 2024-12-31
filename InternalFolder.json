@@ -118,6 +118,36 @@
       },
       {
         "idResource": "Audio|2024-12-31T10:39:19.852Z|74776"
+      },
+      {
+        "idResource": "GraphGLTF|2024-12-31T12:40:15.614Z|89302"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-31T12:40:15.614Z|40829"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-31T12:40:15.640Z|08186"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-31T12:40:15.664Z|30107"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-31T12:40:15.767Z|96180"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-31T12:40:15.794Z|03377"
+      },
+      {
+        "idResource": "AnimationGLTF|2024-12-31T12:40:15.816Z|46064"
+      },
+      {
+        "idResource": "MaterialGLTF|2024-12-31T12:40:15.841Z|55962"
+      },
+      {
+        "idResource": "MeshGLTF|2024-12-31T12:40:15.841Z|73629"
+      },
+      {
+        "idResource": "Graph|2024-12-31T12:41:56.762Z|96905"
       }
     ]
   }
