@@ -230,7 +230,7 @@ var Script;
             let currentPufferfishChance = (_translation.y / -885) * this.maxPufferFishChance;
             console.log(currentPufferfishChance);
             try {
-                if (Math.random() > currentPufferfishChance) {
+                if (Math.random() < currentPufferfishChance) {
                     newFish = await ƒ.Project.createGraphInstance(ƒ.Project.resources[this.pufferFishPrefabId]);
                 }
                 else {
@@ -358,7 +358,7 @@ var Script;
                         break;
                     }
                 default:
-                    this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
+                    this.accelerateTowardsNormalized(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
                     break;
             }
         }
@@ -382,9 +382,13 @@ var Script;
                 }
             }
         }
-        accelerateTowards(_direction) {
+        accelerateTowardsNormalized(_direction) {
             _direction.normalize();
-            let acceleration = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001);
+            let acceleration = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 * (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.B]) ? 10 : 1));
+            this.rb.applyForce(acceleration);
+        }
+        accelerateTowards(_direction) {
+            let acceleration = _direction.clone.scale(ƒ.Loop.timeFrameReal * 0.001);
             this.rb.applyForce(acceleration);
         }
         updateBar() {
@@ -783,13 +787,17 @@ var Script;
                 this.rb.addVelocity(pawnUp); */
             }
             if (inputVector.magnitude > 0) {
-                this.accelerateTowards(inputVector);
+                this.accelerateTowardsNormalized(inputVector);
             }
             //console.log(this.rb.getVelocity().magnitude);
         }
-        accelerateTowards(_direction) {
+        accelerateTowardsNormalized(_direction) {
             _direction.normalize();
-            let acceleration = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001);
+            let acceleration = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 * (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.B]) ? 10 : 1));
+            this.rb.applyForce(acceleration);
+        }
+        accelerateTowards(_direction) {
+            let acceleration = _direction.clone.scale(ƒ.Loop.timeFrameReal * 0.001);
             this.rb.applyForce(acceleration);
         }
     }
@@ -941,12 +949,12 @@ var Script;
         start() {
         }
         riseUp() {
-            this.node.mtxLocal.translateY(20 * ƒ.Loop.timeFrameReal * 0.001);
-            this.node.mtxLocal.rotateY(90 * ƒ.Loop.timeFrameReal * 0.001);
+            this.node.mtxLocal.translateY(0.5 * ƒ.Loop.timeFrameReal * 0.001);
+            this.node.mtxLocal.rotateY(120 * ƒ.Loop.timeFrameReal * 0.001);
             Script.SurfaceCollider.instance.node.activate(false);
             try {
-                Script.PawnController.instance.accelerateTowards(Script.PawnController.instance.node.mtxWorld.getTranslationTo(this.pawnGoal.mtxWorld).normalize().scale(100 * ƒ.Loop.timeFrameReal * 0.001));
-                Script.FlipperController.instance.accelerateTowards(Script.FlipperController.instance.node.mtxWorld.getTranslationTo(this.flipperGoal.mtxWorld).normalize().scale(100 * ƒ.Loop.timeFrameReal * 0.001));
+                Script.PawnController.instance.accelerateTowards(Script.PawnController.instance.node.mtxWorld.getTranslationTo(this.pawnGoal.mtxWorld).scale(1000));
+                Script.FlipperController.instance.accelerateTowards(Script.FlipperController.instance.node.mtxWorld.getTranslationTo(this.flipperGoal.mtxWorld).scale(1000));
             }
             catch (error) {
                 console.warn(error);
@@ -954,12 +962,14 @@ var Script;
         }
         winGame() {
             this.gameWon = true;
-            console.log("game wonm");
+            console.log("game won");
             this.pawnGoal = this.node.getChild(0);
             this.flipperGoal = this.node.getChild(1);
-            this.pawnGoal.mtxLocal.translation = Script.PawnController.instance.node.mtxWorld.translation;
-            this.flipperGoal.mtxLocal.translation = new ƒ.Vector3(-this.pawnGoal.mtxLocal.translation.x, this.pawnGoal.mtxLocal.translation.y, -this.pawnGoal.mtxLocal.translation.z);
-            this.node.mtxLocal.translateY(20);
+            //this.pawnGoal.mtxLocal.translation.copy(PawnController.instance.node.mtxWorld.translation);
+            //this.flipperGoal.mtxLocal.translation.copy(new ƒ.Vector3(-this.pawnGoal.mtxLocal.translation.x, this.pawnGoal.mtxLocal.translation.y, -this.pawnGoal.mtxLocal.translation.z));
+            Script.PawnController.instance.rb.isTrigger = true;
+            Script.FlipperController.instance.rb.isTrigger = true;
+            //this.node.mtxLocal.translateY(0);
             /*
             ƒ.Loop.stop();
             window.alert("game Won");

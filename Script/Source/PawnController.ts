@@ -218,15 +218,20 @@ namespace Script {
       }
 
       if (inputVector.magnitude > 0) {
-        this.accelerateTowards(inputVector);
+        this.accelerateTowardsNormalized(inputVector);
       }
 
       //console.log(this.rb.getVelocity().magnitude);
     }
 
-    public accelerateTowards(_direction: ƒ.Vector3) {
+    public accelerateTowardsNormalized(_direction: ƒ.Vector3) {
       _direction.normalize();
-      let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001);
+      let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 * (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.B]) ? 10 : 1));
+      this.rb.applyForce(acceleration);
+    }
+
+    public accelerateTowards(_direction: ƒ.Vector3) {
+      let acceleration: ƒ.Vector3 = _direction.clone.scale(ƒ.Loop.timeFrameReal * 0.001);
       this.rb.applyForce(acceleration);
     }
   }

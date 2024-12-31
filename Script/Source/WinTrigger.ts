@@ -41,16 +41,14 @@ namespace Script {
 
         private riseUp(): void {
 
-            this.node.mtxLocal.translateY(20 * ƒ.Loop.timeFrameReal * 0.001);
-            this.node.mtxLocal.rotateY(90 * ƒ.Loop.timeFrameReal * 0.001);
+            this.node.mtxLocal.translateY(0.5 * ƒ.Loop.timeFrameReal * 0.001);
+            this.node.mtxLocal.rotateY(120 * ƒ.Loop.timeFrameReal * 0.001);
 
             SurfaceCollider.instance.node.activate(false);
 
             try {
-
-
-                PawnController.instance.accelerateTowards(PawnController.instance.node.mtxWorld.getTranslationTo(this.pawnGoal.mtxWorld).normalize().scale(100 * ƒ.Loop.timeFrameReal * 0.001));
-                FlipperController.instance.accelerateTowards(FlipperController.instance.node.mtxWorld.getTranslationTo(this.flipperGoal.mtxWorld).normalize().scale(100 * ƒ.Loop.timeFrameReal * 0.001));
+                PawnController.instance.accelerateTowards(PawnController.instance.node.mtxWorld.getTranslationTo(this.pawnGoal.mtxWorld).scale(1000));
+                FlipperController.instance.accelerateTowards(FlipperController.instance.node.mtxWorld.getTranslationTo(this.flipperGoal.mtxWorld).scale(1000));
 
             } catch (error) {
                 console.warn(error);
@@ -61,15 +59,19 @@ namespace Script {
         private winGame(): void {
 
             this.gameWon = true;
-            console.log("game wonm");
+            console.log("game won");
 
             this.pawnGoal = this.node.getChild(0);
             this.flipperGoal = this.node.getChild(1);
 
-            this.pawnGoal.mtxLocal.translation =  PawnController.instance.node.mtxWorld.translation;
-            this.flipperGoal.mtxLocal.translation = new ƒ.Vector3(-this.pawnGoal.mtxLocal.translation.x, this.pawnGoal.mtxLocal.translation.y, -this.pawnGoal.mtxLocal.translation.z);
+            //this.pawnGoal.mtxLocal.translation.copy(PawnController.instance.node.mtxWorld.translation);
+            //this.flipperGoal.mtxLocal.translation.copy(new ƒ.Vector3(-this.pawnGoal.mtxLocal.translation.x, this.pawnGoal.mtxLocal.translation.y, -this.pawnGoal.mtxLocal.translation.z));
 
-            this.node.mtxLocal.translateY(20);
+            PawnController.instance.rb.isTrigger = true;
+            FlipperController.instance.rb.isTrigger = true;
+
+
+            //this.node.mtxLocal.translateY(0);
             /*
             ƒ.Loop.stop();
             window.alert("game Won");

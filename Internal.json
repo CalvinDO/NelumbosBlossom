@@ -170,7 +170,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[-18.593021392822266, -795.8192749023438, -36.75395202636719]",
+                      "translation": "[-0.3250325620174408, -844.4200439453125, -44.096858978271484]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[315.6749267578125, 76.01204681396484, 333.2174987792969]"
                     },
@@ -200,7 +200,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0, 0, 0]",
+                            "translation": "[0, 0, 0.0029996948614120504]",
                             "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -223,7 +223,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0, 0, 0]",
+                            "translation": "[0, 0, -0.003000000000000013]",
                             "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -249,7 +249,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[-800, -10, -800]",
+                      "translation": "[0, -830.3694458007812, -26.32999610900879]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -377,7 +377,7 @@
                                       "projection": "central",
                                       "fieldOfView": 80,
                                       "direction": "diagonal",
-                                      "near": 1,
+                                      "near": 0.33000000000000007,
                                       "far": 3500,
                                       "aspect": 1.7770000000000001,
                                       "pivot": {
@@ -538,7 +538,7 @@
                                 "light": {
                                   "ƒ.LightPoint": {
                                     "color": "[1, 1, 1, 1]",
-                                    "intensity": 1
+                                    "intensity": 0.40000000000000013
                                   }
                                 },
                                 "Component": {
@@ -551,7 +551,7 @@
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[0, 0.08957019448280334, -1.4025116137905691e-11]",
+                                  "translation": "[0, 4.320476055145264, -1.4588535240944722e-11]",
                                   "rotation": "[90.00016262777179, 0, 0]",
                                   "scaling": "[340.8973388671875, 340.89733886856067, 340.89733886856067]"
                                 },
@@ -919,7 +919,7 @@
                     {
                       "ƒ.Node": {
                         "name": "HeadLamp",
-                        "active": false,
+                        "active": true,
                         "components": {
                           "ComponentLight": [
                             {
@@ -932,7 +932,7 @@
                                 "light": {
                                   "ƒ.LightPoint": {
                                     "color": "[1, 1, 1, 1]",
-                                    "intensity": 4
+                                    "intensity": 0.40000000000000013
                                   }
                                 },
                                 "Component": {
@@ -945,7 +945,7 @@
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[0, 0.08957019448280334, -1.4025116137905691e-11]",
+                                  "translation": "[0, 3.3195701944827984, -1.4025116137905691e-11]",
                                   "rotation": "[90.00016262777179, 0, 0]",
                                   "scaling": "[340.8973388671875, 340.89733886856067, 340.89733886856067]"
                                 },

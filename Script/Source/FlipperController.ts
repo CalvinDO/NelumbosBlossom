@@ -64,8 +64,8 @@ namespace Script {
 
         // Update function 
         public override update = (_event: Event): void => {
-            
-            if (WinTrigger.instance.gameWon){
+
+            if (WinTrigger.instance.gameWon) {
                 return;
             }
 
@@ -123,7 +123,7 @@ namespace Script {
                         break;
                     }
                 default:
-                    this.accelerateTowards(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
+                    this.accelerateTowardsNormalized(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
                     break;
             }
         }
@@ -173,11 +173,17 @@ namespace Script {
             }
         }
 
-        public accelerateTowards(_direction: ƒ.Vector3) {
+        public accelerateTowardsNormalized(_direction: ƒ.Vector3) {
             _direction.normalize();
-            let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 );
+            let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 * (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.B]) ? 10 : 1));
             this.rb.applyForce(acceleration);
         }
+
+        public accelerateTowards(_direction: ƒ.Vector3) {
+            let acceleration: ƒ.Vector3 = _direction.clone.scale(ƒ.Loop.timeFrameReal * 0.001);
+            this.rb.applyForce(acceleration);
+        }
+
 
 
         private updateBar(): void {

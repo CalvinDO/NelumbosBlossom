@@ -103,6 +103,7 @@ declare namespace Script {
         private followTarget;
         private searchTarget;
         private searchHuntTarget;
+        accelerateTowardsNormalized(_direction: ƒ.Vector3): void;
         accelerateTowards(_direction: ƒ.Vector3): void;
         private updateBar;
         private hunger;
@@ -189,6 +190,7 @@ declare namespace Script {
         private checkCollisions;
         private eatFish;
         private handleMovementKeys;
+        accelerateTowardsNormalized(_direction: ƒ.Vector3): void;
         accelerateTowards(_direction: ƒ.Vector3): void;
     }
 }
