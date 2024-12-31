@@ -311,6 +311,7 @@ var Script;
                 this.updateBar();
                 this.checkDeath();
                 this.followTarget();
+                this.setSuckingAudioPivot();
                 this.checkCollisions();
             };
             this.searchTarget = (_event) => {
@@ -333,6 +334,9 @@ var Script;
             this.satietyBar = document.querySelector("#flipper-satiety-bar");
             let timer = new ƒ.Timer(new ƒ.Time(), this.targetSearchIntervalSeconds * 1000, 0, this.searchTarget);
         }
+        setSuckingAudioPivot() {
+            Script.root.getComponents(ƒ.ComponentAudio)[4].mtxPivot.translation = Script.PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld).normalize();
+        }
         recieveCall() {
             this.disturbSucking();
             this.state = FlipperState.IS_CALLED;
@@ -351,7 +355,7 @@ var Script;
                     return;
                 case FlipperState.IS_CALLED:
                     if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.arriveDistance) {
-                        this.state = FlipperState.IS_FOLLOWING_PAWN;
+                        this.arriveAtPawn();
                     }
                 case FlipperState.IS_FOLLOWING_PAWN:
                     if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.minPawnFollowDistance) {
@@ -361,6 +365,11 @@ var Script;
                     this.accelerateTowardsNormalized(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
                     break;
             }
+        }
+        arriveAtPawn() {
+            this.state = FlipperState.IS_FOLLOWING_PAWN;
+            Script.root.getComponents(ƒ.ComponentAudio)[3].mtxPivot.translation = Script.PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld);
+            Script.root.getComponents(ƒ.ComponentAudio)[3].play(true);
         }
         searchHuntTarget() {
             let sortedArray = Script.FishSpawner.instance.node.getChildren().sort((fish1, fish2) => {
@@ -384,7 +393,7 @@ var Script;
         }
         accelerateTowardsNormalized(_direction) {
             _direction.normalize();
-            let acceleration = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 * (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.B]) ? 10 : 1));
+            let acceleration = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 * (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.G]) ? 10 : 1));
             this.rb.applyForce(acceleration);
         }
         accelerateTowards(_direction) {
@@ -445,6 +454,8 @@ var Script;
                 return;
             }
             this.state = FlipperState.IS_FOLLOWING_PAWN;
+            Script.root.getComponents(ƒ.ComponentAudio)[4].play(false);
+            Script.root.getComponents(ƒ.ComponentAudio)[4].loop = false;
             try {
                 this.mouthPosNode.removeChild(this.suckedFish.node);
                 this.suckedFish = undefined;
@@ -460,6 +471,9 @@ var Script;
             this.currentTarget = undefined;
             this.mouthPosNode.addChild(_pufferFish.node);
             _pufferFish.node.mtxLocal.translation = ƒ.Vector3.ZERO();
+            Script.root.getComponents(ƒ.ComponentAudio)[4].mtxPivot.translation = Script.PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld).normalize();
+            Script.root.getComponents(ƒ.ComponentAudio)[4].play(true);
+            Script.root.getComponents(ƒ.ComponentAudio)[4].loop = true;
             //_pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
             //_pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
         }
@@ -533,12 +547,12 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Debug.info("Main Program Template running!");
-    let viewport;
     let rootGraphId = "Graph|2024-12-23T15:59:29.558Z|27668";
     window.addEventListener("load", start);
     async function start() {
         await ƒ.Project.loadResourcesFromHTML();
         setIngameCameraAndViewport();
+        setAudio();
         let canvas = document.querySelector("canvas");
         // @ts-ignore 
         canvas.addEventListener("mousedown", canvas.requestPointerLock);
@@ -552,15 +566,15 @@ var Script;
     }
     function setIngameCameraAndViewport() {
         Script.root = ƒ.Project.resources[rootGraphId];
-        viewport = new ƒ.Viewport();
-        viewport.initialize("Viewport", Script.root, Script.PawnCameraController.instance.node.getComponent(ƒ.ComponentCamera), document.querySelector("canvas"));
+        Script.viewport = new ƒ.Viewport();
+        Script.viewport.initialize("Viewport", Script.root, Script.PawnCameraController.instance.node.getComponent(ƒ.ComponentCamera), document.querySelector("canvas"));
     }
     function update(_event) {
         Script.deltaTime = ƒ.Loop.timeFrameReal * 0.001;
         ƒ.Physics.simulate(); // if physics is included and used
-        viewport.draw();
-        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Q])) {
-            ƒ.Recycler.dumpAll();
+        Script.viewport.draw();
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.T])) {
+            Script.root.getComponents(ƒ.ComponentAudio)[0].play(true);
         }
         ƒ.AudioManager.default.update();
     }
@@ -570,6 +584,10 @@ var Script;
         return randomVector;
     }
     Script.getRandomVector = getRandomVector;
+    function setAudio() {
+        // ƒ.AudioManager.default.listenWith(root.getComponent(ƒ.ComponentAudioListener));
+        //ƒ.AudioManager.default.listenTo(root);
+    }
 })(Script || (Script = {}));
 ///<reference path = "CustomComponentUpdatedScript.ts"/>
 var Script;
@@ -583,11 +601,24 @@ var Script;
             super();
             // Update function 
             this.update = (_event) => {
+                if (!this.camera) {
+                    this.node.getComponent(ƒ.ComponentCamera);
+                }
+                //Sound
+                ƒ.AudioManager.default.listenWith(Script.root.getComponent(ƒ.ComponentAudioListener));
+                ƒ.AudioManager.default.listenTo(Script.root);
+                if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
+                    //root.getComponent(ƒ.ComponentAudio).play(true);
+                }
+                this.setFOVToPawnSpeed();
             };
             this.singleton = true;
             PawnCameraController.instance = this;
         }
         start() {
+        }
+        setFOVToPawnSpeed() {
+            //not possible Atm
         }
     }
     Script.PawnCameraController = PawnCameraController;
@@ -701,6 +732,7 @@ var Script;
             Script.FlipperController.instance.recieveCall();
             this.satiety -= this.callSatietyCost;
             this.callPreparedness = 0;
+            Script.root.getComponents(ƒ.ComponentAudio)[2].play(true);
         }
         updateBars() {
             this.satietyBar.value = this.satiety;
@@ -733,6 +765,7 @@ var Script;
             Script.FishSpawner.instance.node.removeChild(_fish.node);
             ƒ.Recycler.store(_fish.node);
             _fish = undefined;
+            Script.root.getComponents(ƒ.ComponentAudio)[1].play(true);
         }
         /*
             private decelerate() {
@@ -757,6 +790,7 @@ var Script;
             pawnUp.transform(Script.PawnCameraRotatorController.instance.node.mtxWorld, false);
             pawnLeft.transform(Script.PawnCameraRotatorController.instance.node.mtxWorld, false);
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
+                //ƒ.AudioManager.default.resume();
                 inputVector.add(pawnForward);
                 /*  pawnForward.scale(this.movementAcceleration);
                  this.rb.addVelocity(pawnForward); */
@@ -969,6 +1003,7 @@ var Script;
             //this.flipperGoal.mtxLocal.translation.copy(new ƒ.Vector3(-this.pawnGoal.mtxLocal.translation.x, this.pawnGoal.mtxLocal.translation.y, -this.pawnGoal.mtxLocal.translation.z));
             Script.PawnController.instance.rb.isTrigger = true;
             Script.FlipperController.instance.rb.isTrigger = true;
+            Script.root.getComponents(ƒ.ComponentAudio)[5].play(true);
             //this.node.mtxLocal.translateY(0);
             /*
             ƒ.Loop.stop();

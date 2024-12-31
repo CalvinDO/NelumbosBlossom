@@ -98,9 +98,11 @@ declare namespace Script {
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private setSuckingAudioPivot;
         recieveCall(): void;
         private checkDeath;
         private followTarget;
+        private arriveAtPawn;
         private searchTarget;
         private searchHuntTarget;
         accelerateTowardsNormalized(_direction: ƒ.Vector3): void;
@@ -134,6 +136,7 @@ declare namespace Script {
 }
 declare namespace Script {
     import ƒ = FudgeCore;
+    let viewport: ƒ.Viewport;
     let root: ƒ.Graph;
     let deltaTime: number;
     function getRandomVector(): ƒ.Vector3;
@@ -142,9 +145,11 @@ declare namespace Script {
     class PawnCameraController extends CustomComponentUpdatedScript {
         static readonly iSubclass: number;
         static instance: PawnCameraController;
+        private camera;
         constructor();
         start(): void;
         update: (_event: Event) => void;
+        private setFOVToPawnSpeed;
     }
 }
 declare namespace Script {

@@ -2,7 +2,7 @@ namespace Script {
   import ƒ = FudgeCore;
   ƒ.Debug.info("Main Program Template running!");
 
-  let viewport: ƒ.Viewport;
+  export let viewport: ƒ.Viewport;
   export let root: ƒ.Graph;
   let rootGraphId: string = "Graph|2024-12-23T15:59:29.558Z|27668";
 
@@ -15,7 +15,7 @@ namespace Script {
     await ƒ.Project.loadResourcesFromHTML();
 
     setIngameCameraAndViewport();
-
+    setAudio();
     let canvas = document.querySelector("canvas");
 
 
@@ -23,7 +23,7 @@ namespace Script {
     canvas.addEventListener("mousedown", canvas.requestPointerLock);
     canvas.addEventListener("mouseup", function (_event: MouseEvent) { if (_event.button == 1) { document.exitPointerLock(); } });
 
-   
+
 
     ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0005;
     ƒ.Physics.settings.sleepingVelocityThreshold = 0.0005;
@@ -32,7 +32,7 @@ namespace Script {
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
   }
 
-  
+
 
   function setIngameCameraAndViewport() {
 
@@ -50,12 +50,11 @@ namespace Script {
     viewport.draw();
 
 
-    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.Q])) {
-      ƒ.Recycler.dumpAll();
+    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.T])) {
+      root.getComponents(ƒ.ComponentAudio)[0].play(true);
     }
 
     ƒ.AudioManager.default.update();
-
   }
 
   export function getRandomVector(): ƒ.Vector3 {
@@ -65,4 +64,9 @@ namespace Script {
 
     return randomVector;
   }
+  function setAudio() {
+    // ƒ.AudioManager.default.listenWith(root.getComponent(ƒ.ComponentAudioListener));
+    //ƒ.AudioManager.default.listenTo(root);
+  }
 }
+

@@ -70,7 +70,7 @@ namespace Script {
             PawnController.instance.rb.isTrigger = true;
             FlipperController.instance.rb.isTrigger = true;
 
-
+            root.getComponents(ƒ.ComponentAudio)[5].play(true);
             //this.node.mtxLocal.translateY(0);
             /*
             ƒ.Loop.stop();

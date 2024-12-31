@@ -64,11 +64,123 @@
       "data": {}
     }
   },
+  "Audio|2024-12-31T08:56:26.817Z|47850": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\underwater-ambience-6201.mp3",
+      "idResource": "Audio|2024-12-31T08:56:26.817Z|47850",
+      "name": "Assets\\Sounds\\underwater-ambience-6201.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2024-12-31T09:30:35.030Z|83471": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\underwater-ambience-6201.mp3",
+      "idResource": "Audio|2024-12-31T09:30:35.030Z|83471",
+      "name": "Assets\\Sounds\\underwater-ambience-6201.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2024-12-31T09:33:17.528Z|82363": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\eating-sound-effect-36186.mp3",
+      "idResource": "Audio|2024-12-31T09:33:17.528Z|82363",
+      "name": "Assets\\Sounds\\eating-sound-effect-36186.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2024-12-31T09:53:06.558Z|43554": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\Call.mp3",
+      "idResource": "Audio|2024-12-31T09:53:06.558Z|43554",
+      "name": "Assets\\Sounds\\Call.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2024-12-31T10:05:48.258Z|46583": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\Arrive.mp3",
+      "idResource": "Audio|2024-12-31T10:05:48.258Z|46583",
+      "name": "Assets\\Sounds\\Arrive.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2024-12-31T10:39:15.752Z|00726": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\Suck.mp3",
+      "idResource": "Audio|2024-12-31T10:39:15.752Z|00726",
+      "name": "Assets\\Sounds\\Suck.mp3",
+      "type": "Audio"
+    }
+  },
   "Graph|2024-12-23T15:59:29.558Z|27668": {
     "ƒ.Graph": {
       "name": "RootScene",
       "active": true,
-      "components": {},
+      "components": {
+        "ComponentAudioListener": [
+          {
+            "ƒ.ComponentAudioListener": {
+              "active": true
+            }
+          }
+        ],
+        "ComponentAudio": [
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2024-12-31T09:30:35.030Z|83471",
+              "playing": true,
+              "loop": true,
+              "volume": 1
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2024-12-31T09:33:17.528Z|82363",
+              "playing": false,
+              "loop": false,
+              "volume": 1
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2024-12-31T09:53:06.558Z|43554",
+              "playing": false,
+              "loop": false,
+              "volume": 1
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2024-12-31T10:05:48.258Z|46583",
+              "playing": false,
+              "loop": false,
+              "volume": 2
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2024-12-31T10:39:15.752Z|00726",
+              "playing": false,
+              "loop": true,
+              "volume": 1
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2024-12-31T10:39:19.852Z|74776",
+              "playing": false,
+              "loop": true,
+              "volume": 1
+            }
+          }
+        ]
+      },
       "children": [
         {
           "ƒ.Node": {
@@ -249,7 +361,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[0, -830.3694458007812, -26.32999610900879]",
+                      "translation": "[-800, -10, -800]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -1559,6 +1671,22 @@
       "type": "MeshGLTF",
       "url": "Assets\\gltf\\OwnExports\\Blowfish.glb",
       "iPrimitive": 0
+    }
+  },
+  "Audio|2024-12-31T10:39:04.260Z|41186": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\Suck.mp3",
+      "idResource": "Audio|2024-12-31T10:39:04.260Z|41186",
+      "name": "Assets\\Sounds\\Suck.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2024-12-31T10:39:19.852Z|74776": {
+    "ƒ.Audio": {
+      "url": "Assets\\Sounds\\win.mp3",
+      "idResource": "Audio|2024-12-31T10:39:19.852Z|74776",
+      "name": "Assets\\Sounds\\win.mp3",
+      "type": "Audio"
     }
   }
 }

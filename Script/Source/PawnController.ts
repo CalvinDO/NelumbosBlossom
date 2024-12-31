@@ -102,6 +102,8 @@ namespace Script {
 
       this.satiety -= this.callSatietyCost;
       this.callPreparedness = 0;
+
+      root.getComponents(ƒ.ComponentAudio)[2].play(true);
     }
 
     private updateBars(): void {
@@ -152,6 +154,8 @@ namespace Script {
       ƒ.Recycler.store(_fish.node);
 
       _fish = undefined;
+
+      root.getComponents(ƒ.ComponentAudio)[1].play(true);
     }
 
     /*
@@ -182,6 +186,7 @@ namespace Script {
       pawnLeft.transform(PawnCameraRotatorController.instance.node.mtxWorld, false);
 
       if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
+        //ƒ.AudioManager.default.resume();
         inputVector.add(pawnForward);
         /*  pawnForward.scale(this.movementAcceleration);
          this.rb.addVelocity(pawnForward); */

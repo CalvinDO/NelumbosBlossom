@@ -13,6 +13,7 @@ namespace Script {
 
     export class FlipperController extends CustomComponentUpdatedScript {
 
+
         public static readonly iSubclass: number = ƒ.Component.registerSubclass(FlipperController);
         public static instance: FlipperController;
 
@@ -87,7 +88,13 @@ namespace Script {
             this.checkDeath();
             this.followTarget();
 
+            this.setSuckingAudioPivot();
+
             this.checkCollisions();
+        }
+
+        private setSuckingAudioPivot(): void {
+            root.getComponents(ƒ.ComponentAudio)[4].mtxPivot.translation = PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld).normalize();
         }
 
         public recieveCall(): void {
@@ -116,7 +123,7 @@ namespace Script {
                     return;
                 case FlipperState.IS_CALLED:
                     if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.arriveDistance) {
-                        this.state = FlipperState.IS_FOLLOWING_PAWN;
+                        this.arriveAtPawn();
                     }
                 case FlipperState.IS_FOLLOWING_PAWN:
                     if (this.node.mtxWorld.translation.getDistance(this.currentTarget.mtxWorld.translation) < this.minPawnFollowDistance) {
@@ -126,6 +133,13 @@ namespace Script {
                     this.accelerateTowardsNormalized(this.node.mtxWorld.getTranslationTo(this.currentTarget.mtxWorld));
                     break;
             }
+        }
+        private arriveAtPawn(): void {
+
+            this.state = FlipperState.IS_FOLLOWING_PAWN;
+
+            root.getComponents(ƒ.ComponentAudio)[3].mtxPivot.translation = PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld);
+            root.getComponents(ƒ.ComponentAudio)[3].play(true);
         }
 
         private searchTarget = (_event?: ƒ.EventTimer): void => {
@@ -175,7 +189,7 @@ namespace Script {
 
         public accelerateTowardsNormalized(_direction: ƒ.Vector3) {
             _direction.normalize();
-            let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 * (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.B]) ? 10 : 1));
+            let acceleration: ƒ.Vector3 = _direction.clone.scale(this.acceleration * ƒ.Loop.timeFrameReal * 0.001 * (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.G]) ? 10 : 1));
             this.rb.applyForce(acceleration);
         }
 
@@ -262,6 +276,9 @@ namespace Script {
 
             this.state = FlipperState.IS_FOLLOWING_PAWN;
 
+            root.getComponents(ƒ.ComponentAudio)[4].play(false);
+            root.getComponents(ƒ.ComponentAudio)[4].loop = false;
+
             try {
                 this.mouthPosNode.removeChild(this.suckedFish.node);
                 this.suckedFish = undefined;
@@ -284,6 +301,11 @@ namespace Script {
 
             this.mouthPosNode.addChild(_pufferFish.node);
             _pufferFish.node.mtxLocal.translation = ƒ.Vector3.ZERO();
+
+            root.getComponents(ƒ.ComponentAudio)[4].mtxPivot.translation = PawnCameraController.instance.node.mtxWorld.getTranslationTo(this.node.mtxWorld).normalize();
+            root.getComponents(ƒ.ComponentAudio)[4].play(true);
+            root.getComponents(ƒ.ComponentAudio)[4].loop = true;
+
             //_pufferFish.node.mtxLocal.translation = this.mouthPosNode.mtxLocal.translation;
             //_pufferFish.node.mtxLocal.rotation = this.mouthPosNode.mtxLocal.rotation;
 
