@@ -118,21 +118,21 @@ namespace Script {
                 let ran: number = Math.random();
                 let ran2: number = Math.random();
 
-                console.log(currentPufferfishChance.toFixed(4), ran, ran2);
+                //console.log(currentPufferfishChance.toFixed(4), ran, ran2);
 
                 if (ran < currentPufferfishChance) {
-                    console.log("spawnPufferfish");
+                    //console.log("spawnPufferfish");
                     newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.pufferFishPrefabId]);
                 } else {
 
                     if (ran2 < this.maxOctopusChance) {
 
                         newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.octopusId]);
-                        console.log("spawnOctopus");
+                        //console.log("spawnOctopus");
                     } else {
 
                         newFish = await ƒ.Project.createGraphInstance(<ƒ.Graph>ƒ.Project.resources[this.fishPrefabId]);
-                        console.log("spawnFish");
+                        //console.log("spawnFish");
                     }
                 }
             } catch (error) {
