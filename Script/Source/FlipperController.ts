@@ -295,6 +295,10 @@ namespace Script {
 
             try {
                 this.mouthPosNode.removeChild(this.suckedFish.node);
+                FishSpawner.instance.node.removeChild(this.suckedFish.node);
+                root.removeChild(this.suckedFish.node);
+
+                ƒ.Recycler.store(this.suckedFish.node);
                 this.suckedFish = undefined;
 
             } catch (error) {

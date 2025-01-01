@@ -258,9 +258,10 @@
                     "pufferFishPrefabId": "Graph|2024-12-29T18:40:51.978Z|72551",
                     "octopusId": "Graph|2024-12-31T12:41:56.762Z|96905",
                     "maxPufferFishChance": 0.33000000000000007,
-                    "minSpawnRadius": 120,
-                    "maxSpawnRadius": 180,
-                    "maxFishAmount": 45
+                    "maxOctopusChance": 0.15,
+                    "minSpawnRadius": 90,
+                    "maxSpawnRadius": 160,
+                    "maxFishAmount": 40
                   }
                 }
               ],
@@ -659,7 +660,7 @@
                                 "light": {
                                   "ƒ.LightPoint": {
                                     "color": "[1, 1, 1, 1]",
-                                    "intensity": 0.40000000000000013
+                                    "intensity": 1
                                   }
                                 },
                                 "Component": {

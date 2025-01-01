@@ -181,6 +181,7 @@ var Script;
                     }
                 }
             });
+            //console.log(amount);
             return amount;
         }
         constructor() {
@@ -202,8 +203,14 @@ var Script;
                     return;
                 }
                 let randomVector = Script.getRandomVector();
-                let minDirectionVector = ƒ.Vector3.SCALE(randomVector, this.minSpawnRadius);
-                let newFishTranslation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
+                let pawnDepthFactor = (Script.PawnController.instance.node.mtxLocal.translation.y / -885);
+                pawnDepthFactor = 1 / pawnDepthFactor;
+                pawnDepthFactor + 0.5;
+                pawnDepthFactor = pawnDepthFactor > 1 ? 1 : pawnDepthFactor;
+                let depthScaledMinSpawnRadius = this.minSpawnRadius * pawnDepthFactor;
+                let depthScaledMaxSpawnRadius = this.maxSpawnRadius * pawnDepthFactor;
+                let minDirectionVector = ƒ.Vector3.SCALE(randomVector, depthScaledMinSpawnRadius);
+                let newFishTranslation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, depthScaledMaxSpawnRadius - depthScaledMinSpawnRadius), minDirectionVector);
                 // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
                 let rayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y(), 200000);
                 if (rayHitInfo.hit == false) {
@@ -229,7 +236,8 @@ var Script;
         }
         async spawnFish(_translation) {
             let newFish;
-            let currentPufferfishChance = (_translation.y / -885) * this.maxPufferFishChance;
+            let depthFactor = (_translation.y / -885);
+            let currentPufferfishChance = depthFactor * this.maxPufferFishChance;
             try {
                 let ran = Math.random();
                 let ran2 = Math.random();
@@ -479,6 +487,9 @@ var Script;
             Script.root.getComponents(ƒ.ComponentAudio)[4].loop = false;
             try {
                 this.mouthPosNode.removeChild(this.suckedFish.node);
+                Script.FishSpawner.instance.node.removeChild(this.suckedFish.node);
+                Script.root.removeChild(this.suckedFish.node);
+                ƒ.Recycler.store(this.suckedFish.node);
                 this.suckedFish = undefined;
             }
             catch (error) {
@@ -708,7 +719,7 @@ var Script;
             this.callRefillSpeedPerSecond = 0.025;
             this.callPreparedness = 1;
             this.dumpRecycler = async (_event) => {
-                console.log("Recycler dumpAll");
+                //console.log("Recycler dumpAll");
                 ƒ.Recycler.dumpAll();
             };
             // Update function 
@@ -734,7 +745,7 @@ var Script;
         start() {
             this.satietyBar = document.querySelector("#pawn-satiety-bar");
             this.callBar = document.querySelector("#pawn-call-bar");
-            let timer = new ƒ.Timer(new ƒ.Time(), 5 * 1000, 0, this.dumpRecycler);
+            let timer = new ƒ.Timer(new ƒ.Time(), 10 * 1000, 0, this.dumpRecycler);
         }
         handleCall() {
             this.callPreparedness += ƒ.Loop.timeFrameReal * 0.001 * this.callRefillSpeedPerSecond;

@@ -44,12 +44,12 @@ namespace Script {
       this.callBar = <HTMLProgressElement>document.querySelector("#pawn-call-bar");
 
 
-      let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), 5 * 1000, 0, this.dumpRecycler);
+      let timer: ƒ.Timer = new ƒ.Timer(new ƒ.Time(), 10 * 1000, 0, this.dumpRecycler);
 
     }
     private dumpRecycler = async (_event?: ƒ.EventTimer): Promise<void> => {
 
-      console.log("Recycler dumpAll");
+      //console.log("Recycler dumpAll");
 
       ƒ.Recycler.dumpAll();
     }

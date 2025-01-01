@@ -48,7 +48,7 @@ namespace Script {
                 }
             });
 
-
+            //console.log(amount);
 
             return amount;
         }
@@ -80,8 +80,18 @@ namespace Script {
             }
 
             let randomVector: ƒ.Vector3 = getRandomVector();
-            let minDirectionVector: ƒ.Vector3 = ƒ.Vector3.SCALE(randomVector, this.minSpawnRadius);
-            let newFishTranslation: ƒ.Vector3 = ƒ.Vector3.SUM(PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, this.maxSpawnRadius - this.minSpawnRadius), minDirectionVector);
+
+            let pawnDepthFactor: number = (PawnController.instance.node.mtxLocal.translation.y / -885);
+            pawnDepthFactor = 1 / pawnDepthFactor;
+            pawnDepthFactor + 0.5;
+            pawnDepthFactor = pawnDepthFactor > 1 ? 1 : pawnDepthFactor;
+
+            let depthScaledMinSpawnRadius: number = this.minSpawnRadius * pawnDepthFactor;
+            let depthScaledMaxSpawnRadius: number = this.maxSpawnRadius * pawnDepthFactor;
+
+            let minDirectionVector: ƒ.Vector3 = ƒ.Vector3.SCALE(randomVector, depthScaledMinSpawnRadius);
+
+            let newFishTranslation: ƒ.Vector3 = ƒ.Vector3.SUM(PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, depthScaledMaxSpawnRadius - depthScaledMinSpawnRadius), minDirectionVector);
 
             // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
 
@@ -111,7 +121,8 @@ namespace Script {
 
             let newFish: ƒ.GraphInstance;
 
-            let currentPufferfishChance: number = (_translation.y / -885) * this.maxPufferFishChance;
+            let depthFactor: number = (_translation.y / -885);
+            let currentPufferfishChance: number = depthFactor * this.maxPufferFishChance;
 
             try {
 
