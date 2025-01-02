@@ -75,7 +75,6 @@ namespace Script {
 
         private spawn = async (_event?: ƒ.EventTimer): Promise<void> => {
 
-            console.log("call spawn");
 
             if (this.amountFishInRange > this.maxFishAmount) {
                 return;
@@ -83,7 +82,9 @@ namespace Script {
 
             let randomVector: ƒ.Vector3 = getRandomVector();
 
-            let pawnDepthFactor: number = (PawnController.instance.node.mtxLocal.translation.y / -885);
+            console.log(PawnController.instance.node.mtxWorld.translation);
+
+            let pawnDepthFactor: number = (PawnController.instance.node.mtxWorld.translation.y / -885);
             pawnDepthFactor = 1 / pawnDepthFactor;
             pawnDepthFactor + 0.5;
             pawnDepthFactor = pawnDepthFactor > 1 ? 1 : pawnDepthFactor;
@@ -91,12 +92,12 @@ namespace Script {
             let depthScaledMinSpawnRadius: number = this.minSpawnRadius * pawnDepthFactor;
             let depthScaledMaxSpawnRadius: number = this.maxSpawnRadius * pawnDepthFactor;
 
+            console.log(depthScaledMinSpawnRadius);
             let minDirectionVector: ƒ.Vector3 = ƒ.Vector3.SCALE(randomVector, depthScaledMinSpawnRadius);
 
             let newFishTranslation: ƒ.Vector3 = ƒ.Vector3.SUM(PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, depthScaledMaxSpawnRadius - depthScaledMinSpawnRadius), minDirectionVector);
 
             // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
-
             let rayHitInfo: ƒ.RayHitInfo = ƒ.Physics.raycast(newFishTranslation, ƒ.Vector3.Y(), 200000);
 
             if (rayHitInfo.hit == false) {
@@ -120,6 +121,8 @@ namespace Script {
         }
 
         public async spawnFish(_translation: ƒ.Vector3): Promise<void> {
+
+            console.log("call spawnFish");
 
             let newFish: ƒ.GraphInstance;
 

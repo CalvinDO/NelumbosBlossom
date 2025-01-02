@@ -199,17 +199,18 @@ var Script;
             this.update = (_event) => {
             };
             this.spawn = async (_event) => {
-                console.log("call spawn");
                 if (this.amountFishInRange > this.maxFishAmount) {
                     return;
                 }
                 let randomVector = Script.getRandomVector();
-                let pawnDepthFactor = (Script.PawnController.instance.node.mtxLocal.translation.y / -885);
+                console.log(Script.PawnController.instance.node.mtxWorld.translation);
+                let pawnDepthFactor = (Script.PawnController.instance.node.mtxWorld.translation.y / -885);
                 pawnDepthFactor = 1 / pawnDepthFactor;
                 pawnDepthFactor + 0.5;
                 pawnDepthFactor = pawnDepthFactor > 1 ? 1 : pawnDepthFactor;
                 let depthScaledMinSpawnRadius = this.minSpawnRadius * pawnDepthFactor;
                 let depthScaledMaxSpawnRadius = this.maxSpawnRadius * pawnDepthFactor;
+                console.log(depthScaledMinSpawnRadius);
                 let minDirectionVector = ƒ.Vector3.SCALE(randomVector, depthScaledMinSpawnRadius);
                 let newFishTranslation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, depthScaledMaxSpawnRadius - depthScaledMinSpawnRadius), minDirectionVector);
                 // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
@@ -236,6 +237,7 @@ var Script;
             let timer = new ƒ.Timer(new ƒ.Time(), this.elapseSeconds * 1000, 0, this.spawn);
         }
         async spawnFish(_translation) {
+            console.log("call spawnFish");
             let newFish;
             let depthFactor = (_translation.y / -885);
             let currentPufferfishChance = depthFactor * this.maxPufferFishChance;
