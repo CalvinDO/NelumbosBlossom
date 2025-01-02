@@ -75,6 +75,8 @@ namespace Script {
 
         private spawn = async (_event?: ƒ.EventTimer): Promise<void> => {
 
+            console.log("call spawn");
+
             if (this.amountFishInRange > this.maxFishAmount) {
                 return;
             }

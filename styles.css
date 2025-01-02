@@ -34,6 +34,20 @@ canvas.fullscreen {
    /*background-color: rgba(0, 0, 0, 0.5);*/
 }
 
+div{
+  position: fixed;
+  /* Fixiert das Element relativ zum Browserfenster */
+  top: 1%;
+  /* Setzt das Element an den unteren Rand des Bildschirms */
+  left: 1%;
+  /* Positioniert das Element horizontal in der Mitte */
+  /*transform: translateX(-50%);*/
+  /* Korrigiert die Position, damit es perfekt zentriert ist */
+  z-index: 99 !important;
+  width: 10%;
+  height: 3.5%;
+}
+
 /* Definiere eine CSS-Variable für die Farbe des Fortschrittsbalkens */
 :root {
   --progress-bar-color: orange;

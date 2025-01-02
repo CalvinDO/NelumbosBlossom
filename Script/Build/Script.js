@@ -199,6 +199,7 @@ var Script;
             this.update = (_event) => {
             };
             this.spawn = async (_event) => {
+                console.log("call spawn");
                 if (this.amountFishInRange > this.maxFishAmount) {
                     return;
                 }
