@@ -141,6 +141,8 @@ declare namespace Script {
     let viewport: ƒ.Viewport;
     let root: ƒ.Graph;
     let deltaTime: number;
+    let isXAxisInverted: boolean;
+    let isYAxisInverted: boolean;
     function getRandomVector(): ƒ.Vector3;
 }
 declare namespace Script {

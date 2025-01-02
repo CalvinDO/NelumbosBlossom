@@ -27,13 +27,13 @@ namespace Script {
 
         public onMouseMove(_event: MouseEvent) {
 
-            let yRotation: number = PawnCameraRotatorController.instance.node.mtxWorld.rotation.y + -_event.movementX * PawnCameraRotatorController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
+            let yRotation: number = PawnCameraRotatorController.instance.node.mtxWorld.rotation.y + (isXAxisInverted ? 1 : -1) * _event.movementX * PawnCameraRotatorController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
             //PawnCameraRotatorController.instance.node.mtxLocal.rotateY(-_event.movementX * PawnCameraRotatorController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal);
 
             //PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal));
 
 
-            let xIncrement: number = _event.movementY * PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
+            let xIncrement: number = (isYAxisInverted ? -1 : 1) * _event.movementY * PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
             let currentX: number = PawnCameraRotatorController.instance.node.mtxWorld.rotation.x;
             let nextFrameX: number = xIncrement + currentX;
 

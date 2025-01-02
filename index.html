@@ -28,13 +28,26 @@
 </head>
 
 <body>
-    <!--Dialog shown at startup only-->
-    <dialog>
-        <p>FUDGE Autoview</p>
-        <h1>Title (will be replaced by Autoview)</h1>
-        <p>click to start</p>
-    </dialog>
-    <p>Press E to Call Flipper </p>
+    <div id="hints-and-settings">
+
+        <p>Press E to Call Flipper</p>
+
+        <p>
+            Press H to hide me
+        </p>
+
+        <label id="label-invert-x" for="checkbox-invertX-axis">
+            Invert X axis
+            <input type="checkbox" name="checkbox-invertX-axis" id="checkbox-invertX-axis" />
+        </label>
+
+        <label id="label-invert-y" for="checkbox-invertY-axis">
+            Invert Y axis
+            <input type="checkbox" id="checkbox-invertY-axis" />
+        </label>
+
+    </div>
+
     <progress id="pawn-satiety-bar" value="0.5" max="1">
     </progress>
     <progress id="pawn-call-bar" value="0.5" max="1">

@@ -203,14 +203,12 @@ var Script;
                     return;
                 }
                 let randomVector = Script.getRandomVector();
-                console.log(Script.PawnController.instance.node.mtxWorld.translation);
                 let pawnDepthFactor = (Script.PawnController.instance.node.mtxWorld.translation.y / -885);
                 pawnDepthFactor = 1 / pawnDepthFactor;
                 pawnDepthFactor + 0.5;
                 pawnDepthFactor = pawnDepthFactor > 1 ? 1 : pawnDepthFactor;
                 let depthScaledMinSpawnRadius = this.minSpawnRadius * pawnDepthFactor;
                 let depthScaledMaxSpawnRadius = this.maxSpawnRadius * pawnDepthFactor;
-                console.log(depthScaledMinSpawnRadius);
                 let minDirectionVector = ƒ.Vector3.SCALE(randomVector, depthScaledMinSpawnRadius);
                 let newFishTranslation = ƒ.Vector3.SUM(Script.PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, depthScaledMaxSpawnRadius - depthScaledMinSpawnRadius), minDirectionVector);
                 // newFishTranslation = new ƒ.Vector3(-810, -200, -890);
@@ -584,6 +582,8 @@ var Script;
     ƒ.Debug.info("Main Program Template running!");
     let rootGraphId = "Graph|2024-12-23T15:59:29.558Z|27668";
     window.addEventListener("load", start);
+    let displayHintsAndSettings = true;
+    let hintsAndSettingsDiv;
     async function start() {
         await ƒ.Project.loadResourcesFromHTML();
         setIngameCameraAndViewport();
@@ -594,6 +594,15 @@ var Script;
         canvas.addEventListener("mouseup", function (_event) { if (_event.button == 1) {
             document.exitPointerLock();
         } });
+        hintsAndSettingsDiv = document.querySelector("#hints-and-settings");
+        /*
+            let hideMeCheckbox: HTMLInputElement = <HTMLInputElement>document.querySelector("#checkbox-hide");
+            hideMeCheckbox.onchange = function () { hintsAndSettingsDiv.style.display = 'none' };
+        */
+        let xAxisInvertCheckbox = document.querySelector("#checkbox-invertX-axis");
+        xAxisInvertCheckbox.onchange = function () { Script.isXAxisInverted = xAxisInvertCheckbox.checked; };
+        let yAxisInvertCheckbox = document.querySelector("#checkbox-invertY-axis");
+        yAxisInvertCheckbox.onchange = function () { Script.isYAxisInverted = yAxisInvertCheckbox.checked; };
         ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0005;
         ƒ.Physics.settings.sleepingVelocityThreshold = 0.0005;
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
@@ -608,6 +617,14 @@ var Script;
         Script.deltaTime = ƒ.Loop.timeFrameReal * 0.001;
         ƒ.Physics.simulate(); // if physics is included and used
         Script.viewport.draw();
+        /*
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.H])) {
+    
+          displayHintsAndSettings = displayHintsAndSettings ? false : true;
+          console.log(document.querySelector("#hints-and-settings"));
+          document.querySelector("#hints-and-settings").setAttribute("display", displayHintsAndSettings ? "block" : "none");
+        }
+    */
         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.T])) {
             Script.root.getComponents(ƒ.ComponentAudio)[0].play(true);
         }
@@ -623,6 +640,14 @@ var Script;
         // ƒ.AudioManager.default.listenWith(root.getComponent(ƒ.ComponentAudioListener));
         //ƒ.AudioManager.default.listenTo(root);
     }
+    function onkeyup(_event) {
+        if (_event.code == "KeyH") {
+            displayHintsAndSettings = displayHintsAndSettings ? false : true;
+            hintsAndSettingsDiv.style.display = displayHintsAndSettings ? "block" : "none";
+            //console.log(hintsAndSettingsDiv);
+        }
+    }
+    window.addEventListener('keyup', onkeyup);
 })(Script || (Script = {}));
 ///<reference path = "CustomComponentUpdatedScript.ts"/>
 var Script;
@@ -680,10 +705,10 @@ var Script;
             window.addEventListener("mousemove", this.onMouseMove);
         }
         onMouseMove(_event) {
-            let yRotation = PawnCameraRotatorController.instance.node.mtxWorld.rotation.y + -_event.movementX * PawnCameraRotatorController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
+            let yRotation = PawnCameraRotatorController.instance.node.mtxWorld.rotation.y + (Script.isXAxisInverted ? 1 : -1) * _event.movementX * PawnCameraRotatorController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
             //PawnCameraRotatorController.instance.node.mtxLocal.rotateY(-_event.movementX * PawnCameraRotatorController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal);
             //PawnController.instance.rb.applyTorque(ƒ.Vector3.Y(-_event.movementX * PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal));
-            let xIncrement = _event.movementY * Script.PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
+            let xIncrement = (Script.isYAxisInverted ? -1 : 1) * _event.movementY * Script.PawnController.instance.mouseTorqueFactor * ƒ.Loop.timeFrameReal;
             let currentX = PawnCameraRotatorController.instance.node.mtxWorld.rotation.x;
             let nextFrameX = xIncrement + currentX;
             if (nextFrameX > PawnCameraRotatorController.instance.maxXRotation) {

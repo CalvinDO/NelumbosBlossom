@@ -10,6 +10,12 @@ namespace Script {
 
   export let deltaTime: number;
 
+  let displayHintsAndSettings: boolean = true;
+  let hintsAndSettingsDiv: HTMLDivElement;
+
+  export let isXAxisInverted: boolean;
+  export let isYAxisInverted: boolean;
+
   async function start(): Promise<void> {
 
     await ƒ.Project.loadResourcesFromHTML();
@@ -24,6 +30,17 @@ namespace Script {
     canvas.addEventListener("mouseup", function (_event: MouseEvent) { if (_event.button == 1) { document.exitPointerLock(); } });
 
 
+    hintsAndSettingsDiv = document.querySelector("#hints-and-settings");
+    /*
+        let hideMeCheckbox: HTMLInputElement = <HTMLInputElement>document.querySelector("#checkbox-hide");
+        hideMeCheckbox.onchange = function () { hintsAndSettingsDiv.style.display = 'none' };
+    */
+
+    let xAxisInvertCheckbox: HTMLInputElement = <HTMLInputElement>document.querySelector("#checkbox-invertX-axis");
+    xAxisInvertCheckbox.onchange = function () { isXAxisInverted = xAxisInvertCheckbox.checked };
+
+    let yAxisInvertCheckbox: HTMLInputElement = <HTMLInputElement>document.querySelector("#checkbox-invertY-axis");
+    yAxisInvertCheckbox.onchange = function () { isYAxisInverted = yAxisInvertCheckbox.checked };
 
     ƒ.Physics.settings.sleepingAngularVelocityThreshold = 0.0005;
     ƒ.Physics.settings.sleepingVelocityThreshold = 0.0005;
@@ -49,7 +66,14 @@ namespace Script {
     ƒ.Physics.simulate();  // if physics is included and used
     viewport.draw();
 
+    /*
+    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.H])) {
 
+      displayHintsAndSettings = displayHintsAndSettings ? false : true;
+      console.log(document.querySelector("#hints-and-settings"));
+      document.querySelector("#hints-and-settings").setAttribute("display", displayHintsAndSettings ? "block" : "none");
+    }
+*/
     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.T])) {
       root.getComponents(ƒ.ComponentAudio)[0].play(true);
     }
@@ -68,5 +92,18 @@ namespace Script {
     // ƒ.AudioManager.default.listenWith(root.getComponent(ƒ.ComponentAudioListener));
     //ƒ.AudioManager.default.listenTo(root);
   }
+
+  function onkeyup(_event: KeyboardEvent): void {
+
+    if (_event.code == "KeyH") {
+      displayHintsAndSettings = displayHintsAndSettings ? false : true;
+
+      hintsAndSettingsDiv.style.display = displayHintsAndSettings ? "block" : "none";
+      //console.log(hintsAndSettingsDiv);
+
+    }
+  }
+
+  window.addEventListener('keyup', onkeyup);
 }
 

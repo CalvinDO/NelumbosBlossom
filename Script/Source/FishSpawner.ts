@@ -82,8 +82,6 @@ namespace Script {
 
             let randomVector: ƒ.Vector3 = getRandomVector();
 
-            console.log(PawnController.instance.node.mtxWorld.translation);
-
             let pawnDepthFactor: number = (PawnController.instance.node.mtxWorld.translation.y / -885);
             pawnDepthFactor = 1 / pawnDepthFactor;
             pawnDepthFactor + 0.5;
@@ -92,7 +90,6 @@ namespace Script {
             let depthScaledMinSpawnRadius: number = this.minSpawnRadius * pawnDepthFactor;
             let depthScaledMaxSpawnRadius: number = this.maxSpawnRadius * pawnDepthFactor;
 
-            console.log(depthScaledMinSpawnRadius);
             let minDirectionVector: ƒ.Vector3 = ƒ.Vector3.SCALE(randomVector, depthScaledMinSpawnRadius);
 
             let newFishTranslation: ƒ.Vector3 = ƒ.Vector3.SUM(PawnController.instance.node.mtxWorld.translation, ƒ.Vector3.SCALE(randomVector, depthScaledMaxSpawnRadius - depthScaledMinSpawnRadius), minDirectionVector);
